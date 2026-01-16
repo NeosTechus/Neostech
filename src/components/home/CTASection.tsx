@@ -1,0 +1,56 @@
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { ArrowRight, MessageCircle } from "lucide-react";
+
+export function CTASection() {
+  return (
+    <section className="py-24 lg:py-32 relative overflow-hidden">
+      {/* Background Effects */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/10 rounded-full blur-3xl" />
+
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
+        <div className="max-w-4xl mx-auto text-center">
+          {/* Badge */}
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-primary/20 mb-8">
+            <MessageCircle className="w-4 h-4 text-primary" />
+            <span className="text-sm font-medium text-muted-foreground">
+              Free consultation available
+            </span>
+          </div>
+
+          {/* Headline */}
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-6">
+            Ready to{" "}
+            <span className="text-gradient">transform</span>
+            {" "}your business?
+          </h2>
+
+          {/* Subheadline */}
+          <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed">
+            Let's discuss how we can help your business grow online. 
+            Our team is ready to bring your vision to life.
+          </p>
+
+          {/* CTA Buttons */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Button variant="hero" size="xl" asChild>
+              <Link to="/contact" className="group">
+                Start Your Project
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </Link>
+            </Button>
+            <Button variant="heroOutline" size="xl" asChild>
+              <Link to="/pricing">View Pricing</Link>
+            </Button>
+          </div>
+
+          {/* Trust Text */}
+          <p className="mt-8 text-sm text-muted-foreground">
+            No commitment required • Free initial consultation • Response within 24 hours
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+}
