@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2, ArrowLeft, Lock, CheckCircle, XCircle } from "lucide-react";
+import { PasswordStrengthIndicator } from "@/components/ui/PasswordStrengthIndicator";
 import logo from "@/assets/logo.png";
 
 export default function ResetPassword() {
@@ -150,19 +151,22 @@ export default function ResetPassword() {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-5">
-              <div className="space-y-2">
-                <Label htmlFor="password" className="text-foreground">New Password</Label>
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder="••••••••"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  disabled={loading}
-                  minLength={6}
-                  className="h-12 bg-muted/30 border-border/50 focus:border-primary"
-                />
+              <div>
+                <div className="space-y-2">
+                  <Label htmlFor="password" className="text-foreground">New Password</Label>
+                  <Input
+                    id="password"
+                    type="password"
+                    placeholder="••••••••"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    disabled={loading}
+                    minLength={6}
+                    className="h-12 bg-muted/30 border-border/50 focus:border-primary"
+                  />
+                </div>
+                <PasswordStrengthIndicator password={password} />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="confirmPassword" className="text-foreground">Confirm Password</Label>
