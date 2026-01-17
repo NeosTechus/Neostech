@@ -61,17 +61,21 @@ export function StatsSection() {
   return (
     <section className="py-20 lg:py-28 relative">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="relative glass rounded-3xl p-8 lg:p-12 glow-primary">
+        <div className="relative glass rounded-3xl p-8 lg:p-12 glow-primary animate-fade-in-up shimmer">
           {/* Gradient Overlay */}
           <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-primary/5 via-transparent to-accent/5" />
 
           <div className="relative grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
             {stats.map((stat, index) => (
-              <div key={stat.label} className="text-center">
-                <div className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gradient mb-2">
+              <div 
+                key={stat.label} 
+                className="text-center group opacity-0 animate-scale-in hover:scale-105 transition-transform duration-300"
+                style={{ animationDelay: `${index * 0.15}s`, animationFillMode: 'forwards' }}
+              >
+                <div className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gradient mb-2 group-hover:animate-pulse">
                   <AnimatedCounter value={stat.value} suffix={stat.suffix} />
                 </div>
-                <p className="text-sm sm:text-base text-muted-foreground">
+                <p className="text-sm sm:text-base text-muted-foreground group-hover:text-foreground transition-colors duration-300">
                   {stat.label}
                 </p>
               </div>
