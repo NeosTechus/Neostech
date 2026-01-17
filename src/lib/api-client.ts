@@ -1,6 +1,6 @@
-// API Client for connecting to your Vercel/MongoDB backend
-// Update this URL after deploying your backend
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://your-vercel-app.vercel.app/api';
+// API Client for connecting to Vercel serverless functions
+// Uses relative path - works both locally and in production
+const API_BASE_URL = '/api';
 
 interface ApiResponse<T = unknown> {
   data?: T;
