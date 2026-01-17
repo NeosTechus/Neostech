@@ -350,6 +350,20 @@ class ApiClient {
   }
 
   // Admin Payments (Stripe)
+  async getPaymentStats() {
+    return this.request<{
+      totalRevenue: number;
+      paymentLinksRevenue: number;
+      invoicesRevenue: number;
+      totalPaymentLinks: number;
+      activePaymentLinks: number;
+      paidPaymentLinks: number;
+      totalInvoices: number;
+      paidInvoices: number;
+      pendingInvoices: number;
+    }>('/admin-payments?action=stats');
+  }
+
   async getPaymentLinks() {
     return this.request<Array<{
       id: string;

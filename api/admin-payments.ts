@@ -48,6 +48,54 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     const { action } = req.query;
 
+    // GET PAYMENT STATS
+    if (req.method === 'GET' && action === 'stats') {
+      const [paymentLinks, invoices] = await Promise.all([
+        db.collection('payment_links').find({}).toArray(),
+        db.collection('invoices').find({}).toArray(),
+      ]);
+
+      // Get paid invoices from Stripe
+      let paidInvoicesTotal = 0;
+      let paidInvoicesCount = 0;
+      
+      for (const inv of invoices) {
+        try {
+          const stripeInvoice = await stripe.invoices.retrieve(inv.stripeId);
+          if (stripeInvoice.status === 'paid') {
+            paidInvoicesTotal += inv.total;
+            paidInvoicesCount++;
+          }
+        } catch {
+          // Skip if invoice not found in Stripe
+        }
+      }
+
+      // Get payment link payments from Stripe
+      let paymentLinksTotal = 0;
+      let paymentLinksCount = 0;
+
+      const sessions = await stripe.checkout.sessions.list({ limit: 100 });
+      for (const session of sessions.data) {
+        if (session.payment_link && session.payment_status === 'paid') {
+          paymentLinksTotal += (session.amount_total || 0) / 100;
+          paymentLinksCount++;
+        }
+      }
+
+      return jsonResponse(res, {
+        totalRevenue: paidInvoicesTotal + paymentLinksTotal,
+        paymentLinksRevenue: paymentLinksTotal,
+        invoicesRevenue: paidInvoicesTotal,
+        totalPaymentLinks: paymentLinks.length,
+        activePaymentLinks: paymentLinks.filter((l: any) => l.status === 'active').length,
+        paidPaymentLinks: paymentLinksCount,
+        totalInvoices: invoices.length,
+        paidInvoices: paidInvoicesCount,
+        pendingInvoices: invoices.filter((i: any) => i.status === 'open' || i.status === 'sent').length,
+      });
+    }
+
     // CREATE PAYMENT LINK
     if (req.method === 'POST' && action === 'payment-link') {
       const { amount, description, customerEmail } = req.body;
