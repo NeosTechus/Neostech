@@ -3,11 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2, Shield, User, Eye } from "lucide-react";
+import { Loader2, Shield, User, Eye, ArrowLeft } from "lucide-react";
 import { apiClient } from "@/lib/api-client";
+import logo from "@/assets/logo.png";
 
 // Demo credentials
 const DEMO_ADMIN = { email: "admin@demo.com", password: "demo123" };
@@ -111,132 +110,140 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-muted p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="text-center">
-          <CardTitle className="text-2xl">Welcome Back</CardTitle>
-          <CardDescription>
-            Sign in to access your dashboard
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Tabs 
-            value={activeTab} 
-            onValueChange={(v) => {
-              setActiveTab(v as "employee" | "admin");
+    <div className="min-h-screen flex items-center justify-center relative overflow-hidden bg-background">
+      {/* Background logo */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <img 
+          src={logo} 
+          alt="" 
+          className="w-[600px] h-[600px] object-contain opacity-[0.03]"
+        />
+      </div>
+      
+      {/* Gradient overlays */}
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5" />
+      <div className="absolute top-0 left-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
+      <div className="absolute bottom-0 right-0 w-96 h-96 bg-accent/10 rounded-full blur-3xl translate-x-1/2 translate-y-1/2" />
+
+      {/* Back to home */}
+      <Button
+        variant="ghost"
+        size="sm"
+        className="absolute top-6 left-6 text-muted-foreground hover:text-foreground"
+        onClick={() => navigate("/")}
+      >
+        <ArrowLeft className="w-4 h-4 mr-2" />
+        Back to Home
+      </Button>
+
+      {/* Login card */}
+      <div className="relative z-10 w-full max-w-md p-8">
+        {/* Logo */}
+        <div className="flex justify-center mb-8">
+          <img src={logo} alt="Logo" className="h-16 w-auto" />
+        </div>
+
+        {/* Title */}
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-bold text-foreground mb-2">Welcome Back</h1>
+          <p className="text-muted-foreground">Sign in to access your dashboard</p>
+        </div>
+
+        {/* Tab buttons */}
+        <div className="flex gap-2 mb-8">
+          <button
+            onClick={() => {
+              setActiveTab("employee");
               resetForm();
             }}
-            className="w-full"
+            className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-medium transition-all ${
+              activeTab === "employee"
+                ? "bg-primary text-primary-foreground shadow-lg shadow-primary/25"
+                : "bg-muted/50 text-muted-foreground hover:bg-muted"
+            }`}
           >
-            <TabsList className="grid w-full grid-cols-2 mb-6">
-              <TabsTrigger value="employee" className="flex items-center gap-2">
-                <User className="h-4 w-4" />
-                Employee
-              </TabsTrigger>
-              <TabsTrigger value="admin" className="flex items-center gap-2">
-                <Shield className="h-4 w-4" />
-                Admin
-              </TabsTrigger>
-            </TabsList>
+            <User className="h-4 w-4" />
+            Employee
+          </button>
+          <button
+            onClick={() => {
+              setActiveTab("admin");
+              resetForm();
+            }}
+            className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-medium transition-all ${
+              activeTab === "admin"
+                ? "bg-primary text-primary-foreground shadow-lg shadow-primary/25"
+                : "bg-muted/50 text-muted-foreground hover:bg-muted"
+            }`}
+          >
+            <Shield className="h-4 w-4" />
+            Admin
+          </button>
+        </div>
 
-            <TabsContent value="employee">
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="employee-email">Email</Label>
-                  <Input
-                    id="employee-email"
-                    type="email"
-                    placeholder="you@company.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                    disabled={loading}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="employee-password">Password</Label>
-                  <Input
-                    id="employee-password"
-                    type="password"
-                    placeholder="••••••••"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                    disabled={loading}
-                  />
-                </div>
-                <Button type="submit" className="w-full" disabled={loading}>
-                  {loading ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Signing in...
-                    </>
-                  ) : (
-                    "Sign In as Employee"
-                  )}
-                </Button>
-              </form>
-            </TabsContent>
-
-            <TabsContent value="admin">
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="admin-email">Email</Label>
-                  <Input
-                    id="admin-email"
-                    type="email"
-                    placeholder="admin@company.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                    disabled={loading}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="admin-password">Password</Label>
-                  <Input
-                    id="admin-password"
-                    type="password"
-                    placeholder="••••••••"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                    disabled={loading}
-                  />
-                </div>
-                <Button type="submit" className="w-full" disabled={loading}>
-                  {loading ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Signing in...
-                    </>
-                  ) : (
-                    "Sign In as Admin"
-                  )}
-                </Button>
-              </form>
-            </TabsContent>
-          </Tabs>
-
-          <div className="mt-6 pt-6 border-t">
-            <Button
-              type="button"
-              variant="outline"
-              className="w-full"
-              onClick={fillDemoCredentials}
-            >
-              <Eye className="w-4 h-4 mr-2" />
-              Use Demo Credentials
-            </Button>
-            <p className="text-xs text-muted-foreground text-center mt-2">
-              {activeTab === "admin" 
-                ? "Demo: admin@demo.com / demo123"
-                : "Demo: employee@demo.com / demo123"
-              }
-            </p>
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <div className="space-y-2">
+            <Label htmlFor="email" className="text-foreground">Email</Label>
+            <Input
+              id="email"
+              type="email"
+              placeholder={activeTab === "admin" ? "admin@company.com" : "you@company.com"}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              disabled={loading}
+              className="h-12 bg-muted/30 border-border/50 focus:border-primary"
+            />
           </div>
-        </CardContent>
-      </Card>
+          <div className="space-y-2">
+            <Label htmlFor="password" className="text-foreground">Password</Label>
+            <Input
+              id="password"
+              type="password"
+              placeholder="••••••••"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              disabled={loading}
+              className="h-12 bg-muted/30 border-border/50 focus:border-primary"
+            />
+          </div>
+          <Button 
+            type="submit" 
+            className="w-full h-12 text-base font-medium" 
+            disabled={loading}
+          >
+            {loading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Signing in...
+              </>
+            ) : (
+              `Sign In as ${activeTab === "admin" ? "Admin" : "Employee"}`
+            )}
+          </Button>
+        </form>
+
+        {/* Demo credentials */}
+        <div className="mt-8 pt-6 border-t border-border/50">
+          <Button
+            type="button"
+            variant="outline"
+            className="w-full h-11 bg-muted/30"
+            onClick={fillDemoCredentials}
+          >
+            <Eye className="w-4 h-4 mr-2" />
+            Use Demo Credentials
+          </Button>
+          <p className="text-xs text-muted-foreground text-center mt-3">
+            {activeTab === "admin" 
+              ? "Demo: admin@demo.com / demo123"
+              : "Demo: employee@demo.com / demo123"
+            }
+          </p>
+        </div>
+      </div>
     </div>
   );
 }
