@@ -98,8 +98,8 @@ const faqs: FAQ[] = [
     answer: "We offer flexible maintenance packages including security updates, bug fixes, content updates, and feature additions. Plans start from monthly retainers to pay-as-you-go options."
   },
   {
-    keywords: ["portfolio", "work", "examples", "previous", "clients"],
-    answer: "Check out our portfolio on the website to see examples of our previous work! We've helped businesses across various industries including e-commerce, healthcare, fintech, and education."
+    keywords: ["portfolio", "work", "examples", "previous", "clients", "projects"],
+    answer: "We've worked on many projects from small scale to large scale and have helped local businesses across various cities grow their digital presence. Check out our portfolio to see examples of our work spanning e-commerce, healthcare, fintech, education, and more!"
   },
   {
     keywords: ["quote", "estimate", "consultation", "meeting", "discuss"],
