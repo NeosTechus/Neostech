@@ -167,6 +167,38 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         });
       }
 
+      // Employee login
+      if (action === 'employee-login') {
+        const user = await users.findOne({ email: email.toLowerCase() });
+        
+        if (!user) {
+          return errorResponse(res, 'Invalid credentials', 401);
+        }
+
+        const isValidPassword = await bcrypt.compare(password, user.password);
+        
+        if (!isValidPassword) {
+          return errorResponse(res, 'Invalid credentials', 401);
+        }
+
+        // Check if user has employee record
+        const employees = db.collection('employees');
+        const employee = await employees.findOne({ userId: user._id });
+        const isEmployee = !!employee || user.role === 'employee';
+
+        const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '7d' });
+
+        return jsonResponse(res, {
+          token,
+          user: {
+            id: user._id,
+            email: user.email,
+            name: user.name,
+          },
+          isEmployee,
+        });
+      }
+
       return errorResponse(res, 'Invalid action');
     }
 

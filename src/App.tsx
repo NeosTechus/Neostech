@@ -21,6 +21,14 @@ import Tickets from "./pages/admin/Tickets";
 import Blog from "./pages/admin/Blog";
 import Settings from "./pages/admin/Settings";
 
+// Employee pages
+import EmployeeLayout from "./pages/employee/EmployeeLayout";
+import EmployeeLogin from "./pages/employee/EmployeeLogin";
+import EmployeeDashboard from "./pages/employee/EmployeeDashboard";
+import EmployeeProjects from "./pages/employee/EmployeeProjects";
+import EmployeeTickets from "./pages/employee/EmployeeTickets";
+import EmployeeProfile from "./pages/employee/EmployeeProfile";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -46,6 +54,15 @@ const App = () => (
             <Route path="tickets" element={<Tickets />} />
             <Route path="blog" element={<Blog />} />
             <Route path="settings" element={<Settings />} />
+          </Route>
+          
+          {/* Employee routes */}
+          <Route path="/employee/login" element={<EmployeeLogin />} />
+          <Route path="/employee" element={<EmployeeLayout />}>
+            <Route index element={<EmployeeDashboard />} />
+            <Route path="projects" element={<EmployeeProjects />} />
+            <Route path="tickets" element={<EmployeeTickets />} />
+            <Route path="profile" element={<EmployeeProfile />} />
           </Route>
           
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
