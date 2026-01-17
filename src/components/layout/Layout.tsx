@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import { Navbar } from "./Navbar";
 import { Footer } from "./Footer";
 import CursorLight from "@/components/ui/CursorLight";
+import { ChatBot } from "@/components/chat/ChatBot";
 
 interface LayoutProps {
   children: ReactNode;
@@ -16,6 +17,7 @@ export function Layout({ children }: LayoutProps) {
         {children}
       </main>
       <Footer />
+      <ChatBot />
     </div>
   );
 }
