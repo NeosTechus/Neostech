@@ -239,18 +239,20 @@ export function ChatBot() {
       {/* Chat Toggle Button */}
       <Button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 right-6 h-14 w-14 rounded-full shadow-lg z-50"
+        className="fixed bottom-6 right-6 h-14 w-14 rounded-full shadow-lg z-50 hover:scale-110 transition-all duration-300 hover:shadow-xl hover:shadow-primary/25 animate-pulse-glow"
         size="icon"
       >
-        {isOpen ? <X className="h-6 w-6" /> : <MessageCircle className="h-6 w-6" />}
+        <div className={`transition-transform duration-300 ${isOpen ? 'rotate-90' : 'rotate-0'}`}>
+          {isOpen ? <X className="h-6 w-6" /> : <MessageCircle className="h-6 w-6" />}
+        </div>
       </Button>
 
       {/* Chat Window */}
       {isOpen && (
-        <div className="fixed bottom-24 right-6 w-[350px] h-[500px] bg-background border rounded-xl shadow-2xl flex flex-col z-50 overflow-hidden">
+        <div className="fixed bottom-24 right-6 w-[350px] h-[500px] bg-background border rounded-xl shadow-2xl flex flex-col z-50 overflow-hidden animate-scale-in origin-bottom-right">
           {/* Header */}
           <div className="bg-primary text-primary-foreground p-4 flex items-center gap-3">
-            <div className="h-10 w-10 rounded-full bg-primary-foreground/20 flex items-center justify-center">
+            <div className="h-10 w-10 rounded-full bg-primary-foreground/20 flex items-center justify-center animate-pulse">
               <Bot className="h-5 w-5" />
             </div>
             <div>
@@ -262,21 +264,22 @@ export function ChatBot() {
           {/* Messages */}
           <ScrollArea className="flex-1 p-4" ref={scrollRef}>
             <div className="space-y-4">
-              {messages.map((message) => (
+              {messages.map((message, index) => (
                 <div
                   key={message.id}
-                  className={`flex gap-2 ${message.isBot ? "justify-start" : "justify-end"}`}
+                  className={`flex gap-2 animate-fade-in-up ${message.isBot ? "justify-start" : "justify-end"}`}
+                  style={{ animationDelay: `${index * 0.05}s` }}
                 >
                   {message.isBot && (
-                    <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                    <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0 hover:scale-110 transition-transform duration-300">
                       <Bot className="h-4 w-4 text-primary" />
                     </div>
                   )}
                   <div
-                    className={`max-w-[80%] rounded-2xl px-4 py-2.5 text-sm whitespace-pre-line ${
+                    className={`max-w-[80%] rounded-2xl px-4 py-2.5 text-sm whitespace-pre-line transition-all duration-300 hover:scale-[1.02] ${
                       message.isBot
-                        ? "bg-muted text-foreground rounded-tl-sm"
-                        : "bg-primary text-primary-foreground rounded-tr-sm"
+                        ? "bg-muted text-foreground rounded-tl-sm hover:bg-muted/80"
+                        : "bg-primary text-primary-foreground rounded-tr-sm hover:bg-primary/90"
                     }`}
                   >
                     {message.text}
@@ -289,12 +292,17 @@ export function ChatBot() {
                 </div>
               ))}
               {isLoading && (
-                <div className="flex gap-2 justify-start">
+                <div className="flex gap-2 justify-start animate-fade-in">
                   <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
                     <Loader2 className="h-4 w-4 text-primary animate-spin" />
                   </div>
-                  <div className="bg-muted text-foreground rounded-2xl rounded-tl-sm px-4 py-2.5 text-sm">
-                    Thinking...
+                  <div className="bg-muted text-foreground rounded-2xl rounded-tl-sm px-4 py-2.5 text-sm flex items-center gap-2">
+                    <span className="animate-pulse">Thinking</span>
+                    <span className="flex gap-1">
+                      <span className="w-1 h-1 bg-primary rounded-full animate-bounce" style={{ animationDelay: '0s' }} />
+                      <span className="w-1 h-1 bg-primary rounded-full animate-bounce" style={{ animationDelay: '0.2s' }} />
+                      <span className="w-1 h-1 bg-primary rounded-full animate-bounce" style={{ animationDelay: '0.4s' }} />
+                    </span>
                   </div>
                 </div>
               )}
@@ -309,10 +317,15 @@ export function ChatBot() {
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder="Type your message..."
-                className="flex-1"
+                className="flex-1 transition-all duration-300 focus:scale-[1.01] focus:shadow-lg focus:shadow-primary/10"
                 disabled={isLoading}
               />
-              <Button onClick={handleSend} size="icon" disabled={!input.trim() || isLoading}>
+              <Button 
+                onClick={handleSend} 
+                size="icon" 
+                disabled={!input.trim() || isLoading}
+                className="hover:scale-110 transition-transform duration-300"
+              >
                 {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
               </Button>
             </div>
