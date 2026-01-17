@@ -58,19 +58,6 @@ export function HeroSection() {
             </Button>
           </div>
 
-          {/* Trust Indicators */}
-          <div className="mt-16 pt-16 border-t border-border/50 animate-fade-in-delay-3">
-            <p className="text-sm text-muted-foreground mb-6">
-              Powering digital transformation for leading brands
-            </p>
-            <div className="flex flex-wrap items-center justify-center gap-8 opacity-60">
-              {["TechCorp", "InnovateCo", "FutureStack", "DataFlow", "CloudNine"].map((company) => (
-                <span key={company} className="text-lg font-semibold tracking-wider">
-                  {company}
-                </span>
-              ))}
-            </div>
-          </div>
         </div>
       </div>
 
