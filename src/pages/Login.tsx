@@ -1,14 +1,13 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2, Shield, User, Eye } from "lucide-react";
 import { apiClient } from "@/lib/api-client";
-import logo from "@/assets/logo.png";
 
 // Demo credentials
 const DEMO_ADMIN = { email: "admin@demo.com", password: "demo123" };
@@ -112,27 +111,15 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-primary/5 p-4">
-      <div className="w-full max-w-md">
-        {/* Logo and Brand */}
-        <div className="text-center mb-8">
-          <Link to="/" className="inline-flex flex-col items-center gap-3 group">
-            <img 
-              src={logo} 
-              alt="Neos Tech" 
-              className="h-16 w-auto transition-transform group-hover:scale-105"
-            />
-            <span className="text-2xl font-bold tracking-tight">
-              Neos <span className="text-gradient">Tech</span>
-            </span>
-          </Link>
-          <p className="text-muted-foreground mt-2">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-muted p-4">
+      <Card className="w-full max-w-md">
+        <CardHeader className="text-center">
+          <CardTitle className="text-2xl">Welcome Back</CardTitle>
+          <CardDescription>
             Sign in to access your dashboard
-          </p>
-        </div>
-
-        <Card className="border-border/50 shadow-xl shadow-primary/5">
-          <CardContent className="pt-6">
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
           <Tabs 
             value={activeTab} 
             onValueChange={(v) => {
@@ -248,9 +235,8 @@ export default function Login() {
               }
             </p>
           </div>
-          </CardContent>
-        </Card>
-      </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }
