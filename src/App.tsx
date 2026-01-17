@@ -8,6 +8,7 @@ import Services from "./pages/Services";
 import About from "./pages/About";
 import Careers from "./pages/Careers";
 import Contact from "./pages/Contact";
+import Team from "./pages/Team";
 import NotFound from "./pages/NotFound";
 
 // Admin pages
@@ -33,6 +34,7 @@ const App = () => (
           <Route path="/services" element={<Services />} />
           <Route path="/about" element={<About />} />
           <Route path="/careers" element={<Careers />} />
+          <Route path="/team" element={<Team />} />
           <Route path="/contact" element={<Contact />} />
           
           {/* Admin routes */}

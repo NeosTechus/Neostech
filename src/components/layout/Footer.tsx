@@ -4,9 +4,9 @@ import { ArrowUpRight, Mail, MapPin, Phone } from "lucide-react";
 const footerLinks = {
   company: [
     { name: "About Us", path: "/about" },
+    { name: "Team", path: "/team" },
     { name: "Careers", path: "/careers" },
     { name: "Contact", path: "/contact" },
-    { name: "Blog", path: "#" },
   ],
   services: [
     { name: "Website Development", path: "/services" },
