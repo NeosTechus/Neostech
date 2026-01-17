@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, MessageCircle } from "lucide-react";
+import CodeWindow from "@/components/ui/CodeWindow";
 
 export function CTASection() {
   return (
@@ -10,45 +11,53 @@ export function CTASection() {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/10 rounded-full blur-3xl" />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
-        <div className="max-w-4xl mx-auto text-center">
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-primary/20 mb-8">
-            <MessageCircle className="w-4 h-4 text-primary" />
-            <span className="text-sm font-medium text-muted-foreground">
-              Free consultation available
-            </span>
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          {/* Left Content - Code Window */}
+          <div className="hidden lg:block order-1">
+            <CodeWindow />
           </div>
 
-          {/* Headline */}
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-6">
-            Ready to{" "}
-            <span className="text-gradient">transform</span>
-            {" "}your business?
-          </h2>
+          {/* Right Content - CTA */}
+          <div className="text-center lg:text-left order-2">
+            {/* Badge */}
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-primary/20 mb-8">
+              <MessageCircle className="w-4 h-4 text-primary" />
+              <span className="text-sm font-medium text-muted-foreground">
+                Free consultation available
+              </span>
+            </div>
 
-          {/* Subheadline */}
-          <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed">
-            Let's discuss how we can help your business grow online. 
-            Our team is ready to bring your vision to life.
-          </p>
+            {/* Headline */}
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-6">
+              Ready to{" "}
+              <span className="text-gradient">transform</span>
+              {" "}your business?
+            </h2>
 
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button variant="hero" size="xl" asChild>
-              <Link to="/contact" className="group">
-                Start Your Project
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </Link>
-            </Button>
-            <Button variant="heroOutline" size="xl" asChild>
-              <Link to="/pricing">View Pricing</Link>
-            </Button>
+            {/* Subheadline */}
+            <p className="text-lg sm:text-xl text-muted-foreground max-w-xl mx-auto lg:mx-0 mb-10 leading-relaxed">
+              Let's discuss how we can help your business grow online. 
+              Our team is ready to bring your vision to life.
+            </p>
+
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+              <Button variant="hero" size="xl" asChild>
+                <Link to="/contact" className="group">
+                  Start Your Project
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </Button>
+              <Button variant="heroOutline" size="xl" asChild>
+                <Link to="/pricing">View Pricing</Link>
+              </Button>
+            </div>
+
+            {/* Trust Text */}
+            <p className="mt-8 text-sm text-muted-foreground">
+              No commitment required • Free initial consultation • Response within 24 hours
+            </p>
           </div>
-
-          {/* Trust Text */}
-          <p className="mt-8 text-sm text-muted-foreground">
-            No commitment required • Free initial consultation • Response within 24 hours
-          </p>
         </div>
       </div>
     </section>
