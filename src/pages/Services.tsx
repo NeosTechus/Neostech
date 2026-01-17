@@ -2,8 +2,8 @@ import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { 
-  Globe, Bot, Layers, Zap, Code, Database, 
-  Cloud, Shield, ArrowRight, CheckCircle 
+  Globe, Bot, Code, Database, 
+  Cloud, Users, ArrowRight, CheckCircle 
 } from "lucide-react";
 
 const mainServices = [
@@ -54,9 +54,9 @@ const additionalServices = [
     description: "Robust cloud solutions on AWS, GCP, or Azure with optimal performance.",
   },
   {
-    icon: Shield,
-    title: "Security & Compliance",
-    description: "Enterprise-grade security implementations and compliance consulting.",
+    icon: Users,
+    title: "Consulting Services",
+    description: "Expert guidance on digital strategy, technology adoption, and business transformation.",
   },
 ];
 
