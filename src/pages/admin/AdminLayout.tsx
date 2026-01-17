@@ -11,6 +11,15 @@ export default function AdminLayout() {
   const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
 
   useEffect(() => {
+    const isDemoMode = localStorage.getItem("demo_mode") === "true";
+    const adminStatus = localStorage.getItem("is_admin") === "true";
+
+    // Demo mode bypasses auth check
+    if (isDemoMode && adminStatus) {
+      setIsAdmin(true);
+      return;
+    }
+
     if (!loading && !user) {
       navigate("/admin/login");
       return;
@@ -18,8 +27,6 @@ export default function AdminLayout() {
 
     // Check admin role from user metadata or API
     if (user) {
-      // For now, check if user has admin role in localStorage or from API
-      const adminStatus = localStorage.getItem("is_admin") === "true";
       setIsAdmin(adminStatus);
       
       if (!adminStatus) {
