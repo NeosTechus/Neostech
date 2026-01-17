@@ -1,7 +1,7 @@
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { ArrowRight, Target, Eye, Heart, Users, Award, Clock } from "lucide-react";
+import { ArrowRight, Target, Eye, Heart, Users, Award, Clock, Globe } from "lucide-react";
 
 const values = [
   {
@@ -38,6 +38,24 @@ const stats = [
   { value: "8", label: "AI Agents Active" },
   { value: "100%", label: "Client Satisfaction" },
   { value: "24/7", label: "Support Available" },
+];
+
+const globalPresence = [
+  {
+    country: "United States",
+    flag: "🇺🇸",
+    description: "Headquarters in Saint Louis, Missouri",
+  },
+  {
+    country: "India",
+    flag: "🇮🇳",
+    description: "Serving innovative startups and enterprises",
+  },
+  {
+    country: "South Africa",
+    flag: "🇿🇦",
+    description: "Empowering African businesses to go digital",
+  },
 ];
 
 export default function About() {
@@ -138,8 +156,36 @@ export default function About() {
         </div>
       </section>
 
-      {/* Timeline */}
+      {/* Global Presence */}
       <section className="py-16 lg:py-24 bg-card/50">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <span className="inline-block px-4 py-1.5 rounded-full text-sm font-medium bg-primary/10 text-primary mb-4">
+              <Globe className="w-4 h-4 inline mr-2" />
+              Global Reach
+            </span>
+            <h2 className="text-3xl lg:text-4xl font-bold mb-4">
+              Serving clients worldwide
+            </h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              From startups to enterprises, we partner with businesses across the globe to deliver exceptional digital solutions.
+            </p>
+          </div>
+
+          <div className="grid sm:grid-cols-3 gap-6 max-w-4xl mx-auto">
+            {globalPresence.map((location) => (
+              <div key={location.country} className="glass rounded-xl p-6 text-center card-hover">
+                <div className="text-5xl mb-4">{location.flag}</div>
+                <h3 className="font-semibold text-lg mb-2">{location.country}</h3>
+                <p className="text-sm text-muted-foreground">{location.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Timeline */}
+      <section className="py-16 lg:py-24">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <span className="inline-block px-4 py-1.5 rounded-full text-sm font-medium bg-primary/10 text-primary mb-4">
