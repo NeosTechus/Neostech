@@ -1,86 +1,85 @@
 import { useEffect, useState } from 'react';
-import { Progress } from './progress';
 
 const CodeWindow = () => {
   const [progress, setProgress] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(true);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setProgress((prev) => {
-        if (prev >= 100) return 0;
-        return prev + 1;
+        if (prev >= 100) {
+          setTimeout(() => setProgress(0), 500);
+          return 100;
+        }
+        return prev + 0.8;
       });
-    }, 50);
+    }, 40);
 
     return () => clearInterval(interval);
   }, []);
 
-  // Animated loading bars with different widths
-  const bars = [
-    { width: '45%', delay: '0s' },
-    { width: '85%', delay: '0.1s' },
-    { width: '60%', delay: '0.2s' },
-    { width: '75%', delay: '0.3s' },
-    { width: '95%', delay: '0.4s' },
-    { width: '70%', delay: '0.5s' },
+  // Animated code lines with varying widths
+  const codeLines = [
+    { width: '40%', opacity: 0.6 },
+    { width: '75%', opacity: 0.8 },
+    { width: '55%', opacity: 0.5 },
+    { width: '85%', opacity: 0.7 },
+    { width: '65%', opacity: 0.6 },
   ];
 
   return (
-    <div className="relative w-full max-w-lg mx-auto animate-fade-in-delay-2">
+    <div className="relative w-full max-w-md mx-auto">
       {/* Glow effect behind */}
-      <div className="absolute -inset-4 bg-primary/10 rounded-3xl blur-2xl" />
+      <div className="absolute -inset-6 bg-primary/15 rounded-3xl blur-3xl animate-pulse" />
       
       {/* Main window */}
-      <div className="relative glass rounded-2xl border border-border/50 overflow-hidden shadow-2xl">
+      <div className="relative glass rounded-xl border border-border/40 overflow-hidden shadow-2xl backdrop-blur-xl">
         {/* Window chrome */}
-        <div className="flex items-center gap-2 px-4 py-3 border-b border-border/30">
-          <div className="w-3 h-3 rounded-full bg-red-500" />
-          <div className="w-3 h-3 rounded-full bg-yellow-500" />
-          <div className="w-3 h-3 rounded-full bg-green-500" />
+        <div className="flex items-center gap-2 px-4 py-3 border-b border-border/20 bg-background/30">
+          <div className="w-3 h-3 rounded-full bg-red-500/90" />
+          <div className="w-3 h-3 rounded-full bg-yellow-500/90" />
+          <div className="w-3 h-3 rounded-full bg-green-500/90" />
+          <div className="ml-4 flex-1 h-5 rounded bg-muted/20 max-w-[120px]" />
         </div>
 
         {/* Code area with animated bars */}
-        <div className="p-6 space-y-4">
-          {bars.map((bar, index) => (
+        <div className="p-5 space-y-3">
+          {codeLines.map((line, index) => (
             <div
               key={index}
-              className="h-3 rounded-full bg-muted/50 overflow-hidden"
+              className="h-2.5 rounded bg-muted/40 animate-pulse"
               style={{ 
-                width: bar.width,
-                animation: `pulse 2s ease-in-out infinite`,
-                animationDelay: bar.delay
+                width: line.width,
+                opacity: line.opacity,
+                animationDelay: `${index * 0.15}s`
               }}
-            >
-              <div 
-                className="h-full bg-muted rounded-full"
-                style={{
-                  animation: `shimmer 2s ease-in-out infinite`,
-                  animationDelay: bar.delay
-                }}
-              />
-            </div>
+            />
           ))}
         </div>
 
         {/* Status section */}
-        <div className="mx-4 mb-4 p-4 rounded-xl bg-background/50 border border-border/30">
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-xs font-semibold tracking-wider text-muted-foreground uppercase">
+        <div className="mx-4 mb-4 p-3 rounded-lg bg-background/40 border border-border/20">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-[10px] font-bold tracking-widest text-muted-foreground uppercase">
               Status
             </span>
-            <span className="text-sm font-semibold text-green-400">
+            <span className="text-xs font-semibold text-green-400 flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
               Operational
             </span>
           </div>
-          <div className="relative h-2 rounded-full bg-muted/30 overflow-hidden">
+          <div className="relative h-1.5 rounded-full bg-muted/20 overflow-hidden">
             <div 
-              className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-green-500 to-green-400 transition-all duration-100 ease-out"
+              className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-green-500 via-green-400 to-emerald-400 transition-all duration-75 ease-linear"
               style={{ width: `${progress}%` }}
             />
-            {/* Animated glow dot at the end */}
+            {/* Glow effect on progress */}
             <div 
-              className="absolute top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-green-400 shadow-lg shadow-green-400/50 transition-all duration-100 ease-out"
-              style={{ left: `calc(${progress}% - 6px)` }}
+              className="absolute top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-green-400 shadow-lg shadow-green-400/60 transition-all duration-75 ease-linear"
+              style={{ 
+                left: `calc(${Math.min(progress, 98)}% - 4px)`,
+                opacity: progress > 2 ? 1 : 0
+              }}
             />
           </div>
         </div>
