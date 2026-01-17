@@ -153,10 +153,7 @@ export function Footer() {
             <a href="#" className="hover:text-foreground transition-colors">LinkedIn</a>
             <a href="#" className="hover:text-foreground transition-colors">GitHub</a>
             <Link to="/employee/login" className="hover:text-foreground transition-colors">
-              Employee Login
-            </Link>
-            <Link to="/admin/login" className="hover:text-foreground transition-colors">
-              Admin Login
+              Login
             </Link>
           </div>
         </div>
