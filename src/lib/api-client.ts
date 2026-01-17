@@ -217,6 +217,45 @@ class ApiClient {
       createdAt: string;
     }>>('/admin?action=customers');
   }
+
+  // Employee endpoints
+  async employeeLogin(email: string, password: string) {
+    const result = await this.request<{ 
+      token: string; 
+      user: { id: string; email: string; name?: string };
+      isEmployee: boolean;
+    }>(
+      '/auth',
+      {
+        method: 'POST',
+        body: JSON.stringify({ action: 'employee-login', email, password }),
+      }
+    );
+    
+    if (result.data?.token) {
+      this.setToken(result.data.token);
+    }
+    
+    return result;
+  }
+
+  async getEmployeeDashboard() {
+    return this.request('/employee?action=dashboard');
+  }
+
+  async getEmployeeProfile() {
+    return this.request('/employee?action=profile');
+  }
+
+  async updateEmployeeTicketStatus(ticketId: string, status: string) {
+    return this.request<{ success: boolean; ticketId: string; status: string }>(
+      '/employee?action=ticket-status',
+      {
+        method: 'PUT',
+        body: JSON.stringify({ ticketId, status }),
+      }
+    );
+  }
 }
 
 export const apiClient = new ApiClient(API_BASE_URL);
