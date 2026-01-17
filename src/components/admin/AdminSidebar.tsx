@@ -1,11 +1,12 @@
 import { 
   LayoutDashboard, 
-  ShoppingCart, 
+  FolderKanban, 
   Users, 
   Settings, 
   LogOut,
-  Package,
-  BarChart3
+  MessageSquare,
+  FileText,
+  TrendingUp
 } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
@@ -26,10 +27,10 @@ import { cn } from "@/lib/utils";
 
 const menuItems = [
   { title: "Dashboard", url: "/admin", icon: LayoutDashboard },
-  { title: "Orders", url: "/admin/orders", icon: ShoppingCart },
-  { title: "Products", url: "/admin/products", icon: Package },
-  { title: "Customers", url: "/admin/customers", icon: Users },
-  { title: "Analytics", url: "/admin/analytics", icon: BarChart3 },
+  { title: "Projects", url: "/admin/projects", icon: FolderKanban },
+  { title: "Leads", url: "/admin/leads", icon: TrendingUp },
+  { title: "Support Tickets", url: "/admin/tickets", icon: MessageSquare },
+  { title: "Blog & CMS", url: "/admin/blog", icon: FileText },
   { title: "Settings", url: "/admin/settings", icon: Settings },
 ];
 
