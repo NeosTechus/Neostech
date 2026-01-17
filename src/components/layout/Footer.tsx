@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowUpRight, Mail, MapPin, Phone } from "lucide-react";
+import { ArrowUpRight, Mail, MapPin, Phone, Sparkles } from "lucide-react";
 
 const footerLinks = {
   company: [
@@ -46,6 +46,17 @@ export function Footer() {
                 Neos <span className="text-gradient">Tech</span>
               </span>
             </Link>
+            
+            {/* We Make You Online Badge */}
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-4">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+              </span>
+              <span className="text-xs font-medium text-primary">We Make You Online</span>
+              <Sparkles className="w-3 h-3 text-primary" />
+            </div>
+            
             <p className="text-muted-foreground text-sm leading-relaxed max-w-xs mb-6">
               Empowering businesses with cutting-edge digital solutions. 
               Transform your ideas into reality with our expert team.
