@@ -16,10 +16,10 @@ import NotFound from "./pages/NotFound";
 import AdminLayout from "./pages/admin/AdminLayout";
 import AdminLogin from "./pages/admin/AdminLogin";
 import Dashboard from "./pages/admin/Dashboard";
-import Orders from "./pages/admin/Orders";
-import Customers from "./pages/admin/Customers";
-import Products from "./pages/admin/Products";
-import Analytics from "./pages/admin/Analytics";
+import Projects from "./pages/admin/Projects";
+import Leads from "./pages/admin/Leads";
+import Tickets from "./pages/admin/Tickets";
+import Blog from "./pages/admin/Blog";
 import Settings from "./pages/admin/Settings";
 
 const queryClient = new QueryClient();
@@ -43,10 +43,10 @@ const App = () => (
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin" element={<AdminLayout />}>
             <Route index element={<Dashboard />} />
-            <Route path="orders" element={<Orders />} />
-            <Route path="customers" element={<Customers />} />
-            <Route path="products" element={<Products />} />
-            <Route path="analytics" element={<Analytics />} />
+            <Route path="projects" element={<Projects />} />
+            <Route path="leads" element={<Leads />} />
+            <Route path="tickets" element={<Tickets />} />
+            <Route path="blog" element={<Blog />} />
             <Route path="settings" element={<Settings />} />
           </Route>
           

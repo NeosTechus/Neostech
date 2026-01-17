@@ -1,96 +1,71 @@
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { 
-  ShoppingCart, 
-  DollarSign, 
-  Users, 
-  TrendingUp,
-  Package,
+  FolderKanban, 
+  TrendingUp, 
+  MessageSquare,
+  FileText,
   Clock,
   CheckCircle,
-  XCircle
+  AlertCircle,
+  Users
 } from "lucide-react";
-import { apiClient } from "@/lib/api-client";
 
 interface Stats {
-  totalOrders: number;
-  totalRevenue: number;
-  totalCustomers: number;
-  pendingOrders: number;
-  completedOrders: number;
-  cancelledOrders: number;
+  totalProjects: number;
+  activeProjects: number;
+  totalLeads: number;
+  newLeads: number;
+  openTickets: number;
+  resolvedTickets: number;
+  publishedPosts: number;
+  draftPosts: number;
 }
 
 export default function Dashboard() {
   const [stats, setStats] = useState<Stats>({
-    totalOrders: 0,
-    totalRevenue: 0,
-    totalCustomers: 0,
-    pendingOrders: 0,
-    completedOrders: 0,
-    cancelledOrders: 0,
+    totalProjects: 12,
+    activeProjects: 5,
+    totalLeads: 48,
+    newLeads: 8,
+    openTickets: 3,
+    resolvedTickets: 27,
+    publishedPosts: 15,
+    draftPosts: 4,
   });
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchStats = async () => {
-      try {
-        const result = await apiClient.getAdminStats();
-        if (result.data) {
-          setStats(result.data);
-        }
-      } catch (error) {
-        console.error("Failed to fetch stats:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchStats();
-  }, []);
 
   const statCards = [
     {
-      title: "Total Orders",
-      value: stats.totalOrders,
-      icon: ShoppingCart,
+      title: "Active Projects",
+      value: stats.activeProjects,
+      subtitle: `${stats.totalProjects} total projects`,
+      icon: FolderKanban,
       color: "text-blue-500",
       bgColor: "bg-blue-500/10",
     },
     {
-      title: "Total Revenue",
-      value: `$${stats.totalRevenue.toLocaleString()}`,
-      icon: DollarSign,
+      title: "New Leads",
+      value: stats.newLeads,
+      subtitle: `${stats.totalLeads} total leads`,
+      icon: TrendingUp,
       color: "text-green-500",
       bgColor: "bg-green-500/10",
     },
     {
-      title: "Total Customers",
-      value: stats.totalCustomers,
-      icon: Users,
-      color: "text-purple-500",
-      bgColor: "bg-purple-500/10",
-    },
-    {
-      title: "Pending Orders",
-      value: stats.pendingOrders,
-      icon: Clock,
+      title: "Open Tickets",
+      value: stats.openTickets,
+      subtitle: `${stats.resolvedTickets} resolved`,
+      icon: MessageSquare,
       color: "text-yellow-500",
       bgColor: "bg-yellow-500/10",
     },
     {
-      title: "Completed Orders",
-      value: stats.completedOrders,
-      icon: CheckCircle,
-      color: "text-emerald-500",
-      bgColor: "bg-emerald-500/10",
-    },
-    {
-      title: "Cancelled Orders",
-      value: stats.cancelledOrders,
-      icon: XCircle,
-      color: "text-red-500",
-      bgColor: "bg-red-500/10",
+      title: "Published Posts",
+      value: stats.publishedPosts,
+      subtitle: `${stats.draftPosts} drafts`,
+      icon: FileText,
+      color: "text-purple-500",
+      bgColor: "bg-purple-500/10",
     },
   ];
 
@@ -99,11 +74,11 @@ export default function Dashboard() {
       <div>
         <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
         <p className="text-muted-foreground">
-          Overview of your store's performance
+          Welcome back! Here's an overview of your business.
         </p>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {statCards.map((stat) => (
           <Card key={stat.title}>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
@@ -115,13 +90,10 @@ export default function Dashboard() {
               </div>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">
-                {loading ? (
-                  <div className="h-8 w-20 bg-muted animate-pulse rounded" />
-                ) : (
-                  stat.value
-                )}
-              </div>
+              <div className="text-2xl font-bold">{stat.value}</div>
+              <p className="text-xs text-muted-foreground mt-1">
+                {stat.subtitle}
+              </p>
             </CardContent>
           </Card>
         ))}
@@ -131,27 +103,51 @@ export default function Dashboard() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <TrendingUp className="h-5 w-5 text-primary" />
+              <Clock className="h-5 w-5 text-primary" />
               Recent Activity
             </CardTitle>
           </CardHeader>
-          <CardContent>
-            <p className="text-muted-foreground text-sm">
-              Activity feed will appear here once orders start coming in.
-            </p>
+          <CardContent className="space-y-4">
+            <div className="flex items-start gap-3">
+              <div className="p-2 bg-green-500/10 rounded-full">
+                <CheckCircle className="h-4 w-4 text-green-500" />
+              </div>
+              <div>
+                <p className="text-sm font-medium">New lead received</p>
+                <p className="text-xs text-muted-foreground">John from TechCorp - 2 hours ago</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <div className="p-2 bg-blue-500/10 rounded-full">
+                <FolderKanban className="h-4 w-4 text-blue-500" />
+              </div>
+              <div>
+                <p className="text-sm font-medium">Project milestone completed</p>
+                <p className="text-xs text-muted-foreground">E-commerce Platform - 5 hours ago</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <div className="p-2 bg-yellow-500/10 rounded-full">
+                <AlertCircle className="h-4 w-4 text-yellow-500" />
+              </div>
+              <div>
+                <p className="text-sm font-medium">Support ticket opened</p>
+                <p className="text-xs text-muted-foreground">API Integration issue - 1 day ago</p>
+              </div>
+            </div>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Package className="h-5 w-5 text-primary" />
+              <Users className="h-5 w-5 text-primary" />
               Quick Actions
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-2">
-            <p className="text-muted-foreground text-sm">
-              Manage orders, products, and customers from the sidebar menu.
+            <p className="text-sm text-muted-foreground">
+              Use the sidebar to manage your projects, respond to leads, handle support tickets, and publish content.
             </p>
           </CardContent>
         </Card>
