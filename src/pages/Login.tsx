@@ -8,9 +8,10 @@ import { Loader2, Shield, User, Eye, ArrowLeft } from "lucide-react";
 import { apiClient } from "@/lib/api-client";
 import logo from "@/assets/logo.png";
 
-// Demo credentials
+// Demo credentials (only available in development)
 const DEMO_ADMIN = { email: "admin@demo.com", password: "demo123" };
 const DEMO_EMPLOYEE = { email: "employee@demo.com", password: "demo123" };
+const IS_DEV = import.meta.env.DEV;
 
 export default function Login() {
   const [activeTab, setActiveTab] = useState<"employee" | "admin">("employee");
@@ -27,8 +28,8 @@ export default function Login() {
     const isAdmin = activeTab === "admin";
     const demoCredentials = isAdmin ? DEMO_ADMIN : DEMO_EMPLOYEE;
 
-    // Demo mode check
-    if (email === demoCredentials.email && password === demoCredentials.password) {
+    // Demo mode check (only in development)
+    if (IS_DEV && email === demoCredentials.email && password === demoCredentials.password) {
       if (isAdmin) {
         localStorage.setItem("is_admin", "true");
         localStorage.setItem("demo_mode", "true");
@@ -233,24 +234,26 @@ export default function Login() {
           </Button>
         </form>
 
-        {/* Demo credentials */}
-        <div className="mt-8 pt-6 border-t border-border/50">
-          <Button
-            type="button"
-            variant="outline"
-            className="w-full h-11 bg-muted/30"
-            onClick={fillDemoCredentials}
-          >
-            <Eye className="w-4 h-4 mr-2" />
-            Use Demo Credentials
-          </Button>
-          <p className="text-xs text-muted-foreground text-center mt-3">
-            {activeTab === "admin" 
-              ? "Demo: admin@demo.com / demo123"
-              : "Demo: employee@demo.com / demo123"
-            }
-          </p>
-        </div>
+        {/* Demo credentials - only shown in development */}
+        {IS_DEV && (
+          <div className="mt-8 pt-6 border-t border-border/50">
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full h-11 bg-muted/30"
+              onClick={fillDemoCredentials}
+            >
+              <Eye className="w-4 h-4 mr-2" />
+              Use Demo Credentials
+            </Button>
+            <p className="text-xs text-muted-foreground text-center mt-3">
+              {activeTab === "admin" 
+                ? "Demo: admin@demo.com / demo123"
+                : "Demo: employee@demo.com / demo123"
+              }
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );
