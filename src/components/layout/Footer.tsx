@@ -11,7 +11,7 @@ const footerLinks = {
   services: [
     { name: "Website Development", path: "/services" },
     { name: "AI Agents", path: "/services" },
-    { name: "Custom Solutions", path: "/solutions" },
+    { name: "Custom Software", path: "/services" },
     { name: "Consulting", path: "/services" },
   ],
   resources: [
