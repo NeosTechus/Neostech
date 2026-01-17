@@ -18,8 +18,8 @@ const contactInfo = [
   {
     icon: Mail,
     title: "Email",
-    value: "hello@neostech.com",
-    link: "mailto:hello@neostech.com",
+    value: "info@neostechus.com",
+    link: "mailto:info@neostechus.com",
   },
   {
     icon: Phone,

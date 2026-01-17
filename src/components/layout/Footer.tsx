@@ -52,11 +52,11 @@ export function Footer() {
             </p>
             <div className="space-y-3 text-sm">
               <a 
-                href="mailto:hello@neostech.com" 
+                href="mailto:info@neostechus.com" 
                 className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
               >
                 <Mail className="w-4 h-4" />
-                hello@neostech.com
+                info@neostechus.com
               </a>
               <div className="flex items-center gap-2 text-muted-foreground">
                 <MapPin className="w-4 h-4" />
