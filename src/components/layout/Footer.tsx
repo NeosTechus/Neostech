@@ -155,6 +155,9 @@ export function Footer() {
             <Link to="/employee/login" className="hover:text-foreground transition-colors">
               Employee Login
             </Link>
+            <Link to="/admin/login" className="hover:text-foreground transition-colors">
+              Admin Login
+            </Link>
           </div>
         </div>
       </div>
