@@ -5,12 +5,14 @@ import { connectToDatabase } from './lib/mongodb';
 import { handleCors, jsonResponse, errorResponse } from './lib/cors';
 
 const JWT_SECRET = process.env.JWT_SECRET!;
+const ADMIN_EMAILS = (process.env.ADMIN_EMAILS || '').split(',').map(e => e.trim().toLowerCase());
 
 interface User {
   _id?: string;
   email: string;
   password: string;
   name?: string;
+  role?: string;
   isGuest?: boolean;
   createdAt: Date;
 }
@@ -132,6 +134,36 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             email: user.email,
             name: user.name,
           },
+        });
+      }
+
+      // Admin login
+      if (action === 'admin-login') {
+        const user = await users.findOne({ email: email.toLowerCase() });
+        
+        if (!user) {
+          return errorResponse(res, 'Invalid credentials', 401);
+        }
+
+        const isValidPassword = await bcrypt.compare(password, user.password);
+        
+        if (!isValidPassword) {
+          return errorResponse(res, 'Invalid credentials', 401);
+        }
+
+        // Check admin status
+        const isAdmin = ADMIN_EMAILS.includes(user.email?.toLowerCase()) || user.role === 'admin';
+
+        const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '7d' });
+
+        return jsonResponse(res, {
+          token,
+          user: {
+            id: user._id,
+            email: user.email,
+            name: user.name,
+          },
+          isAdmin,
         });
       }
 

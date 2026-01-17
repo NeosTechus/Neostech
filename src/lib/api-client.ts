@@ -152,6 +152,71 @@ class ApiClient {
       }
     );
   }
+
+  // Admin endpoints
+  async adminLogin(email: string, password: string) {
+    const result = await this.request<{ 
+      token: string; 
+      user: { id: string; email: string; name?: string };
+      isAdmin: boolean;
+    }>(
+      '/auth',
+      {
+        method: 'POST',
+        body: JSON.stringify({ action: 'admin-login', email, password }),
+      }
+    );
+    
+    if (result.data?.token) {
+      this.setToken(result.data.token);
+    }
+    
+    return result;
+  }
+
+  async getAdminStats() {
+    return this.request<{
+      totalOrders: number;
+      totalRevenue: number;
+      totalCustomers: number;
+      pendingOrders: number;
+      completedOrders: number;
+      cancelledOrders: number;
+    }>('/admin?action=stats');
+  }
+
+  async getAdminOrders() {
+    return this.request<Array<{
+      id: string;
+      status: string;
+      items: Array<{ name: string; quantity: number; price: number }>;
+      total: number;
+      customerEmail?: string;
+      createdAt: string;
+    }>>('/admin?action=orders');
+  }
+
+  async updateAdminOrderStatus(orderId: string, status: string) {
+    return this.request<{ id: string; status: string }>(
+      '/admin?action=orders',
+      {
+        method: 'PUT',
+        body: JSON.stringify({ orderId, status }),
+      }
+    );
+  }
+
+  async getAdminCustomers() {
+    return this.request<Array<{
+      id: string;
+      email: string;
+      name?: string;
+      isGuest: boolean;
+      totalOrders: number;
+      totalSpent: number;
+      createdAt: string;
+    }>>('/admin?action=customers');
+  }
 }
 
 export const apiClient = new ApiClient(API_BASE_URL);
