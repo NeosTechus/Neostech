@@ -64,6 +64,66 @@ const faqs: FAQ[] = [
   {
     keywords: ["bye", "goodbye", "see you", "later"],
     answer: "Goodbye! Feel free to come back if you have more questions. Have a great day! 👋"
+  },
+  {
+    keywords: ["payment", "pay", "invoice", "billing", "method"],
+    answer: "We accept various payment methods including credit cards, bank transfers, and PayPal. For enterprise clients, we also offer NET 30 payment terms. Contact us for specific billing inquiries."
+  },
+  {
+    keywords: ["refund", "money back", "cancel", "cancellation"],
+    answer: "Our refund policy depends on the project stage. For projects not yet started, we offer full refunds. Once work begins, refunds are prorated. Please review your contract or contact us for specific cases."
+  },
+  {
+    keywords: ["website", "web", "site", "webpage"],
+    answer: "We build custom websites tailored to your needs - from simple landing pages to complex e-commerce platforms. Technologies we use include React, Next.js, and modern CMS solutions. Tell us about your project!"
+  },
+  {
+    keywords: ["mobile", "app", "ios", "android", "application"],
+    answer: "We develop cross-platform mobile apps using React Native, as well as native iOS and Android applications. Our team handles everything from design to deployment on app stores."
+  },
+  {
+    keywords: ["design", "ui", "ux", "user interface", "user experience"],
+    answer: "Our design team creates intuitive, beautiful interfaces following modern UX principles. We provide wireframes, prototypes, and complete design systems to ensure a seamless user experience."
+  },
+  {
+    keywords: ["seo", "search engine", "google", "ranking", "optimization"],
+    answer: "We implement SEO best practices in all our projects, including proper meta tags, schema markup, fast loading times, and mobile optimization to help your site rank better."
+  },
+  {
+    keywords: ["hosting", "server", "deploy", "deployment", "live"],
+    answer: "We can deploy your project on various platforms including Vercel, AWS, Google Cloud, or your preferred hosting provider. We also offer ongoing hosting management services."
+  },
+  {
+    keywords: ["maintenance", "update", "maintain", "ongoing"],
+    answer: "We offer flexible maintenance packages including security updates, bug fixes, content updates, and feature additions. Plans start from monthly retainers to pay-as-you-go options."
+  },
+  {
+    keywords: ["portfolio", "work", "examples", "previous", "clients"],
+    answer: "Check out our portfolio on the website to see examples of our previous work! We've helped businesses across various industries including e-commerce, healthcare, fintech, and education."
+  },
+  {
+    keywords: ["quote", "estimate", "consultation", "meeting", "discuss"],
+    answer: "We offer free initial consultations! Book a call through our Contact page or send us your project details, and we'll provide a detailed estimate within 48 hours."
+  },
+  {
+    keywords: ["technology", "tech", "stack", "framework", "language"],
+    answer: "Our tech stack includes React, TypeScript, Node.js, Python, PostgreSQL, MongoDB, and cloud services (AWS, GCP, Azure). We choose the best tools based on your project requirements."
+  },
+  {
+    keywords: ["security", "secure", "data", "privacy", "protection"],
+    answer: "Security is our priority. We implement industry-standard practices including HTTPS, data encryption, secure authentication, and regular security audits. We're also GDPR compliant."
+  },
+  {
+    keywords: ["api", "integration", "connect", "third-party"],
+    answer: "We have extensive experience integrating third-party APIs including payment gateways (Stripe, PayPal), CRMs (Salesforce, HubSpot), marketing tools, and custom API development."
+  },
+  {
+    keywords: ["ecommerce", "shop", "store", "sell", "products"],
+    answer: "We build custom e-commerce solutions using Shopify, WooCommerce, or fully custom platforms. Features include inventory management, secure payments, and shipping integrations."
+  },
+  {
+    keywords: ["deadline", "urgent", "rush", "asap", "fast"],
+    answer: "We can accommodate urgent projects with expedited timelines. Rush projects may have additional fees. Contact us immediately with your requirements and deadline for a quick assessment."
   }
 ];
 
