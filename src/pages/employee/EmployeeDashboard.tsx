@@ -68,13 +68,84 @@ const priorityColors: Record<string, string> = {
   'urgent': 'bg-red-500/10 text-red-500',
 };
 
+const demoData: DashboardData = {
+  employee: {
+    id: "1",
+    name: "Sarah Johnson",
+    email: "sarah.johnson@neostechus.com",
+    position: "Senior Developer",
+    department: "Engineering",
+  },
+  stats: {
+    totalProjects: 3,
+    activeProjects: 2,
+    totalTickets: 5,
+    openTickets: 2,
+    inProgressTickets: 2,
+  },
+  projects: [
+    {
+      id: "p1",
+      name: "E-commerce Platform",
+      description: "Building a modern e-commerce solution with React and Node.js",
+      status: "in-progress",
+      deadline: "2024-03-15",
+      createdAt: "2024-01-10",
+    },
+    {
+      id: "p2",
+      name: "Mobile App Redesign",
+      description: "Complete UI/UX overhaul for the mobile application",
+      status: "planning",
+      createdAt: "2024-02-01",
+    },
+  ],
+  tickets: [
+    {
+      id: "t1",
+      title: "Fix authentication bug",
+      description: "Users are getting logged out unexpectedly on mobile devices",
+      priority: "high",
+      status: "in-progress",
+      createdAt: "2024-02-10",
+      updatedAt: "2024-02-12",
+    },
+    {
+      id: "t2",
+      title: "Implement dark mode",
+      description: "Add dark mode support across all pages",
+      priority: "medium",
+      status: "open",
+      createdAt: "2024-02-08",
+      updatedAt: "2024-02-08",
+    },
+    {
+      id: "t3",
+      title: "Optimize database queries",
+      description: "Improve performance of product listing queries",
+      priority: "medium",
+      status: "in-progress",
+      createdAt: "2024-02-05",
+      updatedAt: "2024-02-11",
+    },
+  ],
+};
+
 export default function EmployeeDashboard() {
   const [data, setData] = useState<DashboardData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [updatingTicket, setUpdatingTicket] = useState<string | null>(null);
   const { toast } = useToast();
 
+  const isDemoMode = localStorage.getItem("demo_mode") === "true";
+
   const fetchDashboard = async () => {
+    if (isDemoMode) {
+      setData(demoData);
+      setIsLoading(false);
+      return;
+    }
+
     const result = await apiClient.getEmployeeDashboard();
     
     if (result.error) {

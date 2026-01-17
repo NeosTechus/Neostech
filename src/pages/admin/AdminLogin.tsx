@@ -5,8 +5,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2, Shield } from "lucide-react";
+import { Loader2, Shield, Eye } from "lucide-react";
 import { apiClient } from "@/lib/api-client";
+
+// Demo credentials for testing
+const DEMO_ADMIN_EMAIL = "admin@demo.com";
+const DEMO_ADMIN_PASSWORD = "demo123";
 
 export default function AdminLogin() {
   const [email, setEmail] = useState("");
@@ -18,6 +22,19 @@ export default function AdminLogin() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+
+    // Demo mode - bypass API for testing
+    if (email === DEMO_ADMIN_EMAIL && password === DEMO_ADMIN_PASSWORD) {
+      localStorage.setItem("is_admin", "true");
+      localStorage.setItem("demo_mode", "true");
+      toast({
+        title: "Demo Mode Active",
+        description: "Logged in with demo credentials.",
+      });
+      navigate("/admin");
+      setLoading(false);
+      return;
+    }
 
     try {
       const result = await apiClient.adminLogin(email, password);
@@ -33,6 +50,7 @@ export default function AdminLogin() {
 
       if (result.data?.isAdmin) {
         localStorage.setItem("is_admin", "true");
+        localStorage.removeItem("demo_mode");
         toast({
           title: "Welcome back!",
           description: "Successfully logged in as admin.",
@@ -54,6 +72,11 @@ export default function AdminLogin() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const fillDemoCredentials = () => {
+    setEmail(DEMO_ADMIN_EMAIL);
+    setPassword(DEMO_ADMIN_PASSWORD);
   };
 
   return (
@@ -105,6 +128,21 @@ export default function AdminLogin() {
               )}
             </Button>
           </form>
+
+          <div className="mt-6 pt-6 border-t">
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full"
+              onClick={fillDemoCredentials}
+            >
+              <Eye className="w-4 h-4 mr-2" />
+              Use Demo Credentials
+            </Button>
+            <p className="text-xs text-muted-foreground text-center mt-2">
+              Demo: admin@demo.com / demo123
+            </p>
+          </div>
         </CardContent>
       </Card>
     </div>

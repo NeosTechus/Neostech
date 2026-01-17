@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { 
   FolderKanban, 
   TrendingUp, 
@@ -20,6 +21,7 @@ interface Stats {
   resolvedTickets: number;
   publishedPosts: number;
   draftPosts: number;
+  totalEmployees: number;
 }
 
 export default function Dashboard() {
@@ -32,9 +34,20 @@ export default function Dashboard() {
     resolvedTickets: 27,
     publishedPosts: 15,
     draftPosts: 4,
+    totalEmployees: 6,
   });
 
+  const isDemoMode = localStorage.getItem("demo_mode") === "true";
+
   const statCards = [
+    {
+      title: "Team Members",
+      value: stats.totalEmployees,
+      subtitle: "Active employees",
+      icon: Users,
+      color: "text-primary",
+      bgColor: "bg-primary/10",
+    },
     {
       title: "Active Projects",
       value: stats.activeProjects,
@@ -42,14 +55,6 @@ export default function Dashboard() {
       icon: FolderKanban,
       color: "text-blue-500",
       bgColor: "bg-blue-500/10",
-    },
-    {
-      title: "New Leads",
-      value: stats.newLeads,
-      subtitle: `${stats.totalLeads} total leads`,
-      icon: TrendingUp,
-      color: "text-green-500",
-      bgColor: "bg-green-500/10",
     },
     {
       title: "Open Tickets",
@@ -60,22 +65,29 @@ export default function Dashboard() {
       bgColor: "bg-yellow-500/10",
     },
     {
-      title: "Published Posts",
-      value: stats.publishedPosts,
-      subtitle: `${stats.draftPosts} drafts`,
-      icon: FileText,
-      color: "text-purple-500",
-      bgColor: "bg-purple-500/10",
+      title: "New Leads",
+      value: stats.newLeads,
+      subtitle: `${stats.totalLeads} total leads`,
+      icon: TrendingUp,
+      color: "text-green-500",
+      bgColor: "bg-green-500/10",
     },
   ];
 
   return (
     <div className="space-y-6">
-      <div>
-        <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
-        <p className="text-muted-foreground">
-          Welcome back! Here's an overview of your business.
-        </p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
+          <p className="text-muted-foreground">
+            Welcome back! Here's an overview of your business.
+          </p>
+        </div>
+        {isDemoMode && (
+          <Badge variant="outline" className="bg-yellow-500/10 text-yellow-600 border-yellow-500/30">
+            Demo Mode
+          </Badge>
+        )}
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -113,8 +125,8 @@ export default function Dashboard() {
                 <CheckCircle className="h-4 w-4 text-green-500" />
               </div>
               <div>
-                <p className="text-sm font-medium">New lead received</p>
-                <p className="text-xs text-muted-foreground">John from TechCorp - 2 hours ago</p>
+                <p className="text-sm font-medium">New employee added</p>
+                <p className="text-xs text-muted-foreground">Sarah Johnson - Developer - 1 hour ago</p>
               </div>
             </div>
             <div className="flex items-start gap-3">
@@ -131,8 +143,17 @@ export default function Dashboard() {
                 <AlertCircle className="h-4 w-4 text-yellow-500" />
               </div>
               <div>
-                <p className="text-sm font-medium">Support ticket opened</p>
-                <p className="text-xs text-muted-foreground">API Integration issue - 1 day ago</p>
+                <p className="text-sm font-medium">Ticket assigned</p>
+                <p className="text-xs text-muted-foreground">API Integration issue → Mike Chen - 1 day ago</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <div className="p-2 bg-primary/10 rounded-full">
+                <Users className="h-4 w-4 text-primary" />
+              </div>
+              <div>
+                <p className="text-sm font-medium">New lead received</p>
+                <p className="text-xs text-muted-foreground">John from TechCorp - 2 days ago</p>
               </div>
             </div>
           </CardContent>
@@ -145,10 +166,24 @@ export default function Dashboard() {
               Quick Actions
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-2">
+          <CardContent className="space-y-3">
             <p className="text-sm text-muted-foreground">
-              Use the sidebar to manage your projects, respond to leads, handle support tickets, and publish content.
+              Use the sidebar to manage your team:
             </p>
+            <ul className="text-sm space-y-2">
+              <li className="flex items-center gap-2">
+                <Users className="h-4 w-4 text-primary" />
+                <span><strong>Employees</strong> - Add and manage team members</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <FolderKanban className="h-4 w-4 text-blue-500" />
+                <span><strong>Projects</strong> - Create and assign projects</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <MessageSquare className="h-4 w-4 text-yellow-500" />
+                <span><strong>Tickets</strong> - Create and assign tasks</span>
+              </li>
+            </ul>
           </CardContent>
         </Card>
       </div>

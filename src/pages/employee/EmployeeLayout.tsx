@@ -12,6 +12,15 @@ export default function EmployeeLayout() {
 
   useEffect(() => {
     const checkAuth = async () => {
+      const isDemoMode = localStorage.getItem("demo_mode") === "true";
+      
+      // Demo mode - bypass API auth
+      if (isDemoMode) {
+        setIsAuthenticated(true);
+        setIsLoading(false);
+        return;
+      }
+
       const token = apiClient.getToken();
       
       if (!token) {
