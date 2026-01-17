@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { MessageCircle, X, Send, Bot, User } from "lucide-react";
+import { MessageCircle, X, Send, Bot, User, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -69,7 +69,7 @@ const faqs: FAQ[] = [
 
 const defaultResponse = "I'm not sure I understand that question. Here are some things I can help with:\n\n• Our services\n• Pricing information\n• Contact details\n• Business hours\n• Career opportunities\n\nOr you can visit our Contact page for personalized assistance.";
 
-function findAnswer(input: string): string {
+function findFAQAnswer(input: string): string | null {
   const lowercaseInput = input.toLowerCase();
   
   for (const faq of faqs) {
@@ -78,7 +78,29 @@ function findAnswer(input: string): string {
     }
   }
   
-  return defaultResponse;
+  return null;
+}
+
+async function getAIResponse(message: string): Promise<string> {
+  try {
+    const response = await fetch('/api/chat', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ message }),
+    });
+
+    if (!response.ok) {
+      throw new Error('AI response failed');
+    }
+
+    const data = await response.json();
+    return data.response || defaultResponse;
+  } catch (error) {
+    console.error('AI chat error:', error);
+    return null as unknown as string;
+  }
 }
 
 export function ChatBot() {
@@ -94,14 +116,16 @@ export function ChatBot() {
   const [input, setInput] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
   }, [messages]);
 
-  const handleSend = () => {
-    if (!input.trim()) return;
+  const handleSend = async () => {
+    if (!input.trim() || isLoading) return;
 
     const userMessage: Message = {
       id: Date.now().toString(),
@@ -111,18 +135,36 @@ export function ChatBot() {
     };
 
     setMessages(prev => [...prev, userMessage]);
+    const userInput = input;
     setInput("");
+    setIsLoading(true);
 
-    // Simulate typing delay
-    setTimeout(() => {
+    // First check FAQ, then fallback to AI
+    const faqAnswer = findFAQAnswer(userInput);
+    
+    if (faqAnswer) {
+      setTimeout(() => {
+        const botMessage: Message = {
+          id: (Date.now() + 1).toString(),
+          text: faqAnswer,
+          isBot: true,
+          timestamp: new Date()
+        };
+        setMessages(prev => [...prev, botMessage]);
+        setIsLoading(false);
+      }, 300);
+    } else {
+      // Try AI response
+      const aiResponse = await getAIResponse(userInput);
       const botMessage: Message = {
         id: (Date.now() + 1).toString(),
-        text: findAnswer(input),
+        text: aiResponse || defaultResponse,
         isBot: true,
         timestamp: new Date()
       };
       setMessages(prev => [...prev, botMessage]);
-    }, 500);
+      setIsLoading(false);
+    }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -186,6 +228,16 @@ export function ChatBot() {
                   )}
                 </div>
               ))}
+              {isLoading && (
+                <div className="flex gap-2 justify-start">
+                  <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                    <Loader2 className="h-4 w-4 text-primary animate-spin" />
+                  </div>
+                  <div className="bg-muted text-foreground rounded-2xl rounded-tl-sm px-4 py-2.5 text-sm">
+                    Thinking...
+                  </div>
+                </div>
+              )}
             </div>
           </ScrollArea>
 
@@ -198,9 +250,10 @@ export function ChatBot() {
                 onKeyPress={handleKeyPress}
                 placeholder="Type your message..."
                 className="flex-1"
+                disabled={isLoading}
               />
-              <Button onClick={handleSend} size="icon" disabled={!input.trim()}>
-                <Send className="h-4 w-4" />
+              <Button onClick={handleSend} size="icon" disabled={!input.trim() || isLoading}>
+                {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
               </Button>
             </div>
           </div>
