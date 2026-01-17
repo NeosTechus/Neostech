@@ -27,9 +27,10 @@ import { cn } from "@/lib/utils";
 
 const menuItems = [
   { title: "Dashboard", url: "/admin", icon: LayoutDashboard },
+  { title: "Employees", url: "/admin/employees", icon: Users },
   { title: "Projects", url: "/admin/projects", icon: FolderKanban },
+  { title: "Tickets", url: "/admin/tickets", icon: MessageSquare },
   { title: "Leads", url: "/admin/leads", icon: TrendingUp },
-  { title: "Support Tickets", url: "/admin/tickets", icon: MessageSquare },
   { title: "Blog & CMS", url: "/admin/blog", icon: FileText },
   { title: "Settings", url: "/admin/settings", icon: Settings },
 ];

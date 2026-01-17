@@ -15,9 +15,10 @@ import NotFound from "./pages/NotFound";
 import AdminLayout from "./pages/admin/AdminLayout";
 import AdminLogin from "./pages/admin/AdminLogin";
 import Dashboard from "./pages/admin/Dashboard";
-import Projects from "./pages/admin/Projects";
+import AdminEmployees from "./pages/admin/Employees";
+import AdminProjectsManage from "./pages/admin/AdminProjectsManage";
+import AdminTicketsManage from "./pages/admin/AdminTicketsManage";
 import Leads from "./pages/admin/Leads";
-import Tickets from "./pages/admin/Tickets";
 import Blog from "./pages/admin/Blog";
 import Settings from "./pages/admin/Settings";
 
@@ -49,9 +50,10 @@ const App = () => (
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin" element={<AdminLayout />}>
             <Route index element={<Dashboard />} />
-            <Route path="projects" element={<Projects />} />
+            <Route path="employees" element={<AdminEmployees />} />
+            <Route path="projects" element={<AdminProjectsManage />} />
+            <Route path="tickets" element={<AdminTicketsManage />} />
             <Route path="leads" element={<Leads />} />
-            <Route path="tickets" element={<Tickets />} />
             <Route path="blog" element={<Blog />} />
             <Route path="settings" element={<Settings />} />
           </Route>

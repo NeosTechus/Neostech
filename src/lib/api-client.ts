@@ -256,6 +256,98 @@ class ApiClient {
       }
     );
   }
+
+  // Admin Employee Management
+  async getAdminEmployees() {
+    return this.request('/admin-employees?action=list');
+  }
+
+  async createAdminEmployee(data: { email: string; password: string; name: string; position: string; department: string }) {
+    return this.request('/admin-employees?action=employee', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async updateAdminEmployee(employeeId: string, name: string, position: string, department: string) {
+    return this.request('/admin-employees?action=update-employee', {
+      method: 'PUT',
+      body: JSON.stringify({ employeeId, name, position, department }),
+    });
+  }
+
+  async deleteAdminEmployee(employeeId: string) {
+    return this.request('/admin-employees?action=employee', {
+      method: 'DELETE',
+      body: JSON.stringify({ employeeId }),
+    });
+  }
+
+  // Admin Projects Management
+  async getAdminProjects() {
+    return this.request('/admin-employees?action=projects');
+  }
+
+  async createAdminProject(data: { name: string; description: string; status: string; deadline?: string }) {
+    return this.request('/admin-employees?action=project', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async updateAdminProject(projectId: string, data: { name?: string; description?: string; status?: string; deadline?: string }) {
+    return this.request('/admin-employees?action=update-project', {
+      method: 'PUT',
+      body: JSON.stringify({ projectId, ...data }),
+    });
+  }
+
+  async deleteAdminProject(projectId: string) {
+    return this.request('/admin-employees?action=project', {
+      method: 'DELETE',
+      body: JSON.stringify({ projectId }),
+    });
+  }
+
+  async assignProjectEmployees(projectId: string, employeeIds: string[]) {
+    return this.request('/admin-employees?action=assign-project', {
+      method: 'PUT',
+      body: JSON.stringify({ projectId, employeeIds }),
+    });
+  }
+
+  // Admin Tickets Management
+  async getAdminTickets() {
+    return this.request('/admin-employees?action=tickets');
+  }
+
+  async createAdminTicket(data: { title: string; description: string; priority: string; status?: string; projectId?: string }) {
+    return this.request('/admin-employees?action=ticket', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async updateAdminTicket(ticketId: string, data: { title?: string; description?: string; priority?: string; status?: string }) {
+    return this.request('/admin-employees?action=update-ticket', {
+      method: 'PUT',
+      body: JSON.stringify({ ticketId, ...data }),
+    });
+  }
+
+  async deleteAdminTicket(ticketId: string) {
+    return this.request('/admin-employees?action=ticket', {
+      method: 'DELETE',
+      body: JSON.stringify({ ticketId }),
+    });
+  }
+
+  async assignTicketEmployee(ticketId: string, employeeId: string | null) {
+    return this.request('/admin-employees?action=assign-ticket', {
+      method: 'PUT',
+      body: JSON.stringify({ ticketId, employeeId }),
+    });
+  }
 }
 
 export const apiClient = new ApiClient(API_BASE_URL);
