@@ -53,6 +53,42 @@ const departments = [
   "Management",
 ];
 
+const demoEmployees: Employee[] = [
+  {
+    id: "1",
+    userId: "u1",
+    email: "sarah.johnson@neostechus.com",
+    name: "Sarah Johnson",
+    position: "Senior Developer",
+    department: "Engineering",
+    assignedProjects: 3,
+    assignedTickets: 5,
+    createdAt: "2024-01-15",
+  },
+  {
+    id: "2",
+    userId: "u2",
+    email: "mike.chen@neostechus.com",
+    name: "Mike Chen",
+    position: "UI/UX Designer",
+    department: "Design",
+    assignedProjects: 2,
+    assignedTickets: 3,
+    createdAt: "2024-02-20",
+  },
+  {
+    id: "3",
+    userId: "u3",
+    email: "alex.rivera@neostechus.com",
+    name: "Alex Rivera",
+    position: "Project Manager",
+    department: "Management",
+    assignedProjects: 5,
+    assignedTickets: 2,
+    createdAt: "2024-03-10",
+  },
+];
+
 export default function AdminEmployees() {
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -60,6 +96,8 @@ export default function AdminEmployees() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingEmployee, setEditingEmployee] = useState<Employee | null>(null);
   const { toast } = useToast();
+
+  const isDemoMode = localStorage.getItem("demo_mode") === "true";
 
   const [formData, setFormData] = useState({
     email: "",
@@ -70,6 +108,12 @@ export default function AdminEmployees() {
   });
 
   const fetchEmployees = async () => {
+    if (isDemoMode) {
+      setEmployees(demoEmployees);
+      setIsLoading(false);
+      return;
+    }
+
     const result = await apiClient.getAdminEmployees();
     if (result.error) {
       toast({ title: "Error", description: result.error, variant: "destructive" });
