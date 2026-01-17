@@ -5,8 +5,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2, Shield, Eye, Home } from "lucide-react";
+import { Loader2, Shield, Eye } from "lucide-react";
 import { apiClient } from "@/lib/api-client";
+import logo from "@/assets/logo.png";
 
 // Demo credentials for testing
 const DEMO_ADMIN_EMAIL = "admin@demo.com";
@@ -84,10 +85,16 @@ export default function AdminLogin() {
       <header className="p-4">
         <Link 
           to="/" 
-          className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+          className="inline-flex items-center gap-2 hover:opacity-80 transition-opacity"
         >
-          <Home className="h-4 w-4" />
-          Back to Home
+          <img 
+            src={logo} 
+            alt="Neos Tech Logo" 
+            className="h-8 w-auto"
+          />
+          <span className="text-lg font-bold tracking-tight">
+            Neos <span className="text-primary">Tech</span>
+          </span>
         </Link>
       </header>
       <div className="flex-1 flex items-center justify-center p-4">
