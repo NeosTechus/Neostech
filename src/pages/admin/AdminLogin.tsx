@@ -9,9 +9,10 @@ import { Loader2, Shield, Eye } from "lucide-react";
 import { apiClient } from "@/lib/api-client";
 import logo from "@/assets/logo.png";
 
-// Demo credentials for testing
+// Demo credentials for testing (only available in development)
 const DEMO_ADMIN_EMAIL = "admin@demo.com";
 const DEMO_ADMIN_PASSWORD = "demo123";
+const IS_DEV = import.meta.env.DEV;
 
 export default function AdminLogin() {
   const [email, setEmail] = useState("");
@@ -24,8 +25,8 @@ export default function AdminLogin() {
     e.preventDefault();
     setLoading(true);
 
-    // Demo mode - bypass API for testing
-    if (email === DEMO_ADMIN_EMAIL && password === DEMO_ADMIN_PASSWORD) {
+    // Demo mode - bypass API for testing (only in development)
+    if (IS_DEV && email === DEMO_ADMIN_EMAIL && password === DEMO_ADMIN_PASSWORD) {
       localStorage.setItem("is_admin", "true");
       localStorage.setItem("demo_mode", "true");
       toast({
@@ -146,20 +147,22 @@ export default function AdminLogin() {
             </Button>
           </form>
 
-          <div className="mt-6 pt-6 border-t">
-            <Button
-              type="button"
-              variant="outline"
-              className="w-full"
-              onClick={fillDemoCredentials}
-            >
-              <Eye className="w-4 h-4 mr-2" />
-              Use Demo Credentials
-            </Button>
-            <p className="text-xs text-muted-foreground text-center mt-2">
-              Demo: admin@demo.com / demo123
-            </p>
-          </div>
+          {IS_DEV && (
+            <div className="mt-6 pt-6 border-t">
+              <Button
+                type="button"
+                variant="outline"
+                className="w-full"
+                onClick={fillDemoCredentials}
+              >
+                <Eye className="w-4 h-4 mr-2" />
+                Use Demo Credentials
+              </Button>
+              <p className="text-xs text-muted-foreground text-center mt-2">
+                Demo: admin@demo.com / demo123
+              </p>
+            </div>
+          )}
         </CardContent>
       </Card>
       </div>
