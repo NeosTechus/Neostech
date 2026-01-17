@@ -432,6 +432,63 @@ class ApiClient {
       { method: 'DELETE' }
     );
   }
+
+  // Admin Notes
+  async getNotes() {
+    return this.request<Array<{
+      id: string;
+      title: string;
+      content: string;
+      color: string;
+      isPinned: boolean;
+      createdAt: string;
+      updatedAt: string;
+    }>>('/admin-notes?action=list');
+  }
+
+  async getRecentNotes() {
+    return this.request<Array<{
+      id: string;
+      title: string;
+      content: string;
+      color: string;
+      isPinned: boolean;
+      updatedAt: string;
+    }>>('/admin-notes?action=recent');
+  }
+
+  async createNote(data: { title?: string; content?: string; color?: string }) {
+    return this.request<{
+      id: string;
+      title: string;
+      content: string;
+      color: string;
+      isPinned: boolean;
+    }>('/admin-notes', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async updateNote(noteId: string, data: { title?: string; content?: string; color?: string; isPinned?: boolean }) {
+    return this.request<{
+      id: string;
+      title: string;
+      content: string;
+      color: string;
+      isPinned: boolean;
+    }>('/admin-notes', {
+      method: 'PUT',
+      body: JSON.stringify({ noteId, ...data }),
+    });
+  }
+
+  async deleteNote(noteId: string) {
+    return this.request<{ success: boolean }>(
+      `/admin-notes?noteId=${noteId}`,
+      { method: 'DELETE' }
+    );
+  }
 }
 
 export const apiClient = new ApiClient(API_BASE_URL);

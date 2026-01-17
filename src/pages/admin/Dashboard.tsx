@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { 
   FolderKanban, 
   TrendingUp, 
@@ -12,7 +14,10 @@ import {
   Users,
   CreditCard,
   DollarSign,
-  Link2
+  Link2,
+  StickyNote,
+  Plus,
+  Pin
 } from "lucide-react";
 import { apiClient } from "@/lib/api-client";
 
@@ -40,7 +45,17 @@ interface PaymentStats {
   pendingInvoices: number;
 }
 
+interface RecentNote {
+  id: string;
+  title: string;
+  content: string;
+  color: string;
+  isPinned: boolean;
+  updatedAt: string;
+}
+
 export default function Dashboard() {
+  const navigate = useNavigate();
   const [stats, setStats] = useState<Stats>({
     totalProjects: 12,
     activeProjects: 5,
@@ -55,27 +70,42 @@ export default function Dashboard() {
 
   const [paymentStats, setPaymentStats] = useState<PaymentStats | null>(null);
   const [loadingPayments, setLoadingPayments] = useState(true);
+  const [recentNotes, setRecentNotes] = useState<RecentNote[]>([]);
+  const [loadingNotes, setLoadingNotes] = useState(true);
 
   const isDemoMode = localStorage.getItem("demo_mode") === "true";
 
   useEffect(() => {
-    const fetchPaymentStats = async () => {
-      try {
-        const result = await apiClient.getPaymentStats();
-        if (result.data) {
-          setPaymentStats(result.data);
+    const fetchData = async () => {
+      if (!isDemoMode) {
+        // Fetch payment stats
+        try {
+          const paymentResult = await apiClient.getPaymentStats();
+          if (paymentResult.data) {
+            setPaymentStats(paymentResult.data);
+          }
+        } catch (error) {
+          console.error("Failed to fetch payment stats:", error);
         }
-      } catch (error) {
-        console.error("Failed to fetch payment stats:", error);
+        setLoadingPayments(false);
+
+        // Fetch recent notes
+        try {
+          const notesResult = await apiClient.getRecentNotes();
+          if (notesResult.data) {
+            setRecentNotes(notesResult.data);
+          }
+        } catch (error) {
+          console.error("Failed to fetch notes:", error);
+        }
+        setLoadingNotes(false);
+      } else {
+        setLoadingPayments(false);
+        setLoadingNotes(false);
       }
-      setLoadingPayments(false);
     };
 
-    if (!isDemoMode) {
-      fetchPaymentStats();
-    } else {
-      setLoadingPayments(false);
-    }
+    fetchData();
   }, [isDemoMode]);
 
   const formatCurrency = (amount: number) => {
@@ -269,30 +299,61 @@ export default function Dashboard() {
         </Card>
 
         <Card>
-          <CardHeader>
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="flex items-center gap-2">
-              <Users className="h-5 w-5 text-primary" />
-              Quick Actions
+              <StickyNote className="h-5 w-5 text-primary" />
+              Quick Notes
             </CardTitle>
+            <Button variant="ghost" size="sm" onClick={() => navigate('/admin/notes')}>
+              <Plus className="h-4 w-4 mr-1" />
+              Add
+            </Button>
           </CardHeader>
-          <CardContent className="space-y-3">
-            <p className="text-sm text-muted-foreground">
-              Use the sidebar to manage your team:
-            </p>
-            <ul className="text-sm space-y-2">
-              <li className="flex items-center gap-2">
-                <Users className="h-4 w-4 text-primary" />
-                <span><strong>Employees</strong> - Add and manage team members</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <FolderKanban className="h-4 w-4 text-blue-500" />
-                <span><strong>Projects</strong> - Create and assign projects</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <MessageSquare className="h-4 w-4 text-yellow-500" />
-                <span><strong>Tickets</strong> - Create and assign tasks</span>
-              </li>
-            </ul>
+          <CardContent>
+            {loadingNotes ? (
+              <p className="text-sm text-muted-foreground">Loading notes...</p>
+            ) : recentNotes.length === 0 ? (
+              <div className="text-center py-4">
+                <p className="text-sm text-muted-foreground mb-2">No notes yet</p>
+                <Button variant="outline" size="sm" onClick={() => navigate('/admin/notes')}>
+                  Create your first note
+                </Button>
+              </div>
+            ) : (
+              <div className="space-y-3">
+                {recentNotes.slice(0, 3).map((note) => (
+                  <div 
+                    key={note.id}
+                    className="p-3 rounded-lg bg-muted/50 hover:bg-muted cursor-pointer transition-colors"
+                    onClick={() => navigate('/admin/notes')}
+                  >
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="flex-1 min-w-0">
+                        {note.title && (
+                          <p className="text-sm font-medium truncate">{note.title}</p>
+                        )}
+                        <p className="text-xs text-muted-foreground line-clamp-2">
+                          {note.content || <span className="italic">No content</span>}
+                        </p>
+                      </div>
+                      {note.isPinned && (
+                        <Pin className="h-3 w-3 text-primary shrink-0" />
+                      )}
+                    </div>
+                  </div>
+                ))}
+                {recentNotes.length > 3 && (
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className="w-full" 
+                    onClick={() => navigate('/admin/notes')}
+                  >
+                    View all notes ({recentNotes.length})
+                  </Button>
+                )}
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>
