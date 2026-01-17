@@ -58,7 +58,7 @@ export function Footer() {
                 <Sparkles className="w-3 h-3 text-primary" />
               </div>
               <Link 
-                to="/#portfolio" 
+                to="/projects" 
                 className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-accent/10 border border-accent/20 text-xs font-medium text-accent hover:bg-accent/20 transition-colors group"
               >
                 View Projects
