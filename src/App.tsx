@@ -10,6 +10,7 @@ import Careers from "./pages/Careers";
 import Contact from "./pages/Contact";
 import Team from "./pages/Team";
 import NotFound from "./pages/NotFound";
+import Login from "./pages/Login";
 
 // Admin pages
 import AdminLayout from "./pages/admin/AdminLayout";
@@ -45,6 +46,7 @@ const App = () => (
           <Route path="/careers" element={<Careers />} />
           <Route path="/team" element={<Team />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/login" element={<Login />} />
           
           {/* Admin routes */}
           <Route path="/admin/login" element={<AdminLogin />} />
