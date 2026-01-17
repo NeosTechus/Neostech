@@ -348,6 +348,76 @@ class ApiClient {
       body: JSON.stringify({ ticketId, employeeId }),
     });
   }
+
+  // Admin Payments (Stripe)
+  async getPaymentLinks() {
+    return this.request<Array<{
+      id: string;
+      stripeId: string;
+      url: string;
+      amount: number;
+      description: string;
+      customerEmail?: string;
+      status: string;
+      createdAt: string;
+    }>>('/admin-payments?action=payment-links');
+  }
+
+  async createPaymentLink(data: { amount: number; description?: string; customerEmail?: string }) {
+    return this.request<{ id: string; url: string; amount: number; description?: string }>(
+      '/admin-payments?action=payment-link',
+      {
+        method: 'POST',
+        body: JSON.stringify(data),
+      }
+    );
+  }
+
+  async deactivatePaymentLink(linkId: string) {
+    return this.request<{ success: boolean }>(
+      `/admin-payments?action=payment-link&linkId=${linkId}`,
+      { method: 'DELETE' }
+    );
+  }
+
+  async getInvoices() {
+    return this.request<Array<{
+      id: string;
+      stripeId: string;
+      customerEmail: string;
+      customerName?: string;
+      items: Array<{ description: string; amount: number; quantity: number }>;
+      total: number;
+      status: string;
+      hostedUrl?: string;
+      pdfUrl?: string;
+      dueDate?: string;
+      createdAt: string;
+    }>>('/admin-payments?action=invoices');
+  }
+
+  async createInvoice(data: {
+    customerEmail: string;
+    customerName?: string;
+    items: Array<{ description: string; amount: number; quantity: number }>;
+    dueDate?: string;
+    memo?: string;
+  }) {
+    return this.request<{ id: string; hostedUrl?: string; pdfUrl?: string; total: number; status: string }>(
+      '/admin-payments?action=invoice',
+      {
+        method: 'POST',
+        body: JSON.stringify(data),
+      }
+    );
+  }
+
+  async voidInvoice(invoiceId: string) {
+    return this.request<{ success: boolean }>(
+      `/admin-payments?action=invoice&invoiceId=${invoiceId}`,
+      { method: 'DELETE' }
+    );
+  }
 }
 
 export const apiClient = new ApiClient(API_BASE_URL);
