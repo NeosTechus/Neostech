@@ -58,9 +58,16 @@ export function Footer() {
                 <Mail className="w-4 h-4" />
                 info@neostechus.com
               </a>
+              <a 
+                href="tel:+13149782326" 
+                className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
+              >
+                <Phone className="w-4 h-4" />
+                +1 (314) 978-2326
+              </a>
               <div className="flex items-center gap-2 text-muted-foreground">
                 <MapPin className="w-4 h-4" />
-                San Francisco, CA
+                Saint Louis, Missouri
               </div>
             </div>
           </div>

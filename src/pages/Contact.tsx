@@ -24,13 +24,13 @@ const contactInfo = [
   {
     icon: Phone,
     title: "Phone",
-    value: "+1 (555) 123-4567",
-    link: "tel:+15551234567",
+    value: "+1 (314) 978-2326",
+    link: "tel:+13149782326",
   },
   {
     icon: MapPin,
     title: "Location",
-    value: "San Francisco, CA",
+    value: "Saint Louis, Missouri",
     link: null,
   },
   {
