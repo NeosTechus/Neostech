@@ -2,8 +2,8 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import Stripe from 'stripe';
 import jwt from 'jsonwebtoken';
 import { ObjectId } from 'mongodb';
-import { connectToDatabase } from './lib/mongodb';
-import { handleCors, jsonResponse, errorResponse } from './lib/cors';
+import { connectToDatabase } from './lib/mongodb.js';
+import { handleCors, jsonResponse, errorResponse } from './lib/cors.js';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2023-10-16',

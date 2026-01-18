@@ -1,14 +1,15 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { connectToDatabase } from './lib/mongodb';
-import { handleCors, jsonResponse, errorResponse } from './lib/cors';
+import { ObjectId } from 'mongodb';
+import { connectToDatabase } from './lib/mongodb.js';
+import { handleCors, jsonResponse, errorResponse } from './lib/cors.js';
 
 const JWT_SECRET = process.env.JWT_SECRET!;
 const ADMIN_EMAILS = (process.env.ADMIN_EMAILS || '').split(',').map(e => e.trim().toLowerCase());
 
 interface User {
-  _id?: string;
+  _id?: string | ObjectId;
   email: string;
   password: string;
   name?: string;
@@ -34,7 +35,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
       try {
         const decoded = jwt.verify(token, JWT_SECRET) as { userId: string };
-        const user = await users.findOne({ _id: decoded.userId as any });
+        const userId = ObjectId.isValid(decoded.userId) ? new ObjectId(decoded.userId) : null;
+        const user = userId ? await users.findOne({ _id: userId }) : null;
         
         if (!user) {
           return errorResponse(res, 'User not found', 404);

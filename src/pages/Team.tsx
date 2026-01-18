@@ -1,23 +1,26 @@
 import { Layout } from "@/components/layout/Layout";
 import { Linkedin, Twitter, Mail } from "lucide-react";
 
+const DEFAULT_TEAM_IMAGE = "/defualt.jpg";
+
 const teamMembers = [
   {
-    name: "Alex Johnson",
-    role: "CEO & Founder",
-    bio: "Visionary leader with 15+ years in tech innovation and digital transformation.",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
+    name: "Harsha Kolla",
+    role: "Founder | Software Engineer",
+    bio: "Founder and software engineer focused on building scalable, user-first products.",
+    image: "/harshakolla.jpeg",
+    objectPosition: "object-top",
     social: {
       linkedin: "#",
       twitter: "#",
-      email: "alex@neostechus.com",
+      email: "harshakolla@neostechus.com",
     },
   },
   {
     name: "Sarah Chen",
     role: "CTO",
     bio: "Expert in AI/ML and cloud architecture with a passion for scalable solutions.",
-    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop&crop=face",
+    image: DEFAULT_TEAM_IMAGE,
     social: {
       linkedin: "#",
       twitter: "#",
@@ -25,47 +28,47 @@ const teamMembers = [
     },
   },
   {
-    name: "Marcus Williams",
-    role: "Lead Developer",
-    bio: "Full-stack wizard crafting elegant code and seamless user experiences.",
-    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face",
+    name: "Fazil Khan",
+    role: "Full Stack Developer",
+    bio: "Fazil is a versatile full stack developer with 4+ years of experience, skilled in both frontend and backend technologies.",
+    image: "/Fazilkhan.jpg",
     social: {
       linkedin: "#",
       twitter: "#",
-      email: "marcus@neostechus.com",
+      email: "fazil@neostechus.com",
     },
   },
   {
-    name: "Emily Rodriguez",
-    role: "Design Lead",
-    bio: "Creative force behind our stunning interfaces and brand identity.",
-    image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop&crop=face",
+    name: "Nagaraju",
+    role: "Software Developer",
+    bio: "Nagaraju is a software developer with 15+ years of experience who has worked at OpenText, contributing to enterprise software solutions.",
+    image: DEFAULT_TEAM_IMAGE,
     social: {
       linkedin: "#",
       twitter: "#",
-      email: "emily@neostechus.com",
+      email: "nagaraju@neostechus.com",
     },
   },
   {
-    name: "David Kim",
-    role: "AI Engineer",
-    bio: "Building intelligent systems that push the boundaries of automation.",
-    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop&crop=face",
+    name: "Uday Bhanu",
+    role: "Data Engineer",
+    bio: "Uday Bhanu is a seasoned data engineer with 15+ years of experience, specializing in data architecture, ETL pipelines, and big data solutions for enterprise clients.",
+    image: "/udaybhanu.png",
     social: {
       linkedin: "#",
       twitter: "#",
-      email: "david@neostechus.com",
+      email: "uday@neostechus.com",
     },
   },
   {
-    name: "Lisa Thompson",
-    role: "Project Manager",
-    bio: "Orchestrating complex projects with precision and exceptional client care.",
-    image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&h=400&fit=crop&crop=face",
+    name: "Omkar Naidu",
+    role: "Machine Learning Engineer",
+    bio: "Omkar Naidu is a machine learning engineer with 15+ years of experience. He has worked as a project manager at Target.",
+    image: "/omkar.jpg",
     social: {
       linkedin: "#",
       twitter: "#",
-      email: "lisa@neostechus.com",
+      email: "omkar@neostechus.com",
     },
   },
 ];
@@ -108,7 +111,7 @@ export default function Team() {
                     <img 
                       src={member.image} 
                       alt={member.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      className={`w-full h-full object-cover ${member.objectPosition ?? ""} group-hover:scale-105 transition-transform duration-500`}
                     />
                   </div>
                   <div className="absolute inset-0 rounded-xl bg-gradient-to-t from-background/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
