@@ -7,14 +7,10 @@ import {
   FolderKanban, 
   TrendingUp, 
   MessageSquare,
-  FileText,
   Clock,
   CheckCircle,
   AlertCircle,
   Users,
-  CreditCard,
-  DollarSign,
-  Link2,
   StickyNote,
   Plus,
   Pin
@@ -31,18 +27,6 @@ interface Stats {
   publishedPosts: number;
   draftPosts: number;
   totalEmployees: number;
-}
-
-interface PaymentStats {
-  totalRevenue: number;
-  paymentLinksRevenue: number;
-  invoicesRevenue: number;
-  totalPaymentLinks: number;
-  activePaymentLinks: number;
-  paidPaymentLinks: number;
-  totalInvoices: number;
-  paidInvoices: number;
-  pendingInvoices: number;
 }
 
 interface RecentNote {
@@ -68,8 +52,6 @@ export default function Dashboard() {
     totalEmployees: 6,
   });
 
-  const [paymentStats, setPaymentStats] = useState<PaymentStats | null>(null);
-  const [loadingPayments, setLoadingPayments] = useState(true);
   const [recentNotes, setRecentNotes] = useState<RecentNote[]>([]);
   const [loadingNotes, setLoadingNotes] = useState(true);
 
@@ -78,17 +60,6 @@ export default function Dashboard() {
   useEffect(() => {
     const fetchData = async () => {
       if (!isDemoMode) {
-        // Fetch payment stats
-        try {
-          const paymentResult = await apiClient.getPaymentStats();
-          if (paymentResult.data) {
-            setPaymentStats(paymentResult.data);
-          }
-        } catch (error) {
-          console.error("Failed to fetch payment stats:", error);
-        }
-        setLoadingPayments(false);
-
         // Fetch recent notes
         try {
           const notesResult = await apiClient.getRecentNotes();
@@ -100,22 +71,12 @@ export default function Dashboard() {
         }
         setLoadingNotes(false);
       } else {
-        setLoadingPayments(false);
         setLoadingNotes(false);
       }
     };
 
     fetchData();
   }, [isDemoMode]);
-
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    }).format(amount);
-  };
 
   const statCards = [
     {
@@ -188,67 +149,6 @@ export default function Dashboard() {
           </Card>
         ))}
       </div>
-
-      {/* Payment Stats Card */}
-      <Card className="bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <CreditCard className="h-5 w-5 text-primary" />
-            Payment Overview
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          {loadingPayments ? (
-            <div className="text-sm text-muted-foreground">Loading payment data...</div>
-          ) : paymentStats ? (
-            <div className="grid gap-4 md:grid-cols-3">
-              <div className="space-y-2">
-                <div className="flex items-center gap-2">
-                  <DollarSign className="h-8 w-8 text-green-500" />
-                  <div>
-                    <p className="text-2xl font-bold text-green-600">
-                      {formatCurrency(paymentStats.totalRevenue)}
-                    </p>
-                    <p className="text-xs text-muted-foreground">Total Revenue</p>
-                  </div>
-                </div>
-              </div>
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <Link2 className="h-4 w-4 text-blue-500" />
-                    <span className="text-sm">Payment Links</span>
-                  </div>
-                  <div className="text-right">
-                    <p className="font-semibold">{formatCurrency(paymentStats.paymentLinksRevenue)}</p>
-                    <p className="text-xs text-muted-foreground">
-                      {paymentStats.paidPaymentLinks} paid / {paymentStats.activePaymentLinks} active
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <FileText className="h-4 w-4 text-purple-500" />
-                    <span className="text-sm">Invoices</span>
-                  </div>
-                  <div className="text-right">
-                    <p className="font-semibold">{formatCurrency(paymentStats.invoicesRevenue)}</p>
-                    <p className="text-xs text-muted-foreground">
-                      {paymentStats.paidInvoices} paid / {paymentStats.pendingInvoices} pending
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ) : (
-            <div className="text-sm text-muted-foreground">
-              No payment data available. Create payment links or invoices to see stats here.
-            </div>
-          )}
-        </CardContent>
-      </Card>
 
       <div className="grid gap-4 md:grid-cols-2">
         <Card>
