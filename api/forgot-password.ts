@@ -56,7 +56,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     // Send reset email
     const { error: emailError } = await resend.emails.send({
-      from: 'NeoStechUS <onboarding@resend.dev>',
+      from: 'NeoStechUS <info@neostechus.com>',
       to: [email],
       subject: 'Reset Your Password - NeoStechUS',
       html: `

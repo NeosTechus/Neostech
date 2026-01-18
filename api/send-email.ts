@@ -30,7 +30,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     // Send notification email to your business email
     const { error: notificationError } = await resend.emails.send({
-      from: 'NeoStechUS Contact <onboarding@resend.dev>',
+      from: 'NeoStechUS Contact <info@neostechus.com>',
       to: ['info@neostechus.com'],
       subject: `New Contact Form Submission from ${name}`,
       html: `
@@ -52,7 +52,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     // Send confirmation email to the user
     await resend.emails.send({
-      from: 'NeoStechUS <onboarding@resend.dev>',
+      from: 'NeoStechUS <info@neostechus.com>',
       to: [email],
       subject: 'Thank you for contacting NeoStechUS!',
       html: `
