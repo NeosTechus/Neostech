@@ -8,6 +8,39 @@ import { handleCors, jsonResponse, errorResponse } from './lib/cors.js';
 const JWT_SECRET = process.env.JWT_SECRET!;
 const ADMIN_EMAILS = (process.env.ADMIN_EMAILS || '').split(',').map(e => e.trim().toLowerCase());
 
+interface Employee {
+  _id: ObjectId;
+  userId: ObjectId;
+  email: string;
+  name: string;
+  position: string;
+  department: string;
+  hireDate?: string;
+  createdAt: Date;
+}
+
+interface Project {
+  _id: ObjectId;
+  name: string;
+  description: string;
+  status: string;
+  deadline?: string;
+  assignedEmployees?: ObjectId[];
+  createdAt: Date;
+}
+
+interface Ticket {
+  _id: ObjectId;
+  title: string;
+  description: string;
+  priority: string;
+  status: string;
+  assignedTo?: ObjectId | null;
+  projectId?: ObjectId;
+  createdAt: Date;
+  updatedAt?: Date;
+}
+
 function getUserFromToken(req: VercelRequest): { userId: string } | null {
   const token = req.headers.authorization?.replace('Bearer ', '');
   if (!token) return null;
@@ -43,9 +76,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     const users = db.collection('users');
-    const employees = db.collection('employees');
-    const projects = db.collection('projects');
-    const tickets = db.collection('tickets');
+    const employees = db.collection<Employee>('employees');
+    const projects = db.collection<Project>('projects');
+    const tickets = db.collection<Ticket>('tickets');
 
     const { action } = req.query;
 
