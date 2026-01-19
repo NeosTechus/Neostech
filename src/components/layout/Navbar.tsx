@@ -40,31 +40,34 @@ export function Navbar() {
             </span>
           </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-1">
-            {navLinks.map((link, index) => (
-              <Link
-                key={link.path}
-                to={link.path}
-                className={`relative px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300 hover:scale-105 ${
-                  location.pathname === link.path
-                    ? "text-primary bg-primary/10"
-                    : "text-muted-foreground hover:text-foreground hover:bg-secondary"
-                }`}
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                {link.name}
-                {location.pathname === link.path && (
-                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1/2 h-0.5 bg-primary rounded-full" />
-                )}
-              </Link>
-            ))}
-          </div>
-
-          {/* CTA Button & Theme Toggle */}
+          {/* Right-side Navigation + CTA */}
           <div className="hidden lg:flex items-center gap-3">
+            <div className="flex items-center gap-1">
+              {navLinks.map((link, index) => (
+                <Link
+                  key={link.path}
+                  to={link.path}
+                  className={`relative px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300 hover:scale-105 ${
+                    location.pathname === link.path
+                      ? "text-primary bg-primary/10"
+                      : "text-muted-foreground hover:text-foreground hover:bg-secondary"
+                  }`}
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                >
+                  {link.name}
+                  {location.pathname === link.path && (
+                    <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1/2 h-0.5 bg-primary rounded-full" />
+                  )}
+                </Link>
+              ))}
+            </div>
             <ThemeToggle />
-            <Button variant="hero" size="lg" asChild className="hover:scale-105 transition-transform duration-300 hover:shadow-lg hover:shadow-primary/25">
+            <Button
+              variant="hero"
+              size="sm"
+              asChild
+              className="px-3 py-1.5 text-xs hover:scale-105 transition-transform duration-300 hover:shadow-lg hover:shadow-primary/25"
+            >
               <Link to="/contact">Get Started</Link>
             </Button>
           </div>
