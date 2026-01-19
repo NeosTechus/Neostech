@@ -119,11 +119,11 @@
 
   /* Glass effect */
   .glass {
-    @apply bg-card/50 backdrop-blur-xl border border-border/50;
+    @apply bg-card;
   }
 
   .glass-strong {
-    @apply bg-card/80 backdrop-blur-2xl border border-border;
+    @apply bg-card;
   }
 
   /* Glow effects */

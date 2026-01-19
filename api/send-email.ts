@@ -1,5 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { Resend } from 'resend';
+import { connectToDatabase } from './lib/mongodb.js';
 import { handleCors, jsonResponse, errorResponse } from './lib/cors.js';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -28,10 +29,24 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return errorResponse(res, 'Name, email, and message are required');
     }
 
+    const { db } = await connectToDatabase();
+    const submissions = db.collection('contact_submissions');
+
+    await submissions.insertOne({
+      name,
+      email,
+      company: company || null,
+      service: service || null,
+      budget: budget || null,
+      message,
+      createdAt: new Date(),
+    });
+
     // Send notification email to your business email
     const { error: notificationError } = await resend.emails.send({
       from: 'NeoStechUS Contact <info@neostechus.com>',
-      to: ['info@neostechus.com'],
+      to: ['harshakolla@neostechus.com'],
+      replyTo: email,
       subject: `New Contact Form Submission from ${name}`,
       html: `
         <h2>New Contact Form Submission</h2>
