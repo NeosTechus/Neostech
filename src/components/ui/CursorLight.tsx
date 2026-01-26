@@ -35,10 +35,10 @@ const CursorLight = () => {
       style={{ opacity: isVisible ? 1 : 0 }}
     >
       <div
-        className="absolute h-[500px] w-[500px] rounded-full transition-transform duration-100 ease-out"
+        className="absolute h-[260px] w-[260px] rounded-full transition-transform duration-100 ease-out"
         style={{
-          left: position.x - 250,
-          top: position.y - 250,
+          left: position.x - 130,
+          top: position.y - 130,
           background: 'radial-gradient(circle, hsl(var(--primary) / 0.15) 0%, hsl(var(--primary) / 0.05) 25%, transparent 50%)',
         }}
       />

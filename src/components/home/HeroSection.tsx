@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Play } from "lucide-react";
+import { SparklesCore } from "@/components/ui/sparkles";
 
 export function HeroSection() {
   return (
@@ -8,6 +9,19 @@ export function HeroSection() {
       {/* Background Effects */}
       <div className="absolute inset-0 bg-gradient-hero" />
       <div className="absolute inset-0 bg-grid opacity-40" />
+
+      {/* Sparkles */}
+      <div className="absolute inset-0 pointer-events-none">
+        <SparklesCore
+          background="transparent"
+          minSize={0.4}
+          maxSize={1}
+            particleDensity={220}
+          className="h-full w-full [mask-image:radial-gradient(700px_400px_at_center,white,transparent)]"
+          particleColor="#ffffff"
+          speed={1}
+        />
+      </div>
       
       {/* Floating Orbs */}
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-3xl animate-float" />
