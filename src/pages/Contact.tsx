@@ -281,8 +281,12 @@ export default function Contact() {
                     </div>
                   </div>
 
-                  <div className="relative overflow-hidden min-h-[300px] flex items-center justify-center z-10">
-                    <Globe size={250} />
+                  {/* Globe - hidden on small screens, visible from md up */}
+                  <div className="hidden md:flex relative overflow-hidden min-h-[200px] lg:min-h-[300px] items-center justify-center z-10">
+                    <Globe
+                      size={250}
+                      responsiveSize={{ sm: 150, md: 200, lg: 250 }}
+                    />
                   </div>
                 </div>
               </div>
