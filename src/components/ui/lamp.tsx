@@ -56,8 +56,8 @@ export function LampContainer({
           <div className="absolute bottom-0 right-0 z-20 h-40 w-[100%] bg-background [mask-image:linear-gradient(to_top,white,transparent)]" />
         </motion.div>
         <div className="absolute top-1/2 h-48 w-full translate-y-12 scale-x-150 bg-background blur-2xl" />
-        <div className="absolute top-1/2 z-50 h-48 w-full bg-transparent opacity-10 backdrop-blur-md" />
-        <div className="absolute inset-auto z-50 h-36 w-[28rem] -translate-y-1/2 rounded-full bg-cyan-500 opacity-50 blur-3xl" />
+        <div className="absolute top-1/2 z-30 h-48 w-full bg-transparent opacity-10 backdrop-blur-md" />
+        <div className="absolute inset-auto z-30 h-36 w-[28rem] -translate-y-1/2 rounded-full bg-cyan-500 opacity-50 blur-3xl" />
         <motion.div
           initial={{ width: "8rem" }}
           whileInView={{ width: "16rem" }}
@@ -76,7 +76,7 @@ export function LampContainer({
             duration: 0.8,
             ease: "easeInOut",
           }}
-          className="absolute inset-auto z-50 h-0.5 w-[30rem] -translate-y-[7rem] bg-cyan-400"
+          className="absolute inset-auto z-40 h-0.5 w-[30rem] -translate-y-[7rem] bg-cyan-400"
         />
 
         <div className="absolute inset-auto z-40 h-44 w-full -translate-y-[12.5rem] bg-background" />
@@ -84,7 +84,7 @@ export function LampContainer({
 
       <div
         className={cn(
-          "relative z-50 flex -translate-y-80 flex-col items-center px-5",
+          "relative z-40 flex -translate-y-80 flex-col items-center px-5",
           contentClassName
         )}
       >

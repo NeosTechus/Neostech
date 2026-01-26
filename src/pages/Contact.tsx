@@ -1,9 +1,10 @@
 import { Layout } from "@/components/layout/Layout";
+import Globe from "@/components/ui/globe";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { 
+import {
   Select,
   SelectContent,
   SelectItem,
@@ -280,17 +281,8 @@ export default function Contact() {
                     </div>
                   </div>
 
-                  <div className="glass rounded-2xl p-8">
-                    <div className="flex items-center gap-3 mb-4">
-                      <MessageCircle className="w-5 h-5 text-primary" />
-                      <h3 className="font-semibold">Quick Chat</h3>
-                    </div>
-                    <p className="text-sm text-muted-foreground mb-4">
-                      Prefer to chat? We're available for quick questions and consultations.
-                    </p>
-                    <Button variant="heroOutline" className="w-full">
-                      Start a Chat
-                    </Button>
+                  <div className="relative overflow-hidden min-h-[300px] flex items-center justify-center z-10">
+                    <Globe size={250} />
                   </div>
                 </div>
               </div>
