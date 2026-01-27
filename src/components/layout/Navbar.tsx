@@ -32,11 +32,11 @@ export function Navbar() {
           <Link to="/" className="flex items-center gap-2 group">
             <img 
               src={logo} 
-              alt="Neos Tech Logo" 
+              alt="NeosTechs Logo" 
               className="h-10 w-auto group-hover:scale-110 transition-transform duration-300"
             />
             <span className="text-xl font-bold tracking-tight group-hover:text-primary transition-colors duration-300">
-              Neos <span className="text-gradient">Tech</span>
+              <span className="text-gradient">NeosTechs</span>
             </span>
           </Link>
 

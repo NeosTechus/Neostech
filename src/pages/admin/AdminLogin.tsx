@@ -90,11 +90,11 @@ export default function AdminLogin() {
         >
           <img 
             src={logo} 
-            alt="Neos Tech Logo" 
+            alt="Neos Techs Logo" 
             className="h-8 w-auto"
           />
           <span className="text-lg font-bold tracking-tight">
-            Neos <span className="text-primary">Tech</span>
+            Neos <span className="text-primary">Techs</span>
           </span>
         </Link>
       </header>

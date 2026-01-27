@@ -1,4 +1,4 @@
-# Neos Tech - Setup & Deployment Guide
+# Neos Techs - Setup & Deployment Guide
 
 A full-stack web application built with React, Vite, TypeScript, and Vercel serverless functions.
 
