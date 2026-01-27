@@ -11,8 +11,8 @@ import { useToast } from "@/hooks/use-toast";
 
 export default function Settings() {
   const { toast } = useToast();
-  const [companyName, setCompanyName] = useState("Neos Tech");
-  const [companyEmail, setCompanyEmail] = useState("contact@neostech.com");
+  const [companyName, setCompanyName] = useState("Neos Techs");
+  const [companyEmail, setCompanyEmail] = useState("contact@neostechus.com");
   const [companyDescription, setCompanyDescription] = useState("");
   const [emailNotifications, setEmailNotifications] = useState(true);
   const [newLeadAlerts, setNewLeadAlerts] = useState(true);

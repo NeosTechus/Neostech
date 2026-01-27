@@ -1,4 +1,4 @@
-# Neos Tech
+# Neos Techs
 
 Full-stack web application built with React, Vite, TypeScript, and Vercel serverless functions.
 

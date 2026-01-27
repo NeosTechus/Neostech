@@ -43,7 +43,7 @@ export function Footer() {
                 <span className="text-primary-foreground font-bold text-xl">N</span>
               </div>
               <span className="text-xl font-bold tracking-tight">
-                Neos <span className="text-gradient">Tech</span>
+                Neos <span className="text-gradient">Techs</span>
               </span>
             </Link>
             
@@ -164,7 +164,7 @@ export function Footer() {
 
         {/* Bottom Bar */}
         <div className="py-6 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
-          <p>© {new Date().getFullYear()} Neos Tech. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Neos Techs. All rights reserved.</p>
           <div className="flex items-center gap-6">
             <a href="#" className="hover:text-foreground transition-colors">Twitter</a>
             <a href="#" className="hover:text-foreground transition-colors">LinkedIn</a>

@@ -87,7 +87,7 @@ export default function Team() {
               Our Team
             </span>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
-              Meet the <span className="text-gradient">experts</span> behind Neos Tech
+              Meet the <span className="text-gradient">experts</span> behind Neos Techs
             </h1>
             <p className="text-lg text-muted-foreground">
               A passionate team of innovators, developers, and designers dedicated to 
