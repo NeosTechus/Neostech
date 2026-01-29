@@ -3,7 +3,6 @@ import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import logo from "@/assets/logo.png";
-import { ThemeToggle } from "@/components/ui/theme-toggle";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -61,7 +60,6 @@ export function Navbar() {
                 </Link>
               ))}
             </div>
-            <ThemeToggle />
             <Button
               variant="hero"
               size="sm"
@@ -102,9 +100,8 @@ export function Navbar() {
                 {link.name}
               </Link>
             ))}
-            <div className="pt-4 flex items-center gap-3 opacity-0 animate-fade-in-up" style={{ animationDelay: '0.6s', animationFillMode: 'forwards' }}>
-              <ThemeToggle />
-              <Button variant="hero" className="flex-1 hover:scale-[1.02] transition-transform duration-300" asChild>
+            <div className="pt-4 opacity-0 animate-fade-in-up" style={{ animationDelay: '0.6s', animationFillMode: 'forwards' }}>
+              <Button variant="hero" className="w-full hover:scale-[1.02] transition-transform duration-300" asChild>
                 <Link to="/contact" onClick={() => setIsOpen(false)}>
                   Get Started
                 </Link>
