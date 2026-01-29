@@ -281,8 +281,8 @@ export default function Contact() {
                     </div>
                   </div>
 
-                  <div className="relative overflow-hidden min-h-[300px] flex items-center justify-center z-10">
-                    <Globe size={250} />
+                  <div className="relative min-h-[300px] flex items-center justify-center z-10">
+                    <Globe size={280} className="mx-auto" />
                   </div>
                 </div>
               </div>
