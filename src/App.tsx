@@ -58,7 +58,7 @@ const App = () => (
           <Route path="/login" element={<Login />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
-          
+
           {/* Admin routes */}
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin" element={<AdminLayout />}>
@@ -71,7 +71,7 @@ const App = () => (
             <Route path="blog" element={<Blog />} />
             <Route path="settings" element={<Settings />} />
           </Route>
-          
+
           {/* Employee routes */}
           <Route path="/employee/login" element={<EmployeeLogin />} />
           <Route path="/employee" element={<EmployeeLayout />}>
@@ -80,7 +80,7 @@ const App = () => (
             <Route path="tickets" element={<EmployeeTickets />} />
             <Route path="profile" element={<EmployeeProfile />} />
           </Route>
-          
+
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
