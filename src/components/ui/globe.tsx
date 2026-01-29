@@ -21,7 +21,7 @@ const Globe: React.FC<GlobeProps> = ({ className, size = 250, ...props }) => {
         `}
             </style>
             <div
-                className={cn("flex items-center justify-center relative overflow-hidden", className)}
+                className={cn("flex items-center justify-center relative", className)}
                 {...props}
             >
                 <div
