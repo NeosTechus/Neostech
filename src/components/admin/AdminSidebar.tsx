@@ -7,7 +7,8 @@ import {
   MessageSquare,
   FileText,
   TrendingUp,
-  StickyNote
+  StickyNote,
+  LineChart,
 } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
@@ -32,6 +33,7 @@ const menuItems = [
   { title: "Projects", url: "/admin/projects", icon: FolderKanban },
   { title: "Tickets", url: "/admin/tickets", icon: MessageSquare },
   { title: "Leads", url: "/admin/leads", icon: TrendingUp },
+  { title: "Finance", url: "/admin/finance", icon: LineChart },
   { title: "Notes", url: "/admin/notes", icon: StickyNote },
   { title: "Blog & CMS", url: "/admin/blog", icon: FileText },
   { title: "Settings", url: "/admin/settings", icon: Settings },

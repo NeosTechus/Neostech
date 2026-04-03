@@ -28,6 +28,7 @@ import Leads from "./pages/admin/Leads";
 import Blog from "./pages/admin/Blog";
 import Settings from "./pages/admin/Settings";
 import Notes from "./pages/admin/Notes";
+import Finance from "./pages/admin/Finance";
 
 // Employee pages
 import EmployeeLayout from "./pages/employee/EmployeeLayout";
@@ -67,6 +68,7 @@ const App = () => (
             <Route path="projects" element={<AdminProjectsManage />} />
             <Route path="tickets" element={<AdminTicketsManage />} />
             <Route path="leads" element={<Leads />} />
+            <Route path="finance" element={<Finance />} />
             <Route path="notes" element={<Notes />} />
             <Route path="blog" element={<Blog />} />
             <Route path="settings" element={<Settings />} />
