@@ -20,6 +20,13 @@ export function useAuth() {
       return;
     }
 
+    // Skip profile check under plain `vite dev` — /api/* is Vercel-only.
+    // Run `vercel dev` if you need real auth locally.
+    if (import.meta.env.DEV && !import.meta.env.VITE_ENABLE_API) {
+      setLoading(false);
+      return;
+    }
+
     const result = await apiClient.getProfile();
     if (result.data) {
       setUser(result.data);
