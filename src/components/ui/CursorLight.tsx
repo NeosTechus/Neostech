@@ -3,8 +3,14 @@ import { useEffect, useState } from 'react';
 const CursorLight = () => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isVisible, setIsVisible] = useState(false);
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
 
   useEffect(() => {
+    // Detect touch devices and disable cursor light
+    const isTouch = window.matchMedia('(pointer: coarse)').matches || 'ontouchstart' in window;
+    setIsTouchDevice(isTouch);
+    if (isTouch) return;
+
     const handleMouseMove = (e: MouseEvent) => {
       setPosition({ x: e.clientX, y: e.clientY });
       if (!isVisible) setIsVisible(true);
@@ -29,10 +35,13 @@ const CursorLight = () => {
     };
   }, [isVisible]);
 
+  if (isTouchDevice) return null;
+
   return (
     <div
       className="pointer-events-none fixed inset-0 z-30 transition-opacity duration-300"
       style={{ opacity: isVisible ? 1 : 0 }}
+      aria-hidden="true"
     >
       <div
         className="absolute h-[260px] w-[260px] rounded-full transition-transform duration-100 ease-out"

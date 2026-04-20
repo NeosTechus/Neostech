@@ -109,7 +109,7 @@ export function Footer() {
 
           {/* Services Links */}
           <div>
-            <h4 className="font-semibold text-sm mb-4">Services</h4>
+            <h4 className="font-semibold text-sm mb-4">Solutions</h4>
             <ul className="space-y-3">
               {footerLinks.services.map((link) => (
                 <li key={link.name}>

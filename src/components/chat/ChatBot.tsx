@@ -19,7 +19,7 @@ interface FAQ {
 const faqs: FAQ[] = [
   {
     keywords: ["hello", "hi", "hey", "good morning", "good evening"],
-    answer: "Hello! 👋 Welcome to our support chat. How can I help you today?"
+    answer: "Hello! Welcome to our support chat. How can I help you today?"
   },
   {
     keywords: ["services", "what do you do", "offer", "provide"],
@@ -59,11 +59,11 @@ const faqs: FAQ[] = [
   },
   {
     keywords: ["thank", "thanks", "appreciate"],
-    answer: "You're welcome! 😊 Is there anything else I can help you with?"
+    answer: "You're welcome! Is there anything else I can help you with?"
   },
   {
     keywords: ["bye", "goodbye", "see you", "later"],
-    answer: "Goodbye! Feel free to come back if you have more questions. Have a great day! 👋"
+    answer: "Goodbye! Feel free to come back if you have more questions. Have a great day!"
   },
   {
     keywords: ["payment", "pay", "invoice", "billing", "method"],
@@ -127,17 +127,24 @@ const faqs: FAQ[] = [
   }
 ];
 
-const defaultResponse = "I'm not sure I understand that question. Here are some things I can help with:\n\n• Our services\n• Pricing information\n• Contact details\n• Business hours\n• Career opportunities\n\nOr you can visit our Contact page for personalized assistance.";
+const suggestedQuestions = [
+  "What services do you offer?",
+  "How much does it cost?",
+  "What's your tech stack?",
+  "Can I see your portfolio?",
+];
+
+const defaultResponse = "I'm not sure I understand that question. Here are some things I can help with:\n\n- Our services\n- Pricing information\n- Contact details\n- Business hours\n- Career opportunities\n\nOr you can visit our Contact page for personalized assistance.";
 
 function findFAQAnswer(input: string): string | null {
   const lowercaseInput = input.toLowerCase();
-  
+
   for (const faq of faqs) {
     if (faq.keywords.some(keyword => lowercaseInput.includes(keyword))) {
       return faq.answer;
     }
   }
-  
+
   return null;
 }
 
@@ -163,12 +170,16 @@ async function getAIResponse(message: string): Promise<string> {
   }
 }
 
+function formatTime(date: Date): string {
+  return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+}
+
 export function ChatBot() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "1",
-      text: "Hi there! 👋 I'm your virtual assistant. Ask me anything about our services, pricing, or how to get in touch!",
+      text: "Hi there! I'm your virtual assistant. Ask me anything about our services, pricing, or how to get in touch!",
       isBot: true,
       timestamp: new Date()
     }
@@ -184,24 +195,24 @@ export function ChatBot() {
     }
   }, [messages]);
 
-  const handleSend = async () => {
-    if (!input.trim() || isLoading) return;
+  const handleSend = async (text?: string) => {
+    const messageText = text || input;
+    if (!messageText.trim() || isLoading) return;
 
     const userMessage: Message = {
       id: Date.now().toString(),
-      text: input,
+      text: messageText,
       isBot: false,
       timestamp: new Date()
     };
 
     setMessages(prev => [...prev, userMessage]);
-    const userInput = input;
     setInput("");
     setIsLoading(true);
 
     // First check FAQ, then fallback to AI
-    const faqAnswer = findFAQAnswer(userInput);
-    
+    const faqAnswer = findFAQAnswer(messageText);
+
     if (faqAnswer) {
       setTimeout(() => {
         const botMessage: Message = {
@@ -215,7 +226,7 @@ export function ChatBot() {
       }, 300);
     } else {
       // Try AI response
-      const aiResponse = await getAIResponse(userInput);
+      const aiResponse = await getAIResponse(messageText);
       const botMessage: Message = {
         id: (Date.now() + 1).toString(),
         text: aiResponse || defaultResponse,
@@ -234,6 +245,8 @@ export function ChatBot() {
     }
   };
 
+  const showSuggestions = messages.length <= 1 && !isLoading;
+
   return (
     <>
       {/* Chat Toggle Button */}
@@ -241,6 +254,7 @@ export function ChatBot() {
         onClick={() => setIsOpen(!isOpen)}
         className="fixed bottom-6 right-6 h-14 w-14 rounded-full shadow-lg z-50 hover:scale-110 transition-all duration-300 hover:shadow-xl hover:shadow-primary/25 animate-pulse-glow"
         size="icon"
+        aria-label={isOpen ? "Close chat" : "Open chat"}
       >
         <div className={`transition-transform duration-300 ${isOpen ? 'rotate-90' : 'rotate-0'}`}>
           {isOpen ? <X className="h-6 w-6" /> : <MessageCircle className="h-6 w-6" />}
@@ -249,40 +263,56 @@ export function ChatBot() {
 
       {/* Chat Window */}
       {isOpen && (
-        <div className="fixed bottom-24 right-6 w-[350px] h-[500px] bg-background border rounded-xl shadow-2xl flex flex-col z-50 overflow-hidden animate-scale-in origin-bottom-right">
+        <div className="fixed bottom-24 right-6 w-[350px] sm:w-[380px] h-[500px] bg-background border rounded-xl shadow-2xl flex flex-col z-50 overflow-hidden animate-scale-in origin-bottom-right">
           {/* Header */}
-          <div className="bg-primary text-primary-foreground p-4 flex items-center gap-3">
-            <div className="h-10 w-10 rounded-full bg-primary-foreground/20 flex items-center justify-center animate-pulse">
-              <Bot className="h-5 w-5" />
+          <div className="bg-primary text-primary-foreground p-4 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="h-10 w-10 rounded-full bg-primary-foreground/20 flex items-center justify-center">
+                <Bot className="h-5 w-5" />
+              </div>
+              <div>
+                <h3 className="font-semibold">Support Assistant</h3>
+                <div className="flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-green-400" />
+                  <p className="text-xs opacity-80">Online</p>
+                </div>
+              </div>
             </div>
-            <div>
-              <h3 className="font-semibold">Support Assistant</h3>
-              <p className="text-xs opacity-80">Always here to help</p>
-            </div>
+            <button
+              onClick={() => setIsOpen(false)}
+              className="p-1 rounded-lg hover:bg-primary-foreground/10 transition-colors"
+              aria-label="Close chat"
+            >
+              <X className="h-4 w-4" />
+            </button>
           </div>
 
           {/* Messages */}
           <ScrollArea className="flex-1 p-4" ref={scrollRef}>
             <div className="space-y-4">
-              {messages.map((message, index) => (
+              {messages.map((message) => (
                 <div
                   key={message.id}
                   className={`flex gap-2 animate-fade-in-up ${message.isBot ? "justify-start" : "justify-end"}`}
-                  style={{ animationDelay: `${index * 0.05}s` }}
                 >
                   {message.isBot && (
-                    <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0 hover:scale-110 transition-transform duration-300">
+                    <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
                       <Bot className="h-4 w-4 text-primary" />
                     </div>
                   )}
-                  <div
-                    className={`max-w-[80%] rounded-2xl px-4 py-2.5 text-sm whitespace-pre-line transition-all duration-300 hover:scale-[1.02] ${
-                      message.isBot
-                        ? "bg-muted text-foreground rounded-tl-sm hover:bg-muted/80"
-                        : "bg-primary text-primary-foreground rounded-tr-sm hover:bg-primary/90"
-                    }`}
-                  >
-                    {message.text}
+                  <div className="flex flex-col gap-1">
+                    <div
+                      className={`max-w-[80%] rounded-2xl px-4 py-2.5 text-sm whitespace-pre-line ${
+                        message.isBot
+                          ? "bg-muted text-foreground rounded-tl-sm"
+                          : "bg-primary text-primary-foreground rounded-tr-sm"
+                      }`}
+                    >
+                      {message.text}
+                    </div>
+                    <span className={`text-[10px] text-muted-foreground px-1 ${message.isBot ? "" : "text-right"}`}>
+                      {formatTime(message.timestamp)}
+                    </span>
                   </div>
                   {!message.isBot && (
                     <div className="h-8 w-8 rounded-full bg-primary flex items-center justify-center shrink-0">
@@ -291,18 +321,35 @@ export function ChatBot() {
                   )}
                 </div>
               ))}
+
+              {/* Typing indicator */}
               {isLoading && (
                 <div className="flex gap-2 justify-start animate-fade-in">
                   <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                    <Loader2 className="h-4 w-4 text-primary animate-spin" />
+                    <Bot className="h-4 w-4 text-primary" />
                   </div>
-                  <div className="bg-muted text-foreground rounded-2xl rounded-tl-sm px-4 py-2.5 text-sm flex items-center gap-2">
-                    <span className="animate-pulse">Thinking</span>
-                    <span className="flex gap-1">
-                      <span className="w-1 h-1 bg-primary rounded-full animate-bounce" style={{ animationDelay: '0s' }} />
-                      <span className="w-1 h-1 bg-primary rounded-full animate-bounce" style={{ animationDelay: '0.2s' }} />
-                      <span className="w-1 h-1 bg-primary rounded-full animate-bounce" style={{ animationDelay: '0.4s' }} />
-                    </span>
+                  <div className="bg-muted text-foreground rounded-2xl rounded-tl-sm px-4 py-3 text-sm flex items-center gap-1.5">
+                    <span className="w-2 h-2 bg-muted-foreground/60 rounded-full animate-bounce" style={{ animationDelay: '0s' }} />
+                    <span className="w-2 h-2 bg-muted-foreground/60 rounded-full animate-bounce" style={{ animationDelay: '0.15s' }} />
+                    <span className="w-2 h-2 bg-muted-foreground/60 rounded-full animate-bounce" style={{ animationDelay: '0.3s' }} />
+                  </div>
+                </div>
+              )}
+
+              {/* Suggested Questions */}
+              {showSuggestions && (
+                <div className="space-y-2 pt-2">
+                  <p className="text-xs text-muted-foreground font-medium px-1">Quick questions:</p>
+                  <div className="flex flex-wrap gap-2">
+                    {suggestedQuestions.map((question) => (
+                      <button
+                        key={question}
+                        onClick={() => handleSend(question)}
+                        className="text-xs px-3 py-1.5 rounded-full border border-primary/30 text-primary hover:bg-primary/10 transition-colors"
+                      >
+                        {question}
+                      </button>
+                    ))}
                   </div>
                 </div>
               )}
@@ -310,21 +357,22 @@ export function ChatBot() {
           </ScrollArea>
 
           {/* Input */}
-          <div className="p-4 border-t bg-muted/30">
+          <div className="p-3 border-t bg-muted/30">
             <div className="flex gap-2">
               <Input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                onKeyPress={handleKeyPress}
+                onKeyDown={handleKeyPress}
                 placeholder="Type your message..."
-                className="flex-1 transition-all duration-300 focus:scale-[1.01] focus:shadow-lg focus:shadow-primary/10"
+                className="flex-1"
                 disabled={isLoading}
+                aria-label="Chat message"
               />
-              <Button 
-                onClick={handleSend} 
-                size="icon" 
+              <Button
+                onClick={() => handleSend()}
+                size="icon"
                 disabled={!input.trim() || isLoading}
-                className="hover:scale-110 transition-transform duration-300"
+                aria-label="Send message"
               >
                 {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
               </Button>

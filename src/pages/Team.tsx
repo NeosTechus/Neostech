@@ -80,7 +80,7 @@ export default function Team() {
       <section className="pt-24 pb-16 lg:pt-32 lg:pb-24 relative">
         <div className="absolute inset-0 bg-gradient-hero" />
         <div className="absolute inset-0 bg-grid opacity-40" />
-        
+
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="max-w-3xl mx-auto text-center">
             <span className="inline-block px-4 py-1.5 rounded-full text-sm font-medium bg-primary/10 text-primary mb-4">
@@ -90,7 +90,7 @@ export default function Team() {
               Meet the <span className="text-gradient">experts</span> behind Neos Techs
             </h1>
             <p className="text-lg text-muted-foreground">
-              A passionate team of innovators, developers, and designers dedicated to 
+              A passionate team of innovators, developers, and designers dedicated to
               transforming your digital vision into reality.
             </p>
           </div>
@@ -102,41 +102,47 @@ export default function Team() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {teamMembers.map((member) => (
-              <div 
-                key={member.name} 
+              <div
+                key={member.name}
                 className="glass rounded-2xl p-6 group hover:border-primary/30 transition-all duration-300"
               >
                 <div className="relative mb-6">
                   <div className="aspect-square rounded-xl overflow-hidden">
-                    <img 
-                      src={member.image} 
+                    <img
+                      src={member.image}
                       alt={member.name}
+                      loading="lazy"
+                      width={400}
+                      height={400}
                       className={`w-full h-full object-cover ${member.objectPosition ?? ""} group-hover:scale-105 transition-transform duration-500`}
                     />
                   </div>
                   <div className="absolute inset-0 rounded-xl bg-gradient-to-t from-background/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 </div>
-                
+
                 <h3 className="text-xl font-bold mb-1">{member.name}</h3>
                 <p className="text-primary font-medium text-sm mb-3">{member.role}</p>
                 <p className="text-muted-foreground text-sm mb-4">{member.bio}</p>
-                
+
                 <div className="flex items-center gap-3">
-                  <a 
-                    href={member.social.linkedin} 
+                  <a
+                    href={member.social.linkedin}
                     className="w-8 h-8 rounded-lg bg-secondary/50 flex items-center justify-center hover:bg-primary/20 hover:text-primary transition-colors"
+                    aria-label={`${member.name} LinkedIn`}
                   >
                     <Linkedin className="w-4 h-4" />
                   </a>
-                  <a 
-                    href={member.social.twitter} 
+                  <a
+                    href={member.social.twitter}
                     className="w-8 h-8 rounded-lg bg-secondary/50 flex items-center justify-center hover:bg-primary/20 hover:text-primary transition-colors"
+                    aria-label={`${member.name} Twitter`}
                   >
                     <Twitter className="w-4 h-4" />
                   </a>
-                  <a 
-                    href={`mailto:${member.social.email}`} 
+                  <a
+                    href={`mailto:${member.social.email}`}
                     className="w-8 h-8 rounded-lg bg-secondary/50 flex items-center justify-center hover:bg-primary/20 hover:text-primary transition-colors"
+                    aria-label={`Email ${member.name}`}
                   >
                     <Mail className="w-4 h-4" />
                   </a>
@@ -157,8 +163,8 @@ export default function Team() {
             <p className="text-muted-foreground mb-8">
               We're always looking for talented individuals who share our passion for innovation.
             </p>
-            <a 
-              href="/careers" 
+            <a
+              href="/careers"
               className="inline-flex items-center justify-center px-6 py-3 rounded-xl bg-primary text-primary-foreground font-medium hover:opacity-90 transition-opacity"
             >
               View Open Positions

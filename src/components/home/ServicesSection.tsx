@@ -41,7 +41,7 @@ export function ServicesSection() {
         {/* Section Header */}
         <div className="max-w-3xl mx-auto text-center mb-16 animate-fade-in-up">
           <span className="inline-block px-4 py-1.5 rounded-full text-sm font-medium bg-primary/10 text-primary mb-4 shimmer">
-            Our Services
+            Our Solutions
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-6">
             Everything you need to{" "}

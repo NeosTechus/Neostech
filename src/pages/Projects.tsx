@@ -60,8 +60,8 @@ const categories = ["All", "Web Development", "Mobile App", "AI Solutions", "Cus
 const Projects = () => {
   const [activeCategory, setActiveCategory] = useState("All");
 
-  const filteredProjects = activeCategory === "All" 
-    ? projects 
+  const filteredProjects = activeCategory === "All"
+    ? projects
     : projects.filter(p => p.category === activeCategory);
 
   return (
@@ -70,7 +70,7 @@ const Projects = () => {
         {/* Background */}
         <div className="absolute inset-0 bg-grid opacity-20" />
         <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-accent/10 rounded-full blur-3xl" />
-        
+
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
           {/* Section Header */}
           <div className="max-w-3xl mx-auto text-center mb-12 animate-fade-in-up">
@@ -116,10 +116,13 @@ const Projects = () => {
                   <img
                     src={project.image}
                     alt={project.title}
+                    loading="lazy"
+                    width={600}
+                    height={400}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent opacity-60" />
-                  
+
                   {/* Category Badge */}
                   <span className="absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-medium bg-primary/90 text-primary-foreground">
                     {project.category}
