@@ -20,7 +20,7 @@ export default function BrandGuidelines() {
         path="/brand"
       />
 
-      <section className="border-b border-border/60 pt-28 lg:pt-36 pb-12">
+      <section className="border-b border-border/60 pt-28 lg:pt-36 pb-12 section-blue-backdrop-strong">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
           <p className="text-xs tracking-[0.22em] text-muted-foreground/70 uppercase">
             Brand
@@ -37,7 +37,7 @@ export default function BrandGuidelines() {
       </section>
 
       {/* Logo */}
-      <section className="border-b border-border/60 py-16 lg:py-20">
+      <section className="border-b border-border/60 py-16 lg:py-20 section-blue-backdrop">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
           <h2 className="text-xs tracking-[0.22em] text-muted-foreground/70 uppercase">
             Logo
@@ -49,7 +49,7 @@ export default function BrandGuidelines() {
             <div className="rounded-2xl border border-border/60 bg-card p-10 flex items-center justify-center min-h-[200px]">
               <img src={logo} alt="NeosTechs logo" className="h-16 w-auto" />
             </div>
-            <div className="rounded-2xl border border-slate-800 bg-slate-950 p-10 flex items-center justify-center min-h-[200px]">
+            <div className="rounded-2xl border border-blue-900/50 bg-[hsl(222,47%,8%)] p-10 flex items-center justify-center min-h-[200px]">
               <img src={logo} alt="NeosTechs logo on dark" className="h-16 w-auto" />
             </div>
           </div>
@@ -75,7 +75,7 @@ export default function BrandGuidelines() {
       </section>
 
       {/* Color */}
-      <section className="border-b border-border/60 py-16 lg:py-20">
+      <section className="border-b border-border/60 py-16 lg:py-20 section-blue-backdrop-strong">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
           <h2 className="text-xs tracking-[0.22em] text-muted-foreground/70 uppercase">
             Color
@@ -112,7 +112,7 @@ export default function BrandGuidelines() {
       </section>
 
       {/* Typography */}
-      <section className="border-b border-border/60 py-16 lg:py-20">
+      <section className="border-b border-border/60 py-16 lg:py-20 section-blue-backdrop">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
           <h2 className="text-xs tracking-[0.22em] text-muted-foreground/70 uppercase">
             Typography
@@ -151,7 +151,7 @@ export default function BrandGuidelines() {
       </section>
 
       {/* Voice */}
-      <section className="border-b border-border/60 py-16 lg:py-20">
+      <section className="border-b border-border/60 py-16 lg:py-20 section-blue-backdrop-strong">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
           <h2 className="text-xs tracking-[0.22em] text-muted-foreground/70 uppercase">
             Voice

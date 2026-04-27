@@ -22,7 +22,7 @@ export function Banner() {
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(110deg, rgba(2,6,23,0.92) 0%, rgba(2,6,23,0.78) 45%, rgba(2,6,23,0.55) 100%)",
+              "linear-gradient(110deg, rgba(2,6,35,0.92) 0%, rgba(2,6,35,0.78) 45%, rgba(2,6,35,0.55) 100%)",
           }}
         />
         <div

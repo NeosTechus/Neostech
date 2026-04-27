@@ -66,7 +66,7 @@ const ease = [0.22, 1, 0.36, 1] as const;
 
 export function CaseStudies() {
   return (
-    <section className="border-b border-border/60 py-24 lg:py-32">
+    <section className="relative isolate border-b border-border/60 py-24 lg:py-32 section-blue-backdrop">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 12 }}

@@ -99,7 +99,7 @@ export default function Projects() {
         path="/projects"
       />
 
-      <section className="relative isolate overflow-hidden border-b border-border/60 pt-32 lg:pt-40 pb-16">
+      <section className="relative isolate overflow-hidden border-b border-border/60 pt-32 lg:pt-40 pb-16 section-blue-backdrop-strong">
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 bg-grid opacity-30"
@@ -128,7 +128,7 @@ export default function Projects() {
         </div>
       </section>
 
-      <section className="border-b border-border/60 py-12 lg:py-16">
+      <section className="border-b border-border/60 py-12 lg:py-16 section-blue-backdrop">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap gap-2">
             {categories.map((c) => (
@@ -203,7 +203,7 @@ function ProjectCard({ project: p }: { project: Project }) {
             className="absolute inset-0 z-20 flex items-end p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
             style={{
               background:
-                "linear-gradient(to top, rgba(15,23,42,0.55), transparent 60%)",
+                "linear-gradient(to top, rgba(15,23,62,0.55), transparent 60%)",
             }}
           >
             <span className="inline-flex items-center gap-1.5 rounded-full bg-white text-slate-900 px-3 py-1 text-xs font-medium shadow-sm">

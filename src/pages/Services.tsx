@@ -225,7 +225,7 @@ function CapabilitySection({
   );
 
   return (
-    <section className="border-b border-border/60 py-20 lg:py-28">
+    <section className="border-b border-border/60 py-20 lg:py-28 section-blue-backdrop">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-12 gap-10 items-center">
           {TextBlock}
@@ -331,7 +331,7 @@ export default function Services() {
         <CapabilitySection key={cap.number} cap={cap} index={i} />
       ))}
 
-      <section className="py-20">
+      <section className="py-20 section-blue-backdrop-strong">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={reduce ? undefined : "hidden"}

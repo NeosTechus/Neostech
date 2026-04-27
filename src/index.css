@@ -6,26 +6,26 @@
 
 @layer base {
   :root {
-    /* Light-first: cool-tinted white surfaces, slate ink, layered blue accents */
-    --background: 220 36% 98.5%;
+    /* Royal-blue-first: deep blue-tinted surfaces, slate ink, layered blue accents */
+    --background: 222 44% 96%;
     --foreground: 222 47% 11%;
 
-    --card: 0 0% 100%;
+    --card: 220 40% 98%;
     --card-foreground: 222 47% 11%;
 
-    --popover: 0 0% 100%;
+    --popover: 220 40% 98%;
     --popover-foreground: 222 47% 11%;
 
-    /* Vibrant blue primary */
+    /* Vibrant royal blue primary */
     --primary: 219 90% 56%;
     --primary-foreground: 0 0% 100%;
 
     /* Cool blue-tinted secondary */
-    --secondary: 215 100% 97%;
+    --secondary: 218 60% 95%;
     --secondary-foreground: 222 47% 11%;
 
-    --muted: 220 25% 96%;
-    --muted-foreground: 220 10% 40%;
+    --muted: 220 35% 93%;
+    --muted-foreground: 222 18% 42%;
 
     /* Deep blue accent for emphasis */
     --accent: 222 80% 38%;
@@ -34,8 +34,8 @@
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 220 15% 90%;
-    --input: 220 15% 90%;
+    --border: 220 25% 87%;
+    --input: 220 25% 87%;
     --ring: 219 90% 56%;
 
     --radius: 0.75rem;
@@ -47,13 +47,13 @@
     --glow-primary: 219 90% 56%;
     --glow-accent: 222 80% 38%;
 
-    --sidebar-background: 0 0% 100%;
+    --sidebar-background: 220 40% 98%;
     --sidebar-foreground: 222 47% 11%;
     --sidebar-primary: 219 90% 56%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 220 25% 96%;
+    --sidebar-accent: 220 35% 93%;
     --sidebar-accent-foreground: 222 47% 11%;
-    --sidebar-border: 220 15% 90%;
+    --sidebar-border: 220 25% 87%;
     --sidebar-ring: 219 90% 56%;
   }
 
@@ -207,6 +207,38 @@
     opacity: 0;
   }
 
+
+  /* Royal blue gradient backdrop — matches the Hero section's layered radial mesh */
+  .section-blue-backdrop {
+    position: relative;
+  }
+  .section-blue-backdrop::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(60% 50% at 80% 15%, hsl(219 90% 56% / 0.12), transparent 70%),
+      radial-gradient(45% 40% at 10% 85%, hsl(222 80% 38% / 0.10), transparent 70%),
+      radial-gradient(50% 50% at 95% 95%, hsl(219 90% 56% / 0.07), transparent 70%);
+  }
+
+  /* Deeper variant for emphasized sections */
+  .section-blue-backdrop-strong {
+    position: relative;
+  }
+  .section-blue-backdrop-strong::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(60% 50% at 80% 15%, hsl(219 90% 56% / 0.18), transparent 70%),
+      radial-gradient(45% 40% at 10% 85%, hsl(222 80% 38% / 0.14), transparent 70%),
+      radial-gradient(50% 50% at 95% 95%, hsl(219 90% 56% / 0.10), transparent 70%);
+  }
 }
 
 @keyframes fadeIn {

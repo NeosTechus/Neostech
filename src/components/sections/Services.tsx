@@ -76,7 +76,7 @@ export function Services() {
   const rest = services.filter((s) => !s.featured);
 
   return (
-    <section className="relative border-b border-border/60 py-24 lg:py-32">
+    <section className="relative isolate border-b border-border/60 py-24 lg:py-32 section-blue-backdrop">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial="hidden"
@@ -145,7 +145,7 @@ function FeatureCard({ service }: { service: Service }) {
             className="absolute inset-0 transition-opacity duration-500"
             style={{
               background:
-                "linear-gradient(180deg, transparent 50%, rgba(2,6,23,0.65) 100%)",
+                "linear-gradient(180deg, transparent 50%, rgba(2,6,35,0.65) 100%)",
             }}
           />
           {/* Hover overlay — fills in to reveal description */}
@@ -154,7 +154,7 @@ function FeatureCard({ service }: { service: Service }) {
             className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover/card:opacity-100"
             style={{
               background:
-                "linear-gradient(180deg, rgba(2,6,23,0.30) 0%, rgba(2,6,23,0.65) 50%, rgba(2,6,23,0.90) 100%)",
+                "linear-gradient(180deg, rgba(2,6,35,0.30) 0%, rgba(2,6,35,0.65) 50%, rgba(2,6,35,0.90) 100%)",
             }}
           />
           {/* Bottom-left content */}
@@ -209,7 +209,7 @@ function SmallCard({ service, index }: { service: Service; index: number }) {
           className="absolute inset-0 transition-opacity duration-500"
           style={{
             background:
-              "linear-gradient(180deg, transparent 55%, rgba(2,6,23,0.65) 100%)",
+              "linear-gradient(180deg, transparent 55%, rgba(2,6,35,0.65) 100%)",
           }}
         />
         {/* Hover overlay */}
@@ -218,7 +218,7 @@ function SmallCard({ service, index }: { service: Service; index: number }) {
           className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover/card:opacity-100"
           style={{
             background:
-              "linear-gradient(180deg, rgba(2,6,23,0.25) 0%, rgba(2,6,23,0.55) 45%, rgba(2,6,23,0.90) 100%)",
+              "linear-gradient(180deg, rgba(2,6,35,0.25) 0%, rgba(2,6,35,0.55) 45%, rgba(2,6,35,0.90) 100%)",
           }}
         />
         <div className="absolute inset-x-0 bottom-0 p-5 lg:p-6">

@@ -185,7 +185,7 @@ export default function Contact() {
       </section>
 
       {/* Form + Info */}
-      <section className="border-t border-border/60 py-16 lg:py-24">
+      <section className="border-t border-border/60 py-16 lg:py-24 section-blue-backdrop">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-12 gap-10">
             {/* Form */}
@@ -450,7 +450,7 @@ export default function Contact() {
       </section>
 
       {/* Closing band */}
-      <section className="border-t border-border/60 py-16">
+      <section className="border-t border-border/60 py-16 section-blue-backdrop-strong">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground/70">
             Prefer email?

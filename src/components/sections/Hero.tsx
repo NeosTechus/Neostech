@@ -342,14 +342,14 @@ function ParallaxCard({ reduce }: { reduce: boolean }) {
             "radial-gradient(closest-side, hsl(var(--primary) / 0.18), transparent 70%)",
         }}
       />
-      <div className="relative bg-slate-950 border border-slate-800 rounded-2xl shadow-[0_30px_80px_-20px_rgba(15,23,42,0.35)] overflow-hidden">
+      <div className="relative bg-[hsl(222,47%,8%)] border border-blue-900/50 rounded-2xl shadow-[0_30px_80px_-20px_rgba(15,23,42,0.35)] overflow-hidden">
         {/* Header */}
-        <div className="flex items-center justify-between px-5 py-4 border-b border-slate-800">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-blue-900/50">
           <div className="leading-tight">
-            <div className="text-[10px] uppercase tracking-[0.22em] text-slate-500">
+            <div className="text-[10px] uppercase tracking-[0.22em] text-blue-400/60">
               Solutions
             </div>
-            <div className="mt-1 text-sm font-medium text-slate-100">
+            <div className="mt-1 text-sm font-medium text-blue-50">
               Any problem, solved.
             </div>
           </div>
@@ -368,7 +368,7 @@ function ParallaxCard({ reduce }: { reduce: boolean }) {
         </div>
 
         {/* Solution rows */}
-        <div className="divide-y divide-slate-800">
+        <div className="divide-y divide-blue-900/50">
           <SolutionRow
             icon={Bot}
             tag="AI Solutions"
@@ -391,7 +391,7 @@ function ParallaxCard({ reduce }: { reduce: boolean }) {
         </div>
 
         {/* Stats footer */}
-        <div className="grid grid-cols-3 border-t border-slate-800">
+        <div className="grid grid-cols-3 border-t border-blue-900/50">
           {[
             { label: "industries", value: "12" },
             { label: "engineers", value: "40+" },
@@ -400,13 +400,13 @@ function ParallaxCard({ reduce }: { reduce: boolean }) {
             <div
               key={s.label}
               className={
-                "px-4 py-4 " + (i < 2 ? "border-r border-slate-800" : "")
+                "px-4 py-4 " + (i < 2 ? "border-r border-blue-900/50" : "")
               }
             >
-              <div className="text-[10px] uppercase tracking-wider text-slate-500">
+              <div className="text-[10px] uppercase tracking-wider text-blue-400/60">
                 {s.label}
               </div>
-              <div className="mt-1 font-mono text-sm text-slate-100">
+              <div className="mt-1 font-mono text-sm text-blue-50">
                 {s.value}
               </div>
             </div>
@@ -443,21 +443,21 @@ function SolutionRow({
             "h-8 w-8 rounded-lg flex items-center justify-center shrink-0 " +
             (highlighted
               ? "bg-primary/20 border border-primary/40"
-              : "bg-slate-900 border border-slate-700")
+              : "bg-blue-950/60 border border-blue-800/50")
           }
         >
           <Icon
             className={
-              "h-3.5 w-3.5 " + (highlighted ? "text-primary" : "text-slate-300")
+              "h-3.5 w-3.5 " + (highlighted ? "text-primary" : "text-blue-200")
             }
             strokeWidth={1.75}
           />
         </div>
-        <span className="text-[10px] uppercase tracking-[0.22em] text-slate-400">
+        <span className="text-[10px] uppercase tracking-[0.22em] text-blue-300/70">
           {tag}
         </span>
       </div>
-      <p className="mt-3 text-[13px] leading-snug text-slate-100">{title}</p>
+      <p className="mt-3 text-[13px] leading-snug text-blue-50">{title}</p>
       <div className="mt-3 flex flex-wrap gap-1.5">
         {chips.map((c) => (
           <span
@@ -466,7 +466,7 @@ function SolutionRow({
               "text-[10px] px-2 py-0.5 rounded-full border " +
               (highlighted
                 ? "bg-primary/10 border-primary/30 text-primary"
-                : "bg-slate-900 border-slate-700 text-slate-300")
+                : "bg-blue-950/60 border-blue-800/40 text-blue-200")
             }
           >
             {c}

@@ -138,7 +138,7 @@ export default function Team() {
         </div>
       </section>
 
-      <section className="border-t border-border/60 py-16 lg:py-24">
+      <section className="border-t border-border/60 py-16 lg:py-24 section-blue-backdrop">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {teamMembers.map((member, i) => (
@@ -201,7 +201,7 @@ export default function Team() {
         </div>
       </section>
 
-      <section className="border-t border-border/60 py-16">
+      <section className="border-t border-border/60 py-16 section-blue-backdrop-strong">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-2xl mx-auto text-center">
             <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-foreground">

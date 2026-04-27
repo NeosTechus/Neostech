@@ -11,7 +11,7 @@ const wordmarks = [
 
 export function LogoCloud() {
   return (
-    <section className="border-b border-border/60 py-14 lg:py-16">
+    <section className="relative isolate border-b border-border/60 py-14 lg:py-16 section-blue-backdrop">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 12 }}

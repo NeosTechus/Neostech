@@ -10,7 +10,7 @@ export default function PrivacyPolicy() {
         path="/privacy"
       />
 
-      <section className="border-b border-border/60 pt-28 lg:pt-36 pb-12">
+      <section className="border-b border-border/60 pt-28 lg:pt-36 pb-12 section-blue-backdrop-strong">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
           <p className="text-xs tracking-[0.22em] text-muted-foreground/70 uppercase">
             Legal
@@ -29,7 +29,7 @@ export default function PrivacyPolicy() {
         </div>
       </section>
 
-      <section className="py-16 lg:py-24">
+      <section className="py-16 lg:py-24 section-blue-backdrop">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl">
           <article className="prose prose-slate max-w-none text-foreground">
             <h2 className="text-2xl font-semibold tracking-tight mt-0">

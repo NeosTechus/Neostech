@@ -31,7 +31,7 @@ const footerLinks = {
 
 export function Footer() {
   return (
-    <footer className="relative border-t border-border bg-secondary/60">
+    <footer className="relative border-t border-border bg-[hsl(220,40%,96%)] section-blue-backdrop-strong">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
         {/* Main Footer */}
         <div className="py-12 lg:py-16 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">

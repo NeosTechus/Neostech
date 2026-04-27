@@ -10,7 +10,7 @@ const maskImage =
 
 export function CTABand() {
   return (
-    <section className="relative isolate border-b border-slate-800 py-24 lg:py-32 overflow-hidden bg-slate-950 text-white">
+    <section className="relative isolate border-b border-blue-900/60 py-24 lg:py-32 overflow-hidden bg-[hsl(222,47%,8%)] text-white">
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 opacity-30"
@@ -47,7 +47,7 @@ export function CTABand() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-15%" }}
             transition={{ duration: 0.45, ease: EASE, delay: 0.06 }}
-            className="text-lg leading-relaxed text-slate-300 mt-6 max-w-2xl mx-auto"
+            className="text-lg leading-relaxed text-blue-200/80 mt-6 max-w-2xl mx-auto"
           >
             30-minute call. No deck, no sales pitch — just a real conversation
             about what you're trying to build and whether we can help.
@@ -71,7 +71,7 @@ export function CTABand() {
             <Button
               asChild
               variant="ghost"
-              className="h-11 rounded-full border border-slate-700 bg-transparent text-white hover:bg-slate-900 hover:text-white"
+              className="h-11 rounded-full border border-blue-700/50 bg-transparent text-white hover:bg-blue-900/40 hover:text-white"
             >
               <Link to="/projects">
                 See our work

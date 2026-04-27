@@ -48,7 +48,7 @@ const fadeUp = {
 
 export function Process() {
   return (
-    <section className="relative border-b border-border/60 py-24 lg:py-32">
+    <section className="relative isolate border-b border-border/60 py-24 lg:py-32 section-blue-backdrop-strong">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial="hidden"

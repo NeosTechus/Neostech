@@ -216,7 +216,7 @@ export default function About() {
       </section>
 
       {/* Mission */}
-      <section className="relative border-t border-border/60 py-24 lg:py-32">
+      <section className="relative isolate border-t border-border/60 py-24 lg:py-32 section-blue-backdrop">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial="hidden"
@@ -257,7 +257,7 @@ export default function About() {
       </section>
 
       {/* Timeline / Journey */}
-      <section className="relative border-t border-border/60 py-24 lg:py-32 overflow-hidden">
+      <section className="relative isolate border-t border-border/60 py-24 lg:py-32 overflow-hidden section-blue-backdrop-strong">
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 bg-grid opacity-30"
@@ -403,7 +403,7 @@ export default function About() {
       </section>
 
       {/* Values */}
-      <section className="relative border-t border-border/60 py-24 lg:py-32">
+      <section className="relative isolate border-t border-border/60 py-24 lg:py-32 section-blue-backdrop">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial="hidden"
@@ -466,7 +466,7 @@ export default function About() {
       </section>
 
       {/* Stats */}
-      <section className="relative border-t border-border/60 py-20">
+      <section className="relative isolate border-t border-border/60 py-20 section-blue-backdrop-strong">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial="hidden"
@@ -515,7 +515,7 @@ export default function About() {
       </section>
 
       {/* CTA */}
-      <section className="relative border-t border-border/60 py-20 lg:py-24">
+      <section className="relative isolate border-t border-border/60 py-20 lg:py-24 section-blue-backdrop">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial="hidden"

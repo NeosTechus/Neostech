@@ -96,7 +96,7 @@ export default function Careers() {
         path="/careers"
       />
 
-      <section className="relative pt-28 lg:pt-36 pb-12">
+      <section className="relative pt-28 lg:pt-36 pb-12 section-blue-backdrop-strong">
         <div
           className="absolute inset-0 bg-grid opacity-60 pointer-events-none"
           style={{
@@ -131,7 +131,7 @@ export default function Careers() {
         </div>
       </section>
 
-      <section className="border-t border-border/60 py-24">
+      <section className="border-t border-border/60 py-24 section-blue-backdrop">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial="hidden"
@@ -170,7 +170,7 @@ export default function Careers() {
 
       <section
         id="openings"
-        className="border-t border-border/60 py-24 lg:py-32 scroll-mt-24"
+        className="border-t border-border/60 py-24 lg:py-32 scroll-mt-24 section-blue-backdrop-strong"
       >
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
@@ -240,7 +240,7 @@ export default function Careers() {
         </div>
       </section>
 
-      <section className="border-t border-border/60 py-16">
+      <section className="border-t border-border/60 py-16 section-blue-backdrop">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial="hidden"
