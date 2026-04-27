@@ -24,13 +24,12 @@ export default defineConfig(({ mode }) => ({
   },
   plugins: [
     react(),
-    mode === "production" &&
+    mode === "production" && process.env.ENABLE_PRERENDER === "1" &&
       prerender({
         routes: PRERENDER_ROUTES,
         renderer: "@prerenderer/renderer-puppeteer",
         rendererOptions: {
           maxConcurrentRoutes: 2,
-          // Wait for React + Helmet to settle before snapshotting
           renderAfterTime: 2500,
         },
         postProcess(renderedRoute: { html: string; route: string }) {
