@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { Navbar } from "./Navbar";
 import { Footer } from "./Footer";
-import CursorLight from "@/components/ui/CursorLight";
+import { SideRail } from "./SideRail";
 import { ChatBot } from "@/components/chat/ChatBot";
 import { BackToTop } from "@/components/ui/BackToTop";
 
@@ -19,9 +19,9 @@ export function Layout({ children }: LayoutProps) {
       >
         Skip to main content
       </a>
-      <CursorLight />
       <Navbar />
-      <main id="main-content" className="flex-1 pt-16 lg:pt-20">
+      <SideRail />
+      <main id="main-content" className="flex-1">
         {children}
       </main>
       <Footer />

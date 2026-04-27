@@ -1,6 +1,10 @@
+import { useState } from "react";
+import { motion, useReducedMotion, type Variants } from "framer-motion";
+import { useForm } from "react-hook-form";
+import { Mail, MapPin, Phone, Send, Clock, CheckCircle2, Linkedin } from "lucide-react";
+
 import { Layout } from "@/components/layout/Layout";
 import { SEO } from "@/components/SEO";
-import Globe from "@/components/ui/globe";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -12,354 +16,453 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Mail, MapPin, Phone, Send, Clock, CheckCircle2 } from "lucide-react";
-import { useState } from "react";
-import { motion } from "framer-motion";
-import { useToast } from "@/hooks/use-toast";
-import { LampContainer } from "@/components/ui/lamp";
 
-const contactInfo = [
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 12 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.45, ease: EASE } },
+};
+
+const stagger: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.08, delayChildren: 0.05 } },
+};
+
+const radialMask =
+  "radial-gradient(ellipse 70% 60% at 50% 40%, #000 40%, transparent 80%)";
+
+type ServiceArea =
+  | "software-engineering"
+  | "ai-ml"
+  | "data-analytics"
+  | "cloud-devops"
+  | "security"
+  | "strategy-advisory"
+  | "not-sure";
+
+type BudgetRange =
+  | "under-25k"
+  | "25k-75k"
+  | "75k-200k"
+  | "200k-plus"
+  | "not-sure";
+
+type ContactFormValues = {
+  fullName: string;
+  email: string;
+  company: string;
+  service: ServiceArea | "";
+  budget: BudgetRange | "";
+  message: string;
+};
+
+const serviceOptions: { value: ServiceArea; label: string }[] = [
+  { value: "software-engineering", label: "Software Engineering" },
+  { value: "ai-ml", label: "AI & ML" },
+  { value: "data-analytics", label: "Data & Analytics" },
+  { value: "cloud-devops", label: "Cloud & DevOps" },
+  { value: "security", label: "Security" },
+  { value: "strategy-advisory", label: "Strategy & Advisory" },
+  { value: "not-sure", label: "Not sure yet" },
+];
+
+const budgetOptions: { value: BudgetRange; label: string }[] = [
+  { value: "under-25k", label: "<$25k" },
+  { value: "25k-75k", label: "$25–75k" },
+  { value: "75k-200k", label: "$75–200k" },
+  { value: "200k-plus", label: "$200k+" },
+  { value: "not-sure", label: "Not sure" },
+];
+
+const contactCards = [
   {
     icon: Mail,
-    title: "Email",
+    label: "Email",
     value: "info@neostechus.com",
-    link: "mailto:info@neostechus.com",
+    href: "mailto:info@neostechus.com",
   },
   {
     icon: Phone,
-    title: "Phone",
+    label: "Phone",
     value: "+1 (314) 978-2326",
-    link: "tel:+13149782326",
+    href: "tel:+13149782326",
   },
   {
-    icon: MapPin,
-    title: "Location",
-    value: "Saint Louis, Missouri",
-    link: null,
-  },
-  {
-    icon: Clock,
-    title: "Response Time",
-    value: "Within 24 hours",
-    link: null,
+    icon: Linkedin,
+    label: "LinkedIn",
+    value: "linkedin.com/company/neostechs",
+    href: "https://www.linkedin.com/company/neostechs",
   },
 ];
 
-const MESSAGE_MAX_LENGTH = 1000;
-
 export default function Contact() {
-  const { toast } = useToast();
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    company: "",
-    service: "",
-    budget: "",
-    message: "",
+  const reduce = useReducedMotion();
+  const [submitted, setSubmitted] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<ContactFormValues>({
+    defaultValues: {
+      fullName: "",
+      email: "",
+      company: "",
+      service: "",
+      budget: "",
+      message: "",
+    },
   });
-  const [touched, setTouched] = useState<Record<string, boolean>>({});
 
-  const errors: Record<string, string> = {};
-  if (touched.name && !formData.name.trim()) errors.name = "Name is required";
-  if (touched.email && !formData.email.trim()) errors.email = "Email is required";
-  else if (touched.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) errors.email = "Enter a valid email";
-  if (touched.message && !formData.message.trim()) errors.message = "Message is required";
-  else if (touched.message && formData.message.length > MESSAGE_MAX_LENGTH) errors.message = `Message too long (max ${MESSAGE_MAX_LENGTH} characters)`;
+  const serviceValue = watch("service");
+  const budgetValue = watch("budget");
 
-  const handleBlur = (field: string) => {
-    setTouched((prev) => ({ ...prev, [field]: true }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    // Touch all required fields to show errors
-    setTouched({ name: true, email: true, message: true });
-
-    if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) return;
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) return;
-
-    setIsSubmitting(true);
-
-    try {
-      const response = await fetch('/api/send-email', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to send message');
-      }
-
-      setIsSubmitted(true);
-      toast({
-        title: "Message sent!",
-        description: "We'll get back to you within 24 hours.",
-      });
-
-      setFormData({
-        name: "",
-        email: "",
-        company: "",
-        service: "",
-        budget: "",
-        message: "",
-      });
-      setTouched({});
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: error instanceof Error ? error.message : "Failed to send message. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
+  const onSubmit = (values: ContactFormValues) => {
+    console.log("contact submission", values);
+    setSubmitted(true);
+    reset();
   };
 
   return (
     <Layout>
-      <SEO title="Contact" description="Get in touch with Neos Techs — Saint Louis based studio building AI agents, custom software, and web platforms." path="/contact" />
-      <LampContainer
-        className="bg-transparent min-h-screen rounded-none items-start justify-start pt-36 lg:pt-40"
-        contentClassName="w-full translate-y-0 px-0"
-      >
-        <div className="relative w-full">
-          <div className="absolute inset-0 bg-gradient-hero" />
-          <div className="absolute inset-0 bg-grid opacity-40" />
+      <SEO
+        title="Contact"
+        description="Get in touch with NeosTechs — book a 30-minute call about software, AI, data, and cloud engagements."
+        path="/contact"
+      />
 
-          {/* Hero */}
-          <section className="pt-8 pb-12 lg:pt-12 lg:pb-16 relative">
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
-              <div className="max-w-3xl mx-auto text-center">
-                <motion.h1
-                  initial={{ opacity: 0.5, y: 100 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{
-                    delay: 0.3,
-                    duration: 0.8,
-                    ease: "easeInOut",
-                  }}
-                  className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-5"
-                >
-                  Let's build something{" "}
-                  <span className="text-gradient">amazing</span>
-                </motion.h1>
-                <p className="text-base sm:text-lg text-muted-foreground">
-                  Ready to start your project? We'd love to hear from you. Fill out
-                  the form below and we'll get back to you within 24 hours.
-                </p>
-              </div>
-            </div>
-          </section>
+      {/* Hero */}
+      <section className="relative isolate overflow-hidden border-b border-border/60">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 bg-grid opacity-40"
+          style={{ maskImage: radialMask, WebkitMaskImage: radialMask }}
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(60% 40% at 50% 0%, hsl(var(--primary) / 0.10), transparent 70%)",
+          }}
+        />
 
-          {/* Contact Form & Info */}
-          <section className="py-16 lg:py-24">
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="grid lg:grid-cols-5 gap-12 max-w-6xl mx-auto">
-                {/* Form */}
-                <div className="lg:col-span-3">
-                  <div className="glass rounded-2xl p-8">
-                    {isSubmitted ? (
-                      <div className="text-center py-12">
-                        <div className="w-16 h-16 rounded-full bg-green-500/10 flex items-center justify-center mx-auto mb-6">
-                          <CheckCircle2 className="w-8 h-8 text-green-500" />
-                        </div>
-                        <h2 className="text-2xl font-bold mb-3">Message Sent!</h2>
-                        <p className="text-muted-foreground mb-6 max-w-sm mx-auto">
-                          Thank you for reaching out. We'll get back to you within 24 hours.
-                        </p>
-                        <Button
-                          variant="heroOutline"
-                          onClick={() => setIsSubmitted(false)}
-                        >
-                          Send Another Message
-                        </Button>
-                      </div>
-                    ) : (
-                      <>
-                        <h2 className="text-2xl font-bold mb-6">Send us a message</h2>
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-28 lg:pt-36 pb-12">
+          <motion.div
+            initial="hidden"
+            animate="show"
+            variants={reduce ? undefined : stagger}
+            className="max-w-3xl"
+          >
+            <motion.div variants={reduce ? undefined : fadeUp}>
+              <span className="inline-flex items-center gap-2 rounded-full border border-border bg-secondary px-3 py-1 text-xs text-muted-foreground">
+                <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+                Get in touch
+              </span>
+            </motion.div>
 
-                        <form onSubmit={handleSubmit} className="space-y-6" noValidate>
-                          <div className="grid sm:grid-cols-2 gap-6">
-                            <div className="space-y-2">
-                              <Label htmlFor="name">Full Name *</Label>
-                              <Input
-                                id="name"
-                                placeholder="John Doe"
-                                value={formData.name}
-                                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                onBlur={() => handleBlur("name")}
-                                required
-                                autoFocus
-                                className={`bg-secondary/50 ${errors.name ? "border-destructive" : ""}`}
-                                aria-invalid={!!errors.name}
-                                aria-describedby={errors.name ? "name-error" : undefined}
-                              />
-                              {errors.name && (
-                                <p id="name-error" className="text-xs text-destructive">{errors.name}</p>
-                              )}
-                            </div>
-                            <div className="space-y-2">
-                              <Label htmlFor="email">Email Address *</Label>
-                              <Input
-                                id="email"
-                                type="email"
-                                placeholder="john@company.com"
-                                value={formData.email}
-                                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                onBlur={() => handleBlur("email")}
-                                required
-                                className={`bg-secondary/50 ${errors.email ? "border-destructive" : ""}`}
-                                aria-invalid={!!errors.email}
-                                aria-describedby={errors.email ? "email-error" : undefined}
-                              />
-                              {errors.email && (
-                                <p id="email-error" className="text-xs text-destructive">{errors.email}</p>
-                              )}
-                            </div>
-                          </div>
+            <motion.h1
+              variants={reduce ? undefined : fadeUp}
+              className="mt-6 font-semibold tracking-tight leading-[1.05] text-foreground text-3xl sm:text-4xl md:text-5xl lg:text-6xl"
+            >
+              Let's actually{" "}
+              <span className="font-serif-accent text-primary">talk</span>.
+            </motion.h1>
 
-                          <div className="grid sm:grid-cols-2 gap-6">
-                            <div className="space-y-2">
-                              <Label htmlFor="company">Company</Label>
-                              <Input
-                                id="company"
-                                placeholder="Your Company"
-                                value={formData.company}
-                                onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                                className="bg-secondary/50"
-                              />
-                            </div>
-                            <div className="space-y-2">
-                              <Label htmlFor="service">Service Interested In</Label>
-                              <Select
-                                value={formData.service}
-                                onValueChange={(value) => setFormData({ ...formData, service: value })}
-                              >
-                                <SelectTrigger className="bg-secondary/50">
-                                  <SelectValue placeholder="Select a service" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                  <SelectItem value="website">Website Development</SelectItem>
-                                  <SelectItem value="ai">AI Agents</SelectItem>
-                                  <SelectItem value="custom">Custom Solution</SelectItem>
-                                  <SelectItem value="consulting">Consulting</SelectItem>
-                                  <SelectItem value="other">Other</SelectItem>
-                                </SelectContent>
-                              </Select>
-                            </div>
-                          </div>
+            <motion.p
+              variants={reduce ? undefined : fadeUp}
+              className="mt-6 text-lg leading-relaxed text-muted-foreground max-w-2xl"
+            >
+              30-minute call. No deck, no sales pitch — just a real conversation
+              about what you're trying to build.
+            </motion.p>
+          </motion.div>
+        </div>
+      </section>
 
-                          <div className="space-y-2">
-                            <Label htmlFor="budget">Estimated Budget</Label>
-                            <Select
-                              value={formData.budget}
-                              onValueChange={(value) => setFormData({ ...formData, budget: value })}
-                            >
-                              <SelectTrigger className="bg-secondary/50">
-                                <SelectValue placeholder="Select your budget range" />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectItem value="<5k">Less than $5,000</SelectItem>
-                                <SelectItem value="5k-10k">$5,000 - $10,000</SelectItem>
-                                <SelectItem value="10k-25k">$10,000 - $25,000</SelectItem>
-                                <SelectItem value="25k-50k">$25,000 - $50,000</SelectItem>
-                                <SelectItem value=">50k">$50,000+</SelectItem>
-                              </SelectContent>
-                            </Select>
-                          </div>
-
-                          <div className="space-y-2">
-                            <div className="flex items-center justify-between">
-                              <Label htmlFor="message">Message *</Label>
-                              <span className={`text-xs ${formData.message.length > MESSAGE_MAX_LENGTH ? "text-destructive" : "text-muted-foreground"}`}>
-                                {formData.message.length}/{MESSAGE_MAX_LENGTH}
-                              </span>
-                            </div>
-                            <Textarea
-                              id="message"
-                              placeholder="Tell us about your project..."
-                              value={formData.message}
-                              onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                              onBlur={() => handleBlur("message")}
-                              required
-                              rows={5}
-                              className={`bg-secondary/50 resize-none ${errors.message ? "border-destructive" : ""}`}
-                              aria-invalid={!!errors.message}
-                              aria-describedby={errors.message ? "message-error" : undefined}
-                            />
-                            {errors.message && (
-                              <p id="message-error" className="text-xs text-destructive">{errors.message}</p>
-                            )}
-                          </div>
-
-                          <Button
-                            variant="hero"
-                            size="lg"
-                            type="submit"
-                            disabled={isSubmitting}
-                            className="w-full sm:w-auto"
-                          >
-                            {isSubmitting ? (
-                              "Sending..."
-                            ) : (
-                              <>
-                                Send Message
-                                <Send className="w-4 h-4" />
-                              </>
-                            )}
-                          </Button>
-                        </form>
-                      </>
-                    )}
+      {/* Form + Info */}
+      <section className="border-t border-border/60 py-16 lg:py-24">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-12 gap-10">
+            {/* Form */}
+            <motion.div
+              initial={reduce ? undefined : { opacity: 0, y: 12 }}
+              whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-15%" }}
+              transition={{ duration: 0.5, ease: EASE }}
+              className="lg:col-span-7"
+            >
+              <div className="rounded-2xl border border-border/60 bg-card/60 backdrop-blur-sm p-6 sm:p-8">
+                {submitted ? (
+                  <div className="py-12 text-center">
+                    <div className="mx-auto mb-6 flex h-12 w-12 items-center justify-center rounded-full border border-border/60 bg-secondary">
+                      <CheckCircle2 className="h-6 w-6 text-primary" />
+                    </div>
+                    <h2 className="text-2xl font-semibold tracking-tight">
+                      Got it. We'll be in touch.
+                    </h2>
+                    <p className="mt-3 text-muted-foreground max-w-sm mx-auto leading-relaxed">
+                      Thanks for reaching out — we respond within one business
+                      day.
+                    </p>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      onClick={() => setSubmitted(false)}
+                      className="mt-6 rounded-full border border-border hover:bg-secondary"
+                    >
+                      Send another message
+                    </Button>
                   </div>
-                </div>
+                ) : (
+                  <>
+                    <div className="mb-8">
+                      <h2 className="text-2xl font-semibold tracking-tight">
+                        Tell us about your project
+                      </h2>
+                      <p className="mt-2 text-sm text-muted-foreground">
+                        The more context, the better the first call.
+                      </p>
+                    </div>
 
-                {/* Contact Info */}
-                <div className="lg:col-span-2 space-y-6">
-                  <div className="glass rounded-2xl p-8">
-                    <h2 className="text-xl font-bold mb-6">Contact Information</h2>
-                    <div className="space-y-6">
-                      {contactInfo.map((item) => (
-                        <div key={item.title} className="flex items-start gap-4">
-                          <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-                            <item.icon className="w-5 h-5 text-primary" />
-                          </div>
-                          <div>
-                            <p className="text-sm text-muted-foreground mb-1">{item.title}</p>
-                            {item.link ? (
-                              <a
-                                href={item.link}
-                                className="font-medium hover:text-primary transition-colors"
-                              >
-                                {item.value}
-                              </a>
-                            ) : (
-                              <p className="font-medium">{item.value}</p>
-                            )}
-                          </div>
+                    <form
+                      onSubmit={handleSubmit(onSubmit)}
+                      className="space-y-6"
+                      noValidate
+                    >
+                      <div className="grid sm:grid-cols-2 gap-6">
+                        <div className="space-y-2">
+                          <Label htmlFor="fullName">Full name</Label>
+                          <Input
+                            id="fullName"
+                            placeholder="Jane Doe"
+                            aria-invalid={!!errors.fullName}
+                            {...register("fullName", {
+                              required: "Name is required",
+                            })}
+                          />
+                          {errors.fullName && (
+                            <p className="text-xs text-destructive">
+                              {errors.fullName.message}
+                            </p>
+                          )}
                         </div>
-                      ))}
+                        <div className="space-y-2">
+                          <Label htmlFor="email">Email</Label>
+                          <Input
+                            id="email"
+                            type="email"
+                            placeholder="jane@company.com"
+                            aria-invalid={!!errors.email}
+                            {...register("email", {
+                              required: "Email is required",
+                              pattern: {
+                                value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                                message: "Enter a valid email",
+                              },
+                            })}
+                          />
+                          {errors.email && (
+                            <p className="text-xs text-destructive">
+                              {errors.email.message}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="company">
+                          Company{" "}
+                          <span className="text-muted-foreground font-normal">
+                            (optional)
+                          </span>
+                        </Label>
+                        <Input
+                          id="company"
+                          placeholder="Acme Inc."
+                          {...register("company")}
+                        />
+                      </div>
+
+                      <div className="grid sm:grid-cols-2 gap-6">
+                        <div className="space-y-2">
+                          <Label htmlFor="service">Service area</Label>
+                          <Select
+                            value={serviceValue || undefined}
+                            onValueChange={(v) =>
+                              setValue("service", v as ServiceArea, {
+                                shouldValidate: true,
+                              })
+                            }
+                          >
+                            <SelectTrigger id="service">
+                              <SelectValue placeholder="Select an area" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {serviceOptions.map((o) => (
+                                <SelectItem key={o.value} value={o.value}>
+                                  {o.label}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="budget">Budget</Label>
+                          <Select
+                            value={budgetValue || undefined}
+                            onValueChange={(v) =>
+                              setValue("budget", v as BudgetRange, {
+                                shouldValidate: true,
+                              })
+                            }
+                          >
+                            <SelectTrigger id="budget">
+                              <SelectValue placeholder="Select a range" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {budgetOptions.map((o) => (
+                                <SelectItem key={o.value} value={o.value}>
+                                  {o.label}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </div>
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="message">Message</Label>
+                        <Textarea
+                          id="message"
+                          rows={6}
+                          placeholder="What are you trying to build, and what does success look like?"
+                          aria-invalid={!!errors.message}
+                          className="resize-none"
+                          {...register("message", {
+                            required: "A short message helps us prepare",
+                            maxLength: {
+                              value: 2000,
+                              message: "Keep it under 2000 characters",
+                            },
+                          })}
+                        />
+                        {errors.message && (
+                          <p className="text-xs text-destructive">
+                            {errors.message.message}
+                          </p>
+                        )}
+                      </div>
+
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-2">
+                        <Button
+                          type="submit"
+                          disabled={isSubmitting}
+                          className="group/btn w-full sm:w-auto rounded-full bg-primary text-primary-foreground hover:bg-primary/90 hover:shadow-[0_10px_40px_-10px_hsl(var(--primary)/0.55)] transition-shadow"
+                        >
+                          {isSubmitting ? "Sending…" : "Send message"}
+                          <Send className="ml-2 h-4 w-4 transition-transform group-hover/btn:-translate-y-0.5" />
+                        </Button>
+                        <p className="text-xs text-muted-foreground">
+                          We respond within one business day.
+                        </p>
+                      </div>
+                    </form>
+                  </>
+                )}
+              </div>
+            </motion.div>
+
+            {/* Info */}
+            <motion.div
+              initial={reduce ? undefined : { opacity: 0, y: 12 }}
+              whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-15%" }}
+              transition={{ duration: 0.5, ease: EASE, delay: 0.1 }}
+              className="lg:col-span-5 space-y-5"
+            >
+              {contactCards.map((c) => (
+                <a
+                  key={c.label}
+                  href={c.href}
+                  className="group block rounded-2xl border border-border/60 bg-card/60 backdrop-blur-sm p-6 transition-colors hover:border-border"
+                >
+                  <div className="flex items-start gap-4">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-border/60 bg-secondary">
+                      <c.icon className="h-5 w-5 text-primary" />
+                    </div>
+                    <div>
+                      <div className="text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/70">
+                        {c.label}
+                      </div>
+                      <div className="mt-1 text-base font-medium text-foreground group-hover:text-primary transition-colors">
+                        {c.value}
+                      </div>
                     </div>
                   </div>
+                </a>
+              ))}
 
-                  <div className="relative min-h-[300px] flex items-center justify-center z-10">
-                    <Globe size={280} className="mx-auto" />
+              <div className="rounded-2xl border border-border/60 bg-card/60 backdrop-blur-sm p-6">
+                <div className="flex items-start gap-4">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-border/60 bg-secondary">
+                    <MapPin className="h-5 w-5 text-primary" />
+                  </div>
+                  <div>
+                    <div className="text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/70">
+                      Office
+                    </div>
+                    <div className="mt-1 text-base font-medium text-foreground">
+                      Saint Louis, Missouri
+                    </div>
+                    <p className="mt-1 text-sm text-muted-foreground leading-relaxed">
+                      Working remote-first across US / EU / APAC.
+                    </p>
                   </div>
                 </div>
               </div>
-            </div>
-          </section>
+
+              <div className="rounded-2xl border border-border/60 bg-card/60 backdrop-blur-sm p-6">
+                <div className="flex items-start gap-4">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-border/60 bg-secondary">
+                    <Clock className="h-5 w-5 text-primary" />
+                  </div>
+                  <div>
+                    <div className="text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/70">
+                      Office hours
+                    </div>
+                    <div className="mt-1 text-base font-medium text-foreground">
+                      Mon–Fri · 9am–6pm CT
+                    </div>
+                    <p className="mt-1 text-sm text-muted-foreground leading-relaxed">
+                      Async-friendly outside those hours.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
         </div>
-      </LampContainer>
+      </section>
+
+      {/* Closing band */}
+      <section className="border-t border-border/60 py-16">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground/70">
+            Prefer email?
+          </p>
+          <a
+            href="mailto:info@neostechus.com"
+            className="arrow-link mt-4 inline-block text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-foreground hover:text-primary transition-colors"
+          >
+            info@neostechus.com <span className="arrow">→</span>
+          </a>
+        </div>
+      </section>
     </Layout>
   );
 }

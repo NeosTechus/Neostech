@@ -1,73 +1,75 @@
 import { Link } from "react-router-dom";
-import { ArrowUpRight, Mail, MapPin, Phone, Sparkles } from "lucide-react";
+import { ArrowUpRight, Mail, MapPin, Phone } from "lucide-react";
+import logo from "@/assets/logo.png";
 
 const footerLinks = {
   company: [
-    { name: "About Us", path: "/about" },
+    { name: "About", path: "/about" },
     { name: "Team", path: "/team" },
     { name: "Careers", path: "/careers" },
     { name: "Contact", path: "/contact" },
   ],
-  services: [
-    { name: "Website Development", path: "/services" },
-    { name: "AI Agents", path: "/services" },
-    { name: "Custom Software", path: "/services" },
-    { name: "Consulting", path: "/services" },
+  capabilities: [
+    { name: "Strategy & Advisory", path: "/services#strategy" },
+    { name: "Software Engineering", path: "/services#engineering" },
+    { name: "AI & Machine Learning", path: "/services#ai-ml" },
+    { name: "Data & Analytics", path: "/services#data" },
+    { name: "Cloud & DevOps", path: "/services#cloud" },
+    { name: "Security & Compliance", path: "/services#security" },
   ],
   resources: [
-    { name: "Documentation", path: "#" },
-    { name: "Case Studies", path: "#" },
-    { name: "API Reference", path: "#" },
-    { name: "Support", path: "/contact" },
+    { name: "Selected Work", path: "/projects" },
+    { name: "Insights", path: "/#outlook" },
+    { name: "FAQ", path: "/#faq" },
   ],
   legal: [
-    { name: "Privacy Policy", path: "#" },
-    { name: "Terms of Service", path: "#" },
-    { name: "Cookie Policy", path: "#" },
+    { name: "Privacy Policy", path: "/privacy" },
+    { name: "Terms of Service", path: "/terms" },
+    { name: "Brand Guidelines", path: "/brand" },
   ],
 };
 
 export function Footer() {
   return (
-    <footer className="relative border-t border-border bg-card/50">
-      {/* Gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-radial opacity-30 pointer-events-none" />
-
+    <footer className="relative border-t border-border bg-secondary/60">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
         {/* Main Footer */}
         <div className="py-12 lg:py-16 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
           {/* Brand */}
           <div className="col-span-2 md:col-span-3 lg:col-span-2">
-            <Link to="/" className="flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-lg shadow-primary/25">
-                <span className="text-primary-foreground font-bold text-xl">N</span>
-              </div>
-              <span className="text-xl font-bold tracking-tight">
-                Neos <span className="text-gradient">Techs</span>
+            <Link to="/" className="inline-flex items-center gap-2 mb-4">
+              <img
+                src={logo}
+                alt="NeosTechs"
+                width={40}
+                height={40}
+                className="h-10 w-auto"
+              />
+              <span className="text-xl font-semibold tracking-tight text-foreground">
+                NeosTechs
               </span>
             </Link>
-            
-            {/* We Make You Online Badge */}
+
             <div className="flex flex-wrap items-center gap-3 mb-4">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20">
                 <span className="text-xs font-medium text-primary">We Make You Online</span>
               </div>
             </div>
-            
+
             <p className="text-muted-foreground text-sm leading-relaxed max-w-xs mb-6">
-              Empowering businesses with cutting-edge digital solutions. 
+              Empowering businesses with cutting-edge digital solutions.
               Transform your ideas into reality with our expert team.
             </p>
             <div className="space-y-3 text-sm">
-              <a 
-                href="mailto:info@neostechus.com" 
+              <a
+                href="mailto:info@neostechus.com"
                 className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
               >
                 <Mail className="w-4 h-4" />
                 info@neostechus.com
               </a>
-              <a 
-                href="tel:+13149782326" 
+              <a
+                href="tel:+13149782326"
                 className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
               >
                 <Phone className="w-4 h-4" />
@@ -80,7 +82,7 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Company Links */}
+          {/* Company */}
           <div>
             <h4 className="font-semibold text-sm mb-4">Company</h4>
             <ul className="space-y-3">
@@ -95,23 +97,14 @@ export function Footer() {
                   </Link>
                 </li>
               ))}
-              <li>
-                <Link
-                  to="/projects"
-                  className="inline-flex items-center gap-1.5 rounded-full border border-accent/30 px-2.5 py-1 text-[11px] font-medium text-accent hover:bg-accent/10 transition-colors group"
-                >
-                  View Projects
-                  <ArrowUpRight className="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                </Link>
-              </li>
             </ul>
           </div>
 
-          {/* Services Links */}
+          {/* Capabilities */}
           <div>
-            <h4 className="font-semibold text-sm mb-4">Solutions</h4>
+            <h4 className="font-semibold text-sm mb-4">Capabilities</h4>
             <ul className="space-y-3">
-              {footerLinks.services.map((link) => (
+              {footerLinks.capabilities.map((link) => (
                 <li key={link.name}>
                   <Link
                     to={link.path}
@@ -125,7 +118,7 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Resources Links */}
+          {/* Resources */}
           <div>
             <h4 className="font-semibold text-sm mb-4">Resources</h4>
             <ul className="space-y-3">
@@ -143,7 +136,7 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Legal Links */}
+          {/* Legal */}
           <div>
             <h4 className="font-semibold text-sm mb-4">Legal</h4>
             <ul className="space-y-3">
@@ -163,16 +156,8 @@ export function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="py-6 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
-          <p>© {new Date().getFullYear()} Neos Techs. All rights reserved.</p>
-          <div className="flex items-center gap-6">
-            <a href="#" className="hover:text-foreground transition-colors">Twitter</a>
-            <a href="#" className="hover:text-foreground transition-colors">LinkedIn</a>
-            <a href="#" className="hover:text-foreground transition-colors">GitHub</a>
-            <Link to="/login" className="hover:text-foreground transition-colors">
-              Login
-            </Link>
-          </div>
+        <div className="py-6 border-t border-border text-center text-sm text-muted-foreground">
+          <p>© {new Date().getFullYear()} NeosTechs. All rights reserved.</p>
         </div>
       </div>
     </footer>

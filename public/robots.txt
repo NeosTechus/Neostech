@@ -1,16 +1,49 @@
+# Search engines — fully allowed
 User-agent: Googlebot
 Allow: /
 
 User-agent: Bingbot
 Allow: /
 
+User-agent: DuckDuckBot
+Allow: /
+
+# Social media link previewers — needed for OG cards
 User-agent: Twitterbot
 Allow: /
 
 User-agent: facebookexternalhit
 Allow: /
 
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: Slackbot
+Allow: /
+
+User-agent: WhatsApp
+Allow: /
+
+User-agent: TelegramBot
+Allow: /
+
+# AI search assistants (allow — these drive traffic)
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: YouBot
+Allow: /
+
+# Default — block private app routes from all bots
 User-agent: *
 Allow: /
+Disallow: /admin
+Disallow: /admin/
+Disallow: /employee
+Disallow: /employee/
+Disallow: /login
+Disallow: /forgot-password
+Disallow: /reset-password
+Disallow: /api/
 
 Sitemap: https://neostechus.com/sitemap.xml

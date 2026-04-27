@@ -252,7 +252,7 @@ export function ChatBot() {
       {/* Chat Toggle Button */}
       <Button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 right-6 h-14 w-14 rounded-full shadow-lg z-50 hover:scale-110 transition-all duration-300 hover:shadow-xl hover:shadow-primary/25 animate-pulse-glow"
+        className="fixed bottom-6 right-6 h-14 w-14 rounded-full shadow-lg z-50 hover:scale-110 transition-all duration-300 hover:shadow-xl hover:shadow-primary/25"
         size="icon"
         aria-label={isOpen ? "Close chat" : "Open chat"}
       >

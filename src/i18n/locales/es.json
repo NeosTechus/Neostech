@@ -1,0 +1,56 @@
+{
+  "nav": {
+    "capabilities": "Capacidades",
+    "industries": "Industrias",
+    "work": "Trabajo",
+    "about": "Nosotros",
+    "careers": "Empleo",
+    "search": "Buscar",
+    "language": "Idioma",
+    "bookCall": "Hablemos",
+    "viewAllCapabilities": "Ver todas las capacidades",
+    "seeSelectedWork": "Ver trabajos destacados"
+  },
+  "hero": {
+    "eyebrow": "Estudio de ingeniería con IA nativa · Saint Louis",
+    "ctaPrimary": "Agenda una llamada de 30 min",
+    "ctaGhost": "Ver nuestro trabajo",
+    "trust": "Quiénes somos",
+    "slides": [
+      {
+        "before": "Software, datos e ",
+        "accent": "inteligencia",
+        "after": " bajo un mismo techo.",
+        "subhead": "Del descubrimiento a la operación — ingeniería, IA, datos, nube y seguridad desde un único equipo responsable."
+      },
+      {
+        "before": "Danos el candado. Traemos la ",
+        "accent": "llave",
+        "after": ", con IA.",
+        "subhead": "Cuéntanos qué está bloqueado. Traemos los agentes de IA, el software y la ingeniería para desbloquearlo — construido para producción, no demos."
+      },
+      {
+        "before": "Resultados ",
+        "accent": "de ingeniería",
+        "after": " para equipos ambiciosos.",
+        "subhead": "NeosTechs es una firma de servicios de TI con IA nativa. Cada solución que construimos — software, datos, nube, automatización — está diseñada con IA en el núcleo."
+      }
+    ]
+  },
+  "capability": {
+    "label": "Toda la pila, en un solo equipo",
+    "tag": "Capacidad",
+    "since": "fundada en 2026",
+    "strategy": "Estrategia",
+    "strategyMeta": "Descubrimiento · alcance · hojas de ruta",
+    "engineering": "Ingeniería",
+    "engineeringMeta": "Web · móvil · plataformas",
+    "dataAi": "Datos e IA",
+    "dataAiMeta": "Pipelines · modelos · agentes",
+    "cloud": "Nube y Operación",
+    "cloudMeta": "Infra · observabilidad · guardia",
+    "industries": "industrias",
+    "engineers": "ingenieros",
+    "retention": "retención"
+  }
+}

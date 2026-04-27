@@ -1,0 +1,56 @@
+{
+  "nav": {
+    "capabilities": "Capabilities",
+    "industries": "Industries",
+    "work": "Work",
+    "about": "About",
+    "careers": "Careers",
+    "search": "Search",
+    "language": "Language",
+    "bookCall": "Let's talk",
+    "viewAllCapabilities": "View all capabilities",
+    "seeSelectedWork": "See selected work"
+  },
+  "hero": {
+    "eyebrow": "AI-native engineering studio · Saint Louis",
+    "ctaPrimary": "Book a 30-min call",
+    "ctaGhost": "See our work",
+    "trust": "What we are",
+    "slides": [
+      {
+        "before": "Software, data, and ",
+        "accent": "intelligence",
+        "after": " under one roof.",
+        "subhead": "From discovery through operate — engineering, AI, data, cloud, and security from a single, accountable team."
+      },
+      {
+        "before": "Give us the lock. We bring the ",
+        "accent": "key",
+        "after": ", with AI.",
+        "subhead": "Tell us what's stuck. We bring the AI agents, custom software, and engineering to unlock it — built for production, not demos."
+      },
+      {
+        "before": "Engineered ",
+        "accent": "outcomes",
+        "after": " for ambitious teams.",
+        "subhead": "NeosTechs is an AI-native IT services firm. Every solution we build — software, data, cloud, automation — is engineered with AI at the core."
+      }
+    ]
+  },
+  "capability": {
+    "label": "The full stack, in one team",
+    "tag": "Capability",
+    "since": "est. 2026",
+    "strategy": "Strategy",
+    "strategyMeta": "Discovery · scoping · roadmaps",
+    "engineering": "Engineering",
+    "engineeringMeta": "Web · mobile · platforms",
+    "dataAi": "Data & AI",
+    "dataAiMeta": "Pipelines · models · agents",
+    "cloud": "Cloud & Operate",
+    "cloudMeta": "Infra · observability · on-call",
+    "industries": "industries",
+    "engineers": "engineers",
+    "retention": "retention"
+  }
+}

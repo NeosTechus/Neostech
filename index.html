@@ -5,29 +5,40 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/png" href="/logo.png" />
-  <title>Neos Techs | Web Development, AI Agents & Digital Solutions</title>
-  <meta name="description" content="Neos Techs delivers cutting-edge full-stack web solutions, AI agents, custom software development, and digital consulting to transform your business." />
-  <meta name="author" content="Neos Techs" />
-  <meta name="keywords" content="web development, AI agents, custom software, digital consulting, React, NeosTechs, Saint Louis" />
+  <title>NeosTechs | AI-native engineering & IT services for ambitious teams</title>
+  <meta name="description" content="NeosTechs is an AI-native IT services and engineering firm building production software, data, AI, and cloud systems. Saint Louis · serving US, LATAM, and EU." />
+  <meta name="author" content="NeosTechs" />
+  <meta name="keywords" content="AI engineering, AI agents, custom software, IT services, data engineering, cloud DevOps, software consulting, Saint Louis, production AI" />
   <link rel="canonical" href="https://neostechus.com" />
 
   <!-- Open Graph fallbacks (per-route values injected by react-helmet-async) -->
   <meta property="og:image:width" content="512" />
   <meta property="og:image:height" content="512" />
   <meta property="og:locale" content="en_US" />
+  <meta property="og:locale:alternate" content="es_ES" />
+  <meta property="og:locale:alternate" content="pt_BR" />
   <meta name="twitter:site" content="@NeosTechs" />
-  <meta name="theme-color" content="#0a1426" />
-  <meta name="robots" content="index,follow" />
+  <meta name="theme-color" content="#ffffff" />
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1" />
+  <meta name="format-detection" content="telephone=no" />
 
-  <!-- Structured Data -->
+  <!-- DNS prefetch + preconnect for perf -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="dns-prefetch" href="https://images.unsplash.com" />
+  <link rel="dns-prefetch" href="https://www.google.com" />
+
+  <!-- Structured Data — Organization (fallback; per-page JSON-LD added at runtime) -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "name": "Neos Techs",
+    "name": "NeosTechs",
+    "alternateName": "Neos Techs",
     "url": "https://neostechus.com",
     "logo": "https://neostechus.com/logo.png",
-    "description": "Neos Techs delivers cutting-edge full-stack web solutions, AI agents, custom software development, and digital consulting.",
+    "description": "AI-native IT services and engineering firm building production software, data, AI, and cloud systems.",
+    "foundingDate": "2026",
     "address": {
       "@type": "PostalAddress",
       "addressLocality": "Saint Louis",
@@ -38,15 +49,30 @@
       "@type": "ContactPoint",
       "telephone": "+1-314-978-2326",
       "email": "info@neostechus.com",
-      "contactType": "customer service"
+      "contactType": "customer service",
+      "areaServed": ["US", "Latin America", "EU"],
+      "availableLanguage": ["English", "Spanish", "Portuguese"]
     },
-    "sameAs": []
+    "sameAs": [
+      "https://www.linkedin.com/company/neostechs"
+    ]
   }
   </script>
 
-  <!-- Preconnect for performance -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- Structured Data — WebSite (enables sitelinks search box) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "NeosTechs",
+    "url": "https://neostechus.com",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://neostechus.com/?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
   </head>
 
   <body>

@@ -1,0 +1,56 @@
+{
+  "nav": {
+    "capabilities": "Capacidades",
+    "industries": "Indústrias",
+    "work": "Projetos",
+    "about": "Sobre",
+    "careers": "Carreiras",
+    "search": "Pesquisar",
+    "language": "Idioma",
+    "bookCall": "Vamos conversar",
+    "viewAllCapabilities": "Ver todas as capacidades",
+    "seeSelectedWork": "Ver projetos selecionados"
+  },
+  "hero": {
+    "eyebrow": "Estúdio de engenharia AI-native · Saint Louis",
+    "ctaPrimary": "Agendar uma chamada de 30 min",
+    "ctaGhost": "Ver nosso trabalho",
+    "trust": "Quem somos",
+    "slides": [
+      {
+        "before": "Software, dados e ",
+        "accent": "inteligência",
+        "after": " sob o mesmo teto.",
+        "subhead": "Da descoberta à operação — engenharia, IA, dados, nuvem e segurança de um único time responsável."
+      },
+      {
+        "before": "Nos dê a fechadura. Trazemos a ",
+        "accent": "chave",
+        "after": ", com IA.",
+        "subhead": "Conte-nos o que está travado. Trazemos os agentes de IA, o software e a engenharia para destravar — feito para produção, não demos."
+      },
+      {
+        "before": "Resultados ",
+        "accent": "de engenharia",
+        "after": " para equipes ambiciosas.",
+        "subhead": "NeosTechs é uma empresa de serviços de TI AI-native. Cada solução que entregamos — software, dados, nuvem, automação — é construída com IA no núcleo."
+      }
+    ]
+  },
+  "capability": {
+    "label": "A stack inteira, em um único time",
+    "tag": "Capacidade",
+    "since": "fundada em 2026",
+    "strategy": "Estratégia",
+    "strategyMeta": "Descoberta · escopo · roadmaps",
+    "engineering": "Engenharia",
+    "engineeringMeta": "Web · mobile · plataformas",
+    "dataAi": "Dados e IA",
+    "dataAiMeta": "Pipelines · modelos · agentes",
+    "cloud": "Nuvem e Operação",
+    "cloudMeta": "Infra · observabilidade · plantão",
+    "industries": "indústrias",
+    "engineers": "engenheiros",
+    "retention": "retenção"
+  }
+}

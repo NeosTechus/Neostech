@@ -1,195 +1,267 @@
 import { Layout } from "@/components/layout/Layout";
 import { SEO } from "@/components/SEO";
 import { Button } from "@/components/ui/button";
+import { SpotlightCard } from "@/components/ui/SpotlightCard";
 import { Link } from "react-router-dom";
-import { 
-  ArrowRight, MapPin, Clock, Briefcase, 
-  Heart, Zap, Globe, Coffee 
+import { motion } from "framer-motion";
+import {
+  ArrowRight,
+  Hammer,
+  Compass,
+  Banknote,
+  Sun,
 } from "lucide-react";
 
-const openings = [
+type Role = {
+  title: string;
+  department: string;
+  location: string;
+  type: string;
+  description?: string;
+};
+
+const roles: Role[] = [
   {
     title: "Senior Full Stack Developer",
     department: "Engineering",
-    location: "Remote",
+    location: "Remote / Saint Louis",
     type: "Full-time",
-    description: "Build scalable web applications using React, Node.js, and cloud technologies.",
+    description:
+      "Own features end-to-end across React, Node, and the cloud. You'll ship to real customers in your first week, not your first quarter.",
   },
   {
     title: "AI/ML Engineer",
     department: "AI Research",
-    location: "Remote",
+    location: "Remote / Saint Louis",
     type: "Full-time",
-    description: "Develop and deploy intelligent AI agents and machine learning models.",
+    description:
+      "Design, evaluate, and ship LLM-backed agents that actually do work. Comfortable arguing about evals, latency, and cost trade-offs.",
   },
   {
-    title: "UI/UX Designer",
+    title: "Product Designer",
     department: "Design",
-    location: "Remote",
+    location: "Remote / Saint Louis",
     type: "Full-time",
-    description: "Create beautiful, user-centric designs for web and mobile applications.",
+    description:
+      "Drive product surface area from wireframes through production. You think in flows and edge cases, not dribbble shots.",
   },
   {
-    title: "Project Manager",
-    department: "Operations",
-    location: "Remote",
+    title: "Engineering Manager",
+    department: "Engineering",
+    location: "Remote / Saint Louis",
     type: "Full-time",
-    description: "Lead cross-functional teams to deliver exceptional projects on time.",
+    description:
+      "Lead a small pod of engineers. Half your time is unblocking people; the other half is still in the codebase.",
   },
 ];
 
-const benefits = [
+const values = [
   {
-    icon: Globe,
-    title: "Remote First",
-    description: "Work from anywhere in the world with flexible hours.",
+    icon: Hammer,
+    title: "Real work",
+    description:
+      "Production code, real users, hard problems. No make-work tickets, no theater.",
   },
   {
-    icon: Heart,
-    title: "Health & Wellness",
-    description: "Comprehensive health coverage and wellness programs.",
+    icon: Compass,
+    title: "Real ownership",
+    description:
+      "You pick the approach, ship it, and answer for it. We trust you to make the call.",
   },
   {
-    icon: Zap,
-    title: "Learning Budget",
-    description: "Annual budget for courses, conferences, and certifications.",
+    icon: Banknote,
+    title: "Real money",
+    description:
+      "Honest market comp, reviewed yearly without the negotiation games.",
   },
   {
-    icon: Coffee,
-    title: "Team Events",
-    description: "Regular virtual and in-person team gatherings.",
+    icon: Sun,
+    title: "Real time off",
+    description:
+      "Take it without justifying it. We measure output, not hours at the keyboard.",
   },
 ];
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 16 },
+  show: { opacity: 1, y: 0 },
+};
 
 export default function Careers() {
   return (
     <Layout>
-      <SEO title="Careers" description="Join Neos Techs — we hire engineers and designers who care about shipping. Open roles in engineering, design, and AI." path="/careers" />
-      {/* Hero */}
-      <section className="pt-24 pb-16 lg:pt-32 lg:pb-24 relative">
-        <div className="absolute inset-0 bg-gradient-hero" />
-        <div className="absolute inset-0 bg-grid opacity-40" />
-        
+      <SEO
+        title="Careers"
+        description="Join Neos Techs — we hire engineers and designers who care about shipping. Open roles in engineering, design, and AI."
+        path="/careers"
+      />
+
+      <section className="relative pt-28 lg:pt-36 pb-12">
+        <div
+          className="absolute inset-0 bg-grid opacity-60 pointer-events-none"
+          style={{
+            WebkitMaskImage:
+              "radial-gradient(ellipse at 50% 30%, black 40%, transparent 75%)",
+            maskImage:
+              "radial-gradient(ellipse at 50% 30%, black 40%, transparent 75%)",
+          }}
+        />
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <div className="max-w-3xl mx-auto text-center">
-            <span className="inline-block px-4 py-1.5 rounded-full text-sm font-medium bg-accent/10 text-accent mb-4">
-              Join Our Team
-            </span>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
-              Build the future{" "}
-              <span className="text-gradient">with us</span>
+          <motion.div
+            initial="hidden"
+            animate="show"
+            variants={fadeUp}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            className="max-w-4xl"
+          >
+            <div className="text-sm text-muted-foreground tracking-wide uppercase mb-6">
+              Careers
+            </div>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight leading-[1.05] text-foreground">
+              Build the things you'd{" "}
+              <span className="font-serif-accent text-primary">actually</span>{" "}
+              want to use.
             </h1>
-            <p className="text-lg text-muted-foreground mb-8">
-              We're looking for passionate individuals who want to make an impact. 
-              Join us in transforming how businesses embrace digital technology.
+            <p className="mt-6 text-lg text-muted-foreground max-w-2xl leading-relaxed">
+              We're a small studio that ships. We hire people who care about the
+              craft, take ownership of outcomes, and would rather argue about
+              the right answer than wait to be told.
             </p>
-            <Button variant="hero" size="xl" asChild>
-              <a href="#openings">
-                View Open Positions
-                <ArrowRight className="w-5 h-5" />
-              </a>
-            </Button>
-          </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* Benefits */}
-      <section className="py-16 lg:py-24 bg-card/50">
+      <section className="border-t border-border/60 py-24">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <span className="inline-block px-4 py-1.5 rounded-full text-sm font-medium bg-primary/10 text-primary mb-4">
-              Why Join Us
-            </span>
-            <h2 className="text-3xl lg:text-4xl font-bold mb-4">
-              Benefits & Perks
+          <motion.div
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: "-80px" }}
+            variants={fadeUp}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            className="max-w-2xl mb-12"
+          >
+            <div className="text-sm text-muted-foreground tracking-wide uppercase mb-4">
+              Why work here
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-foreground">
+              Four things, no fluff.
             </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              We believe in taking care of our team so they can do their best work.
-            </p>
-          </div>
+          </motion.div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
-            {benefits.map((benefit) => (
-              <div key={benefit.title} className="glass rounded-xl p-6 text-center card-hover">
-                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mx-auto mb-4">
-                  <benefit.icon className="w-6 h-6 text-primary" />
-                </div>
-                <h3 className="font-semibold mb-2">{benefit.title}</h3>
-                <p className="text-sm text-muted-foreground">{benefit.description}</p>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-border/40 border border-border/60 rounded-2xl overflow-hidden">
+            {values.map((v) => (
+              <div
+                key={v.title}
+                className="bg-background p-8 hover:bg-card/40 transition-colors"
+              >
+                <v.icon className="h-5 w-5 text-primary" strokeWidth={1.75} />
+                <h3 className="mt-6 text-lg font-semibold tracking-tight text-foreground">
+                  {v.title}
+                </h3>
+                <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
+                  {v.description}
+                </p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Open Positions */}
-      <section id="openings" className="py-16 lg:py-24 scroll-mt-24">
+      <section
+        id="openings"
+        className="border-t border-border/60 py-24 lg:py-32 scroll-mt-24"
+      >
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <span className="inline-block px-4 py-1.5 rounded-full text-sm font-medium bg-accent/10 text-accent mb-4">
-              Open Positions
-            </span>
-            <h2 className="text-3xl lg:text-4xl font-bold mb-4">
-              Current Openings
+          <motion.div
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: "-80px" }}
+            variants={fadeUp}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            className="max-w-3xl"
+          >
+            <div className="text-sm text-muted-foreground tracking-wide uppercase mb-4">
+              Open roles
+            </div>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-foreground">
+              What we're hiring for.
             </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              Find your next opportunity and grow with us.
+            <p className="mt-5 text-base text-muted-foreground leading-relaxed">
+              Send a short note about what you've shipped recently. We read
+              every application.
             </p>
-          </div>
+          </motion.div>
 
-          <div className="max-w-3xl mx-auto space-y-4">
-            {openings.map((job) => (
-              <div key={job.title} className="glass rounded-xl p-6 card-hover group">
-                <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-                  <div>
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="text-xs px-2 py-1 rounded-full bg-primary/10 text-primary">
-                        {job.department}
+          <div className="mt-14 flex flex-col gap-4">
+            {roles.map((role, i) => (
+              <motion.div
+                key={role.title}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, margin: "-60px" }}
+                variants={fadeUp}
+                transition={{
+                  duration: 0.45,
+                  ease: "easeOut",
+                  delay: i * 0.06,
+                }}
+              >
+                <Link to="/contact" className="group block">
+                  <SpotlightCard className="border border-border/60 bg-card/40 backdrop-blur-sm rounded-2xl px-6 py-6 transition-colors group-hover:border-border">
+                    <div className="flex flex-wrap items-center gap-x-6 gap-y-3 justify-between">
+                      <div className="min-w-0">
+                        <h3 className="text-lg font-semibold tracking-tight text-foreground">
+                          {role.title}
+                        </h3>
+                        <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted-foreground">
+                          <span>{role.department}</span>
+                          <span className="text-muted-foreground/40">·</span>
+                          <span>{role.location}</span>
+                          <span className="text-muted-foreground/40">·</span>
+                          <span>{role.type}</span>
+                        </div>
+                      </div>
+                      <span className="arrow-link text-sm text-foreground">
+                        Apply
+                        <ArrowRight className="arrow h-4 w-4" />
                       </span>
                     </div>
-                    <h3 className="text-lg font-semibold mb-2">{job.title}</h3>
-                    <p className="text-sm text-muted-foreground mb-3">{job.description}</p>
-                    <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                      <span className="flex items-center gap-1">
-                        <MapPin className="w-4 h-4" />
-                        {job.location}
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <Clock className="w-4 h-4" />
-                        {job.type}
-                      </span>
-                    </div>
-                  </div>
-                  <Button variant="hero" asChild className="shrink-0">
-                    <Link to="/contact">
-                      Apply Now
-                      <ArrowRight className="w-4 h-4" />
-                    </Link>
-                  </Button>
-                </div>
-              </div>
+                    {role.description && (
+                      <p className="text-sm text-muted-foreground mt-4 leading-relaxed">
+                        {role.description}
+                      </p>
+                    )}
+                  </SpotlightCard>
+                </Link>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-16 lg:py-24">
+      <section className="border-t border-border/60 py-16">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="glass rounded-3xl p-8 lg:p-16 text-center glow-accent">
-            <h2 className="text-3xl lg:text-4xl font-bold mb-4">
-              Don't see a perfect fit?
-            </h2>
-            <p className="text-muted-foreground mb-8 max-w-xl mx-auto">
-              We're always looking for talented individuals. Send us your resume and we'll keep you in mind for future opportunities.
+          <motion.div
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: "-60px" }}
+            variants={fadeUp}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            className="max-w-2xl mx-auto text-center"
+          >
+            <p className="text-lg text-foreground">
+              Don't see your role? Tell us what you'd build here anyway.
             </p>
-            <Button variant="hero" size="xl" asChild>
-              <Link to="/contact">
-                Get in Touch
-                <ArrowRight className="w-5 h-5" />
-              </Link>
-            </Button>
-          </div>
+            <div className="mt-6 flex justify-center">
+              <Button asChild size="lg">
+                <Link to="/contact">
+                  Send us a note
+                  <ArrowRight className="ml-1 h-4 w-4" />
+                </Link>
+              </Button>
+            </div>
+          </motion.div>
         </div>
       </section>
     </Layout>
