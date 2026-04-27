@@ -14,11 +14,11 @@ type Project = {
 const projects: Project[] = [
   {
     name: "Fenton Gyro",
-    url: "https://fenton-gyro.vercel.app",
-    domain: "fenton-gyro.vercel.app",
+    url: "https://fentongyro.com",
+    domain: "fentongyro.com",
     tag: "Restaurant POS",
     description:
-      "Online ordering and POS for a Mediterranean kitchen — cancelled unpaid orders auto-clear, payment-pending lifecycle handled cleanly.",
+      "Custom kiosk, POS, and customer-facing website for a Mediterranean kitchen — Turnkey-powered payments, REST API integrations, MongoDB, role-based auth for staff and admins, and live alerts on every web order.",
   },
   {
     name: "Dulceria Medina",
@@ -26,7 +26,7 @@ const projects: Project[] = [
     domain: "dulceriamedina.com",
     tag: "Retail · E-commerce",
     description:
-      "Storefront for a Mexican candy and party-supply business with curated ready-to-eat menu and bilingual product browsing.",
+      "Full e-commerce for a Mexican candy and ready-to-eat business — Firebase backend, JWT role-based auth, dual product catalog, bilingual checkout, and delivery within a 60-mile radius.",
   },
   {
     name: "Taco Hectorito",
@@ -34,7 +34,7 @@ const projects: Project[] = [
     domain: "tacoshectorito.com",
     tag: "Restaurant",
     description:
-      "Brand site, menu, and reservations for a taco restaurant — fast on mobile, local SEO tuned for the surrounding neighborhood.",
+      "Brand site, menu, and reservation flow for a taco restaurant — mobile-first responsive layout, local SEO tuned for the neighborhood, and fast load on cellular networks.",
   },
   {
     name: "Louisiana Fish & Chicken",
@@ -42,7 +42,7 @@ const projects: Project[] = [
     domain: "louisianafishchicken.com",
     tag: "Restaurant",
     description:
-      "Hero, menu, and order-online flow for a Louisiana-style fish and chicken kitchen, redesigned around the brand's edges and color palette.",
+      "Hero, menu, and order-online flow for a Louisiana-style fish and chicken kitchen — brand-aligned color palette, mobile-first checkout, and fast pickup-ordering experience.",
   },
   {
     name: "Mariachi",
@@ -50,7 +50,7 @@ const projects: Project[] = [
     domain: "mariachi2.vercel.app",
     tag: "Restaurant",
     description:
-      "Marketing site and menu for a mariachi-themed Mexican restaurant — refined hero, navbar, and view-menu flow.",
+      "Marketing site and menu for a mariachi-themed Mexican restaurant — refined hero and navbar, view-menu flow, and a mobile-responsive layout that loads fast on cellular.",
   },
   {
     name: "Novedades Latinos Beauty",
@@ -58,7 +58,7 @@ const projects: Project[] = [
     domain: "novedadeslatinosbeauty.com",
     tag: "Retail · Beauty",
     description:
-      "Beauty and personal-care e-commerce for the Latin community — image-led product cards, deduplicated catalog, fast browse.",
+      "Bilingual beauty and personal-care e-commerce for the Latin community — image-led product cards, deduplicated catalog, and a fast browse experience across mobile and desktop.",
   },
 ];
 
