@@ -1,10 +1,17 @@
 import { Layout } from "@/components/layout/Layout";
+import { SEO } from "@/components/SEO";
 import { SplineSceneBasic } from "@/components/ui/demo";
 import { Spotlight } from "@/components/ui/spotlight";
 
 export default function Services() {
   return (
     <Layout>
+      <SEO
+        title="Solutions"
+        description="AI agents, custom software, web development, and consulting solutions built to ship outcomes for ambitious teams."
+        path="/services"
+      />
+
       {/* Services Robot Section */}
       <section className="pt-24 pb-24 lg:pt-32 lg:pb-32 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-hero" />

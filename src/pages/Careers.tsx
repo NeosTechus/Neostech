@@ -1,4 +1,5 @@
 import { Layout } from "@/components/layout/Layout";
+import { SEO } from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { 
@@ -63,6 +64,7 @@ const benefits = [
 export default function Careers() {
   return (
     <Layout>
+      <SEO title="Careers" description="Join Neos Techs — we hire engineers and designers who care about shipping. Open roles in engineering, design, and AI." path="/careers" />
       {/* Hero */}
       <section className="pt-24 pb-16 lg:pt-32 lg:pb-24 relative">
         <div className="absolute inset-0 bg-gradient-hero" />

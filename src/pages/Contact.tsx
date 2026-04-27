@@ -1,4 +1,5 @@
 import { Layout } from "@/components/layout/Layout";
+import { SEO } from "@/components/SEO";
 import Globe from "@/components/ui/globe";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -125,6 +126,7 @@ export default function Contact() {
 
   return (
     <Layout>
+      <SEO title="Contact" description="Get in touch with Neos Techs — Saint Louis based studio building AI agents, custom software, and web platforms." path="/contact" />
       <LampContainer
         className="bg-transparent min-h-screen rounded-none items-start justify-start pt-36 lg:pt-40"
         contentClassName="w-full translate-y-0 px-0"

@@ -3,6 +3,7 @@ import { ExternalLink, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Layout } from "@/components/layout/Layout";
+import { SEO } from "@/components/SEO";
 
 const projects = [
   {
@@ -66,6 +67,7 @@ const Projects = () => {
 
   return (
     <Layout>
+      <SEO title="Projects" description="Selected work from Neos Techs — AI platforms, web apps, and custom software shipped for ambitious teams." path="/projects" />
       <section className="py-24 lg:py-32 relative overflow-hidden">
         {/* Background */}
         <div className="absolute inset-0 bg-grid opacity-20" />

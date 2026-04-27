@@ -1,4 +1,5 @@
 import { Layout } from "@/components/layout/Layout";
+import { SEO } from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { ArrowRight, Target, Eye, Heart, Users, Award, Clock, Globe } from "lucide-react";
@@ -61,6 +62,7 @@ const globalPresence = [
 export default function About() {
   return (
     <Layout>
+      <SEO title="About" description="Meet Neos Techs — an applied AI and full-stack engineering studio shipping production solutions, not pilots." path="/about" />
       {/* Hero */}
       <section className="pt-24 pb-16 lg:pt-32 lg:pb-24 relative">
         <div className="absolute inset-0 bg-gradient-hero" />

@@ -1,4 +1,5 @@
 import { Layout } from "@/components/layout/Layout";
+import { SEO } from "@/components/SEO";
 import { Linkedin, Twitter, Mail } from "lucide-react";
 
 const DEFAULT_TEAM_IMAGE = "/defualt.jpg";
@@ -76,6 +77,7 @@ const teamMembers = [
 export default function Team() {
   return (
     <Layout>
+      <SEO title="Team" description="The people behind Neos Techs — engineers and designers shipping AI and full-stack products." path="/team" />
       {/* Hero */}
       <section className="pt-24 pb-16 lg:pt-32 lg:pb-24 relative">
         <div className="absolute inset-0 bg-gradient-hero" />
