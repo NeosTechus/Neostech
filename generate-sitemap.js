@@ -35,13 +35,30 @@ async function generateSitemap() {
 
     while ((match = routeRegex.exec(appContent)) !== null) {
       const routePath = match[1];
-      
+
       // Filter exclusions
       if (!routePath.startsWith('/')) continue;
       if (EXCLUDED_ROUTES.includes(routePath)) continue;
       if (EXCLUDED_PREFIXES.some(prefix => routePath.startsWith(prefix))) continue;
-      
+      // Skip dynamic routes (e.g. /blog/:slug) — expanded below from data
+      if (routePath.includes(':')) continue;
+
       routes.add(routePath);
+    }
+
+    // Expand dynamic blog post routes from the blog data file
+    try {
+      const blogSource = fs.readFileSync(
+        path.join(__dirname, 'src', 'data', 'blogPosts.ts'),
+        'utf-8'
+      );
+      const slugRegex = /slug:\s*["']([^"']+)["']/g;
+      let slugMatch;
+      while ((slugMatch = slugRegex.exec(blogSource)) !== null) {
+        routes.add(`/blog/${slugMatch[1]}`);
+      }
+    } catch {
+      // Blog data optional — skip if absent
     }
 
     const sitemapContent = `<?xml version="1.0" encoding="UTF-8"?>

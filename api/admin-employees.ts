@@ -9,34 +9,35 @@ const JWT_SECRET = process.env.JWT_SECRET!;
 const ADMIN_EMAILS = (process.env.ADMIN_EMAILS || '').split(',').map(e => e.trim().toLowerCase());
 
 interface Employee {
-  _id: ObjectId;
+  _id?: ObjectId;
   userId: ObjectId;
   email: string;
   name: string;
   position: string;
   department: string;
-  hireDate?: string;
+  hireDate?: Date;
   createdAt: Date;
 }
 
 interface Project {
-  _id: ObjectId;
+  _id?: ObjectId;
   name: string;
   description: string;
   status: string;
-  deadline?: string;
+  deadline?: Date | null;
   assignedEmployees?: ObjectId[];
   createdAt: Date;
+  updatedAt?: Date;
 }
 
 interface Ticket {
-  _id: ObjectId;
+  _id?: ObjectId;
   title: string;
   description: string;
   priority: string;
   status: string;
   assignedTo?: ObjectId | null;
-  projectId?: ObjectId;
+  projectId?: ObjectId | null;
   createdAt: Date;
   updatedAt?: Date;
 }
