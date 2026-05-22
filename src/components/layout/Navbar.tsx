@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useState, useEffect, useRef, useMemo } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { AnimatePresence, motion } from "framer-motion";
 import {
@@ -21,9 +21,12 @@ import {
   Banknote,
   Cpu,
   Building2,
+  FileText,
+  CornerDownLeft,
   type LucideIcon,
 } from "lucide-react";
 import { Check } from "lucide-react";
+import { blogPosts } from "@/data/blogPosts";
 import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,
@@ -125,6 +128,29 @@ const industries: DropdownItem[] = [
   },
 ];
 
+type SearchEntry = {
+  title: string;
+  description: string;
+  path: string;
+  group: string;
+  icon: LucideIcon;
+  keywords: string;
+};
+
+const pageEntries: SearchEntry[] = [
+  { title: "Home", description: "Marketing-site overview.", path: "/", group: "Page", icon: Compass, keywords: "home landing main" },
+  { title: "Services", description: "What we build and how we work.", path: "/services", group: "Page", icon: Code2, keywords: "services capabilities offerings" },
+  { title: "Projects", description: "Selected work, live in production.", path: "/projects", group: "Page", icon: ShoppingBag, keywords: "projects work portfolio case studies demos" },
+  { title: "Blog", description: "Notes on RAG, AI, and emerging tech.", path: "/blog", group: "Page", icon: FileText, keywords: "blog articles writing insights" },
+  { title: "About", description: "Who we are and what we believe.", path: "/about", group: "Page", icon: Building2, keywords: "about company story mission" },
+  { title: "Team", description: "The people behind NeosTechs.", path: "/team", group: "Page", icon: CircleUser, keywords: "team people staff" },
+  { title: "Careers", description: "Open roles and how we hire.", path: "/careers", group: "Page", icon: Building2, keywords: "careers jobs hiring roles" },
+  { title: "Contact", description: "Start a conversation with us.", path: "/contact", group: "Page", icon: Calendar, keywords: "contact email talk book call quote" },
+  { title: "Privacy Policy", description: "How we handle your data.", path: "/privacy", group: "Legal", icon: ShieldCheck, keywords: "privacy policy data gdpr" },
+  { title: "Terms of Service", description: "The terms that govern the site.", path: "/terms", group: "Legal", icon: ShieldCheck, keywords: "terms service legal showcase" },
+  { title: "Brand Guidelines", description: "Logo, color, and voice.", path: "/brand", group: "Legal", icon: Compass, keywords: "brand guidelines logo design" },
+];
+
 type Language = { code: string; label: string; flag: string };
 
 const languages: Language[] = [
@@ -150,7 +176,72 @@ export function Navbar() {
   const searchInputRef = useRef<HTMLInputElement>(null);
   const searchPanelRef = useRef<HTMLDivElement>(null);
   const searchToggleRef = useRef<HTMLButtonElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const navigate = useNavigate();
   const location = useLocation();
+
+  // Build a searchable index of everything navigable on the site.
+  const searchIndex = useMemo<SearchEntry[]>(() => {
+    const capEntries: SearchEntry[] = capabilities.map((c) => ({
+      title: c.title,
+      description: c.description,
+      path: c.href,
+      group: "Service",
+      icon: c.icon,
+      keywords: `${c.title} ${c.description} service capability`,
+    }));
+    const indEntries: SearchEntry[] = industries.map((c) => ({
+      title: c.title,
+      description: c.description,
+      path: c.href,
+      group: "Industry",
+      icon: c.icon,
+      keywords: `${c.title} ${c.description} industry`,
+    }));
+    const postEntries: SearchEntry[] = blogPosts.map((p) => ({
+      title: p.title,
+      description: p.excerpt,
+      path: `/blog/${p.slug}`,
+      group: "Article",
+      icon: FileText,
+      keywords: `${p.title} ${p.excerpt} ${p.category} article blog`,
+    }));
+    return [...pageEntries, ...capEntries, ...indEntries, ...postEntries];
+  }, []);
+
+  const query = searchValue.trim().toLowerCase();
+  const results = useMemo(() => {
+    if (!query) return [];
+    const terms = query.split(/\s+/);
+    return searchIndex
+      .map((entry) => {
+        const haystack = `${entry.title} ${entry.keywords}`.toLowerCase();
+        const titleLc = entry.title.toLowerCase();
+        let score = 0;
+        for (const term of terms) {
+          if (!haystack.includes(term)) return null;
+          if (titleLc.startsWith(term)) score += 3;
+          else if (titleLc.includes(term)) score += 2;
+          else score += 1;
+        }
+        return { entry, score };
+      })
+      .filter((r): r is { entry: SearchEntry; score: number } => r !== null)
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 8)
+      .map((r) => r.entry);
+  }, [query, searchIndex]);
+
+  const goTo = (path: string) => {
+    setSearchOpen(false);
+    setSearchValue("");
+    navigate(path);
+  };
+
+  // Reset highlighted result whenever the query changes.
+  useEffect(() => {
+    setActiveIndex(0);
+  }, [query]);
   const menuRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const lang =
@@ -443,50 +534,116 @@ export function Navbar() {
             <form
               onSubmit={(e) => {
                 e.preventDefault();
-                // wire to real search later
-                console.log("search:", searchValue);
+                const target = results[activeIndex] ?? results[0];
+                if (target) goTo(target.path);
               }}
               className="flex items-center gap-3 rounded-xl border border-border bg-card px-4 py-3 transition-shadow focus-within:shadow-lg focus-within:border-primary"
             >
+              <Search className="h-5 w-5 shrink-0 text-muted-foreground" strokeWidth={1.75} />
               <input
                 ref={searchInputRef}
-                type="search"
+                type="text"
+                role="combobox"
+                aria-expanded={results.length > 0}
+                aria-controls="search-results"
+                aria-activedescendant={
+                  results.length ? `search-result-${activeIndex}` : undefined
+                }
                 value={searchValue}
                 onChange={(e) => setSearchValue(e.target.value)}
-                placeholder="Search capabilities, industries, projects, articles…"
+                onKeyDown={(e) => {
+                  if (!results.length) return;
+                  if (e.key === "ArrowDown") {
+                    e.preventDefault();
+                    setActiveIndex((i) => (i + 1) % results.length);
+                  } else if (e.key === "ArrowUp") {
+                    e.preventDefault();
+                    setActiveIndex((i) => (i - 1 + results.length) % results.length);
+                  }
+                }}
+                placeholder="Search pages, services, industries, articles…"
                 className="flex-1 bg-transparent text-base lg:text-lg text-foreground placeholder:text-muted-foreground outline-none"
                 aria-label={t("nav.search")}
+                autoComplete="off"
               />
-              <button
-                type="submit"
-                aria-label={t("nav.search")}
-                className="p-1.5 rounded-full text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
-              >
-                <Search className="h-5 w-5" strokeWidth={1.75} />
-              </button>
             </form>
-            <div className="mt-3 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
-              <span className="uppercase tracking-[0.18em]">Try</span>
-              {[
-                "AI agents",
-                "Restaurant POS",
-                "Healthcare",
-                "Cloud & DevOps",
-                "Pricing",
-              ].map((q) => (
-                <button
-                  key={q}
-                  type="button"
-                  onClick={() => {
-                    setSearchValue(q);
-                    searchInputRef.current?.focus();
-                  }}
-                  className="px-2.5 py-1 rounded-full border border-border/60 bg-secondary hover:bg-background hover:border-border transition-colors"
+
+            {query ? (
+              results.length > 0 ? (
+                <ul
+                  id="search-results"
+                  role="listbox"
+                  className="mt-3 max-h-[60vh] overflow-y-auto rounded-xl border border-border/60 bg-card divide-y divide-border/50"
                 >
-                  {q}
-                </button>
-              ))}
-            </div>
+                  {results.map((r, idx) => {
+                    const Icon = r.icon;
+                    const active = idx === activeIndex;
+                    return (
+                      <li key={`${r.path}-${idx}`} role="option" aria-selected={active}>
+                        <button
+                          id={`search-result-${idx}`}
+                          type="button"
+                          onMouseEnter={() => setActiveIndex(idx)}
+                          onClick={() => goTo(r.path)}
+                          className={
+                            "w-full flex items-center gap-3 px-4 py-3 text-left transition-colors " +
+                            (active ? "bg-primary/10" : "hover:bg-secondary/60")
+                          }
+                        >
+                          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-secondary text-primary">
+                            <Icon className="h-4 w-4" strokeWidth={1.75} />
+                          </span>
+                          <span className="min-w-0 flex-1">
+                            <span className="flex items-center gap-2">
+                              <span className="truncate text-sm font-medium text-foreground">
+                                {r.title}
+                              </span>
+                              <span className="shrink-0 text-[10px] uppercase tracking-[0.16em] text-muted-foreground/70">
+                                {r.group}
+                              </span>
+                            </span>
+                            <span className="block truncate text-xs text-muted-foreground">
+                              {r.description}
+                            </span>
+                          </span>
+                          {active && (
+                            <CornerDownLeft className="h-4 w-4 shrink-0 text-muted-foreground" />
+                          )}
+                        </button>
+                      </li>
+                    );
+                  })}
+                </ul>
+              ) : (
+                <p className="mt-4 px-1 text-sm text-muted-foreground">
+                  No matches for “{searchValue}”. Try a page, service, industry,
+                  or article name.
+                </p>
+              )
+            ) : (
+              <div className="mt-3 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+                <span className="uppercase tracking-[0.18em]">Try</span>
+                {[
+                  "AI agents",
+                  "RAG",
+                  "Projects",
+                  "Cloud & DevOps",
+                  "Contact",
+                ].map((q) => (
+                  <button
+                    key={q}
+                    type="button"
+                    onClick={() => {
+                      setSearchValue(q);
+                      searchInputRef.current?.focus();
+                    }}
+                    className="px-2.5 py-1 rounded-full border border-border/60 bg-secondary hover:bg-background hover:border-border transition-colors"
+                  >
+                    {q}
+                  </button>
+                ))}
+              </div>
+            )}
           </motion.div>
         </motion.div>
       )}
