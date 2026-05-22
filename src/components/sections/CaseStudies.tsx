@@ -14,8 +14,8 @@ type Project = {
 const projects: Project[] = [
   {
     name: "Fenton Gyro",
-    url: "https://fentongyro.com",
-    domain: "fentongyro.com",
+    url: "https://www.fentongyro.com",
+    domain: "www.fentongyro.com",
     tag: "Restaurant POS",
     description:
       "Custom kiosk, POS, and customer-facing website for a Mediterranean kitchen — Turnkey-powered payments, REST API integrations, MongoDB, role-based auth for staff and admins, and live alerts on every web order.",
