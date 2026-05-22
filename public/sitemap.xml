@@ -85,6 +85,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://neostechus.com/blog/state-of-agentic-ai-2026</loc>
+    <lastmod>2026-05-22</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://neostechus.com/blog/agentic-rag-letting-models-decide-what-to-retrieve</loc>
     <lastmod>2026-05-22</lastmod>
     <changefreq>weekly</changefreq>

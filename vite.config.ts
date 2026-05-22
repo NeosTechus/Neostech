@@ -17,6 +17,7 @@ const PRERENDER_ROUTES = [
   "/blog/rag-vs-fine-tuning-vs-long-context",
   "/blog/quantum-computing-what-it-means-for-software-teams",
   "/blog/embodied-ai-when-models-get-a-body",
+  "/blog/state-of-agentic-ai-2026",
 ];
 
 // https://vitejs.dev/config/

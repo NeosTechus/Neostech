@@ -4,7 +4,19 @@
 export type BlogBlock =
   | { type: "p"; text: string }
   | { type: "h2"; text: string }
-  | { type: "ul"; items: string[] };
+  | { type: "ul"; items: string[] }
+  | { type: "lead"; text: string }
+  | { type: "quote"; text: string; cite?: string }
+  | {
+      type: "callout";
+      variant: "insight" | "warning" | "info";
+      title?: string;
+      text: string;
+    }
+  | { type: "stats"; items: { value: string; label: string }[] }
+  | { type: "steps"; items: { title: string; text: string }[] }
+  | { type: "table"; headers: string[]; rows: string[][] }
+  | { type: "takeaways"; items: string[] };
 
 export type BlogPost = {
   slug: string;
@@ -144,6 +156,153 @@ export const blogPosts: BlogPost[] = [
       {
         type: "p",
         text: "Production systems rarely pick just one. A common pattern is RAG for fresh facts, light fine-tuning for consistent format and tone, and a generous context window so each retrieved chunk has room to breathe. Start with RAG, add the others only when a specific problem demands it.",
+      },
+    ],
+  },
+  {
+    slug: "state-of-agentic-ai-2026",
+    title: "The State of Agentic AI in 2026: From Chatbots to Coworkers",
+    excerpt:
+      "Agents stopped being a demo and started doing work. A field guide to how agentic AI actually operates today, the tools defining the space, and how to deploy one without getting burned.",
+    category: "AI Engineering",
+    readingTime: "10 min read",
+    date: "2026-05-22",
+    featured: true,
+    content: [
+      {
+        type: "lead",
+        text: "Two years ago, an AI agent was a party trick: give it a goal, watch it loop a few times, and marvel when it occasionally finished. In 2026 the picture is different. Agents write and ship code, operate browsers, file tickets, run research, and hand off to one another — not flawlessly, but reliably enough that teams now design real workflows around them.",
+      },
+      {
+        type: "p",
+        text: "The shift is less about smarter models and more about better scaffolding. We learned how to give models tools, memory, and the ability to check their own work. The result is a category that has moved from 'interesting' to 'operational.' Here is what that actually looks like under the hood.",
+      },
+      { type: "h2", text: "What makes an agent an agent" },
+      {
+        type: "p",
+        text: "A chatbot answers. An agent acts. The difference is a loop: the model decides on an action, takes it through a tool, observes the result, and decides again — repeating until the goal is met or it knows to stop. Four capabilities turn a language model into an agent.",
+      },
+      {
+        type: "steps",
+        items: [
+          {
+            title: "Plan",
+            text: "Break a fuzzy goal into concrete, ordered steps — and re-plan when reality disagrees with the plan.",
+          },
+          {
+            title: "Act",
+            text: "Call tools: run code, query a database, search the web, click a button, hit an API.",
+          },
+          {
+            title: "Observe",
+            text: "Read each tool's result and decide whether it worked, failed, or changed the plan.",
+          },
+          {
+            title: "Reflect",
+            text: "Critique its own output against the goal before declaring the task done.",
+          },
+        ],
+      },
+      {
+        type: "callout",
+        variant: "insight",
+        title: "The real unlock",
+        text: "Agents got useful not because models got dramatically smarter, but because we stopped asking them to do everything in one shot. Letting a model take small steps, see results, and correct course is what closed the gap between demo and dependable.",
+      },
+      { type: "h2", text: "Why 2026 is the inflection point" },
+      {
+        type: "stats",
+        items: [
+          { value: "100k+", label: "token context windows now standard, so agents keep whole projects in working memory" },
+          { value: "300s", label: "default function runtimes, long enough for multi-step agent jobs to complete" },
+          { value: "1 standard", label: "MCP emerging as the common way to connect agents to tools and data" },
+          { value: "10x", label: "cheaper per-token inference than two years ago, making long agent loops affordable" },
+        ],
+      },
+      {
+        type: "p",
+        text: "None of these is a headline on its own. Together they removed the friction that kept agents in the lab: enough memory to reason over a real task, enough runtime to finish it, a standard way to plug into tools, and a low enough cost that running an agent for minutes isn't reckless.",
+      },
+      { type: "h2", text: "The shapes agents come in" },
+      {
+        type: "p",
+        text: "Not every agent is a humanlike generalist. In practice, four patterns cover most production systems, and choosing the right shape matters more than choosing the right model.",
+      },
+      {
+        type: "table",
+        headers: ["Pattern", "What it does", "Best for"],
+        rows: [
+          [
+            "Single-tool agent",
+            "One model, a tight set of tools, a narrow loop",
+            "Well-scoped tasks: support triage, data lookups",
+          ],
+          [
+            "Coding agent",
+            "Reads a repo, edits files, runs tests, iterates",
+            "Software work — the breakout use case of 2026",
+          ],
+          [
+            "Computer-use agent",
+            "Drives a browser or desktop like a person",
+            "Apps with no API: legacy systems, web forms",
+          ],
+          [
+            "Multi-agent system",
+            "A planner delegates to specialist sub-agents",
+            "Complex, multi-stage work: research, ops pipelines",
+          ],
+        ],
+      },
+      {
+        type: "callout",
+        variant: "warning",
+        title: "More agents is not more better",
+        text: "Multi-agent systems are seductive and often overkill. Every hand-off adds latency, cost, and a new place for things to drift. Reach for a swarm only when a single well-equipped agent genuinely can't hold the task — most problems don't need a committee.",
+      },
+      { type: "h2", text: "Tools worth watching" },
+      {
+        type: "p",
+        text: "The agentic tooling landscape is moving weekly, with new platforms — including emerging ones like OpenClaw and NemoClaw — competing on autonomy, safety, and how cleanly they plug into existing systems. Rather than chase logos, evaluate any agent platform against the same four questions:",
+      },
+      {
+        type: "ul",
+        items: [
+          "Control — can you see and constrain exactly what the agent is allowed to do?",
+          "Observability — when it goes wrong, can you replay every step it took and why?",
+          "Integration — does it speak open standards like MCP, or lock you into one ecosystem?",
+          "Recovery — does it fail safely and ask for help, or barrel ahead and make a mess?",
+        ],
+      },
+      {
+        type: "callout",
+        variant: "info",
+        title: "Editor's note",
+        text: "We're tracking OpenClaw and NemoClaw closely and will publish a hands-on comparison once we've run them through real workloads. Have a tool you want us to put through its paces? Tell us at info@neostechus.com.",
+      },
+      { type: "h2", text: "Where agents actually earn their keep" },
+      {
+        type: "p",
+        text: "The hype says 'autonomous everything.' The reality in 2026 is narrower and more valuable: agents excel where a task is repetitive, well-defined, and verifiable. Coding assistants that open pull requests, research agents that compile sourced briefs, support agents that resolve tier-one tickets, and ops agents that investigate alerts are all delivering real hours back to teams today.",
+      },
+      {
+        type: "quote",
+        text: "The best agent in production is the one with the smallest job and the clearest guardrails. Autonomy is a dial, not a switch — and you earn the right to turn it up.",
+      },
+      { type: "h2", text: "Deploying one without getting burned" },
+      {
+        type: "p",
+        text: "The teams succeeding with agents treat them like a new junior employee, not a magic box. Start with a narrow, high-volume task. Keep a human in the loop for anything irreversible. Log everything. Measure outcomes against a baseline. Then, and only then, widen the agent's mandate.",
+      },
+      {
+        type: "takeaways",
+        items: [
+          "Agents = a model plus a loop: plan, act, observe, reflect. The loop is the product.",
+          "2026's unlock was infrastructure — context, runtime, standards, and cost — not a single smarter model.",
+          "Pick the simplest agent shape that solves the task; multi-agent systems cost more than they look.",
+          "Judge platforms on control, observability, integration, and safe recovery — not on hype.",
+          "Deploy narrow, keep humans on irreversible actions, and turn up autonomy only once you've earned trust.",
+        ],
       },
     ],
   },
