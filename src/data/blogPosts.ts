@@ -41,12 +41,16 @@ export const blogPosts: BlogPost[] = [
     featured: true,
     content: [
       {
-        type: "p",
-        text: "Large language models are trained on a snapshot of the internet. That makes them broadly knowledgeable but blind to two things that matter most in a business: your private data and anything that happened after training. Ask a raw model about last quarter's invoices or your internal runbook and it will either refuse or, worse, confidently make something up.",
+        type: "lead",
+        text: "Ask a raw language model about last quarter's invoices or your internal runbook, and it will either refuse or — worse — confidently invent an answer. RAG is how we fix that, by giving the model your facts instead of asking it to guess.",
       },
       {
         type: "p",
-        text: "Retrieval-Augmented Generation (RAG) fixes this by separating knowledge from reasoning. Instead of expecting the model to memorize your data, you store that data in a searchable index, fetch the most relevant pieces at question time, and hand them to the model as context. The model then answers using facts it can see in front of it rather than facts it half-remembers.",
+        text: "Large language models are trained on a snapshot of the internet. That makes them broadly knowledgeable but blind to the two things that matter most in a business: your private data and anything that happened after training. Retrieval-Augmented Generation (RAG) closes that gap by separating knowledge from reasoning.",
+      },
+      {
+        type: "p",
+        text: "Instead of expecting the model to memorize your data, you store it in a searchable index, fetch the most relevant pieces at question time, and hand them to the model as context. The model then answers using facts it can see in front of it — not facts it half-remembers.",
       },
       { type: "h2", text: "The core loop" },
       {
@@ -54,27 +58,59 @@ export const blogPosts: BlogPost[] = [
         text: "Every RAG system, no matter how sophisticated, comes down to the same four steps:",
       },
       {
-        type: "ul",
+        type: "steps",
         items: [
-          "Index — split your documents into chunks and convert each chunk into an embedding (a numeric vector capturing its meaning), then store them in a vector database.",
-          "Retrieve — embed the user's question the same way and find the chunks whose vectors are closest to it.",
-          "Augment — paste those chunks into the prompt alongside the question and clear instructions.",
-          "Generate — the model writes an answer grounded in the retrieved context, ideally citing its sources.",
+          {
+            title: "Index",
+            text: "Split your documents into chunks and convert each into an embedding — a numeric vector capturing its meaning — then store them in a vector database.",
+          },
+          {
+            title: "Retrieve",
+            text: "Embed the user's question the same way and find the chunks whose vectors sit closest to it.",
+          },
+          {
+            title: "Augment",
+            text: "Paste those chunks into the prompt alongside the question and clear instructions.",
+          },
+          {
+            title: "Generate",
+            text: "The model writes an answer grounded in the retrieved context — ideally citing its sources.",
+          },
         ],
       },
       { type: "h2", text: "Why teams reach for RAG" },
       {
         type: "p",
-        text: "RAG is popular because it is the cheapest, fastest way to make a model useful on your own content. You do not retrain anything. When a document changes, you re-index that document and the system is instantly up to date. Answers can cite their sources, which builds trust and makes review possible. And because the model only sees what you retrieve, you keep tight control over what data is exposed.",
+        text: "RAG is the cheapest, fastest way to make a model useful on your own content. You retrain nothing. When a document changes, you re-index it and the system is instantly current. Answers can cite their sources, which builds trust and makes review possible.",
       },
       {
-        type: "p",
-        text: "It is not magic, though. A RAG system is only as good as its retrieval — if the right chunk never makes it into the prompt, the model cannot use it. Most of the engineering effort goes into chunking, search quality, and evaluation, not the model itself.",
+        type: "stats",
+        items: [
+          { value: "0", label: "model retraining required to add or update knowledge" },
+          { value: "Live", label: "re-index a changed document and answers update instantly" },
+          { value: "Cited", label: "every answer can point back to its source" },
+          { value: "Scoped", label: "the model only sees what you choose to retrieve" },
+        ],
+      },
+      {
+        type: "callout",
+        variant: "warning",
+        title: "It isn't magic",
+        text: "A RAG system is only as good as its retrieval. If the right chunk never makes it into the prompt, the model cannot use it. Most of the engineering effort goes into chunking, search quality, and evaluation — not the model itself.",
       },
       { type: "h2", text: "Where it fits" },
       {
         type: "p",
         text: "RAG shines for support assistants over a knowledge base, internal search across wikis and tickets, document Q&A, and any chatbot that must stay factual. If your use case is 'answer questions about this specific corpus,' RAG is almost always the right starting point.",
+      },
+      {
+        type: "takeaways",
+        items: [
+          "RAG separates knowledge (your indexed data) from reasoning (the model).",
+          "The loop is always index → retrieve → augment → generate.",
+          "It keeps answers fresh and citable without any retraining.",
+          "Retrieval quality — not the model — is where success is won or lost.",
+        ],
       },
     ],
   },
@@ -82,30 +118,55 @@ export const blogPosts: BlogPost[] = [
     slug: "rag-in-production-architecture-and-retrieval",
     title: "RAG in Production: Chunking, Retrieval, and the Details That Matter",
     excerpt:
-      "A prototype that works on ten documents often falls apart on ten thousand. Here are the production decisions — chunking, hybrid search, reranking, and guardrails — that separate a demo from a dependable system.",
+      "A prototype that works on ten documents often falls apart on ten thousand. The production decisions — chunking, hybrid search, reranking, and guardrails — that separate a demo from a dependable system.",
     category: "RAG",
     readingTime: "9 min read",
     date: "2026-05-12",
     featured: true,
     content: [
       {
+        type: "lead",
+        text: "Getting a RAG demo running is a weekend project. Getting one to answer reliably across a large, messy corpus is where the real work begins — and the gap is almost never the model.",
+      },
+      {
         type: "p",
-        text: "Getting a RAG demo running is a weekend project. Getting one to answer reliably across a large, messy corpus is where the real work begins. The gap is almost never the model — it is everything around retrieval.",
+        text: "Everything that makes RAG hard lives around retrieval: how you split documents, how you search them, what you put in the prompt, and how you know whether any change actually helped. Here's the pipeline that holds up under real load.",
       },
       { type: "h2", text: "Chunking is a product decision" },
       {
         type: "p",
-        text: "How you split documents determines what the model can ever see. Chunks that are too large dilute the relevant sentence among noise; chunks that are too small lose the context needed to make sense of them. Start around 300–500 tokens with a small overlap, but respect natural boundaries — headings, sections, table rows. Carry metadata (title, source, date, section) with every chunk so you can filter and cite later.",
+        text: "How you split documents determines what the model can ever see. Chunks that are too large dilute the relevant sentence in noise; chunks that are too small lose the context needed to make sense of them. Start around 300–500 tokens with a small overlap, but respect natural boundaries — headings, sections, table rows — and carry metadata with every chunk so you can filter and cite later.",
       },
-      { type: "h2", text: "Pure vector search is rarely enough" },
       {
-        type: "p",
-        text: "Embeddings capture meaning but miss exact terms — product SKUs, error codes, names. The fix is hybrid search: combine dense vector similarity with classic keyword (BM25) search, then merge the results. This catches both 'what does this paragraph mean' and 'find the row that literally says ERR_4012.'",
+        type: "stats",
+        items: [
+          { value: "300–500", label: "tokens per chunk as a sensible starting point" },
+          { value: "~15%", label: "overlap to avoid splitting an idea mid-thought" },
+          { value: "Metadata", label: "title, source, date, section travel with every chunk" },
+          { value: "20→5", label: "retrieve broad, then rerank down to the best few" },
+        ],
       },
-      { type: "h2", text: "Rerank before you generate" },
+      { type: "h2", text: "The production pipeline" },
       {
-        type: "p",
-        text: "Retrieval gives you candidates; a reranker decides which actually belong in the prompt. Pull the top 20–50 chunks cheaply, then run a cross-encoder reranker to score them against the question and keep the best handful. This single step is often the biggest quality jump you can make.",
+        type: "steps",
+        items: [
+          {
+            title: "Hybrid retrieval",
+            text: "Embeddings capture meaning but miss exact terms — SKUs, error codes, names. Combine dense vector search with keyword (BM25) search so you catch both 'what does this mean' and 'find the row that says ERR_4012.'",
+          },
+          {
+            title: "Rerank",
+            text: "Retrieval gives candidates; a cross-encoder reranker decides which actually belong in the prompt. Pull the top 20–50 cheaply, score them against the question, keep the best handful. Often the biggest single quality jump.",
+          },
+          {
+            title: "Assemble the prompt",
+            text: "Insert the surviving chunks with their sources, plus instructions to answer only from context and to cite. Order and formatting matter more than people expect.",
+          },
+          {
+            title: "Generate & verify",
+            text: "Produce the answer, attach citations, and optionally have the model check its draft against the retrieved sources before returning it.",
+          },
+        ],
       },
       { type: "h2", text: "Guardrails and grounding" },
       {
@@ -117,10 +178,30 @@ export const blogPosts: BlogPost[] = [
           "Log the retrieved chunks with each answer — when something goes wrong, you need to see what the model actually saw.",
         ],
       },
+      {
+        type: "callout",
+        variant: "insight",
+        title: "Reranking is the cheapest win",
+        text: "If you change one thing in a struggling RAG system, add a reranker. Pulling more candidates and letting a cross-encoder pick the best few routinely beats swapping in a bigger, pricier generation model.",
+      },
       { type: "h2", text: "Measure, don't guess" },
       {
         type: "p",
-        text: "Build a small evaluation set of real questions with known good answers and run it on every change. Track retrieval quality (did the right chunk show up?) separately from answer quality (was the final response correct and grounded?). Without this, you are tuning blind, and every 'improvement' is a coin flip.",
+        text: "Build a small evaluation set of real questions with known good answers and run it on every change. Track retrieval quality (did the right chunk show up?) separately from answer quality (was the response correct and grounded?). Without this, you are tuning blind, and every 'improvement' is a coin flip.",
+      },
+      {
+        type: "quote",
+        text: "In production RAG, the model is the easy part. The corpus, the retrieval, and the evaluation harness are the product.",
+      },
+      {
+        type: "takeaways",
+        items: [
+          "Chunk on natural boundaries and keep metadata for filtering and citations.",
+          "Use hybrid search — vectors for meaning, keywords for exact terms.",
+          "Add a reranker before generation; it's the highest-leverage change.",
+          "Ground answers with citations, permissions, and 'I don't know.'",
+          "Measure retrieval and answer quality separately on a fixed eval set.",
+        ],
       },
     ],
   },
@@ -134,8 +215,32 @@ export const blogPosts: BlogPost[] = [
     date: "2026-05-18",
     content: [
       {
-        type: "p",
-        text: "When a model doesn't know something, teams reach for one of three tools. They solve different problems, and choosing wrong wastes time and money.",
+        type: "lead",
+        text: "When a model doesn't know something, teams reach for one of three tools. They solve different problems — and choosing wrong wastes time and money.",
+      },
+      {
+        type: "table",
+        headers: ["Approach", "Changes", "Best for", "Watch out for"],
+        rows: [
+          [
+            "RAG",
+            "What the model knows",
+            "Facts that change: docs, policies, tickets",
+            "Quality depends entirely on retrieval",
+          ],
+          [
+            "Fine-tuning",
+            "How the model behaves",
+            "Tone, format, a narrow repeated skill",
+            "Wrong tool for injecting facts",
+          ],
+          [
+            "Long context",
+            "What's in this one prompt",
+            "A single big document, right now",
+            "Cost and latency scale with every token",
+          ],
+        ],
       },
       { type: "h2", text: "RAG — for knowledge that changes" },
       {
@@ -145,17 +250,27 @@ export const blogPosts: BlogPost[] = [
       { type: "h2", text: "Fine-tuning — for behavior and format" },
       {
         type: "p",
-        text: "Fine-tuning changes how a model responds, not what it knows. Reach for it to lock in a tone of voice, enforce a strict output format, or teach a narrow skill the base model handles poorly. It is the wrong tool for injecting facts — those go stale the moment your data changes, and you'd have to retrain.",
+        text: "Fine-tuning changes how a model responds, not what it knows. Reach for it to lock in a tone of voice, enforce a strict output format, or teach a narrow skill the base model handles poorly. It's the wrong tool for injecting facts — those go stale the moment your data changes, and you'd have to retrain.",
       },
       { type: "h2", text: "Long context — for one big thing right now" },
       {
         type: "p",
-        text: "Modern models accept enormous prompts, so you can sometimes just paste an entire document and ask about it. That's great for a single report or contract in one session. It breaks down across a large corpus: cost and latency scale with every token, and models still lose track of details buried in the middle of a very long prompt.",
+        text: "Modern models accept enormous prompts, so you can sometimes just paste an entire document and ask about it. That's great for a single report or contract in one session. It breaks down across a large corpus: cost and latency scale with every token, and models still lose details buried in the middle of a very long prompt.",
       },
-      { type: "h2", text: "The honest answer: combine them" },
       {
-        type: "p",
-        text: "Production systems rarely pick just one. A common pattern is RAG for fresh facts, light fine-tuning for consistent format and tone, and a generous context window so each retrieved chunk has room to breathe. Start with RAG, add the others only when a specific problem demands it.",
+        type: "callout",
+        variant: "insight",
+        title: "The honest answer: combine them",
+        text: "Production systems rarely pick just one. A common pattern is RAG for fresh facts, light fine-tuning for consistent format and tone, and a generous context window so each retrieved chunk has room to breathe. Start with RAG; add the others only when a specific problem demands it.",
+      },
+      {
+        type: "takeaways",
+        items: [
+          "RAG = changing knowledge. Fine-tuning = behavior and format. Long context = one big input.",
+          "Never fine-tune to add facts — they go stale and force a retrain.",
+          "Long context is for a single session, not a whole corpus.",
+          "Most real systems blend all three; RAG is the right starting point.",
+        ],
       },
     ],
   },
@@ -316,18 +431,42 @@ export const blogPosts: BlogPost[] = [
     date: "2026-05-20",
     content: [
       {
-        type: "p",
-        text: "Traditional RAG is a straight line: retrieve once, then answer. It struggles with questions that need several lookups or a bit of reasoning between steps. Agentic RAG turns the model into an active participant that decides when and what to retrieve.",
+        type: "lead",
+        text: "Traditional RAG is a straight line: retrieve once, then answer. It struggles with questions that need several lookups or a little reasoning in between. Agentic RAG turns the model into an active participant that decides when and what to retrieve.",
+      },
+      {
+        type: "table",
+        headers: ["", "Classic RAG", "Agentic RAG"],
+        rows: [
+          ["Retrieval", "Once, up front", "As many times as needed"],
+          ["Reasoning", "After retrieval only", "Interleaved with retrieval"],
+          ["Best at", "Direct, single-fact questions", "Multi-hop, comparative questions"],
+          ["Cost & latency", "Low and predictable", "Higher and variable"],
+        ],
       },
       { type: "h2", text: "What changes" },
       {
         type: "p",
         text: "The model is given retrieval as a tool it can call repeatedly. It can break a complex question into sub-questions, search for each, notice when results are thin and search again with better terms, and only answer once it has enough grounding. Some systems add a verification step where the model critiques its own draft against the sources before responding.",
       },
-      { type: "h2", text: "The trade-off" },
+      {
+        type: "callout",
+        variant: "warning",
+        title: "The trade-off",
+        text: "More steps mean higher cost and latency, and more places for things to go wrong. Agentic RAG earns its keep on hard, multi-hop questions — but it's overkill for simple lookups.",
+      },
       {
         type: "p",
-        text: "More steps mean higher cost and latency, and more places for things to go wrong. Agentic RAG earns its keep on hard, multi-hop questions — comparing documents, reasoning across sources — but is overkill for simple lookups. The mature pattern is to route easy questions through plain RAG and reserve the agentic path for queries that need it.",
+        text: "The mature pattern is to route easy questions through plain RAG and reserve the agentic path for queries that genuinely need it — keeping the common case fast and cheap.",
+      },
+      {
+        type: "takeaways",
+        items: [
+          "Agentic RAG retrieves on demand instead of once up front.",
+          "It shines on multi-hop and comparative questions, not simple lookups.",
+          "Add self-verification to catch ungrounded claims before they ship.",
+          "Route by difficulty: plain RAG for the easy case, agentic for the hard one.",
+        ],
       },
     ],
   },
@@ -341,7 +480,7 @@ export const blogPosts: BlogPost[] = [
     date: "2026-05-21",
     content: [
       {
-        type: "p",
+        type: "lead",
         text: "The most common reason a RAG system stalls is that nobody can tell whether changes help or hurt. Vibes are not a metric. A small, honest evaluation set is the single highest-leverage thing you can build.",
       },
       { type: "h2", text: "Split retrieval from generation" },
@@ -351,16 +490,35 @@ export const blogPosts: BlogPost[] = [
       },
       { type: "h2", text: "Three metrics to start with" },
       {
-        type: "ul",
+        type: "stats",
         items: [
-          "Faithfulness — is every claim in the answer supported by the retrieved context, with no hallucinations?",
-          "Answer relevance — does the response actually address what was asked?",
-          "Context precision — of the chunks retrieved, how many were genuinely useful versus noise?",
+          { value: "Faithful", label: "is every claim supported by the retrieved context, with no hallucinations?" },
+          { value: "Relevant", label: "does the response actually address what was asked?" },
+          { value: "Precise", label: "of the chunks retrieved, how many were genuinely useful vs. noise?" },
         ],
       },
       {
-        type: "p",
+        type: "ul",
+        items: [
+          "Faithfulness — every claim in the answer traces back to a retrieved chunk.",
+          "Answer relevance — the response addresses the actual question, not an adjacent one.",
+          "Context precision — retrieved chunks are useful signal, not padding.",
+        ],
+      },
+      {
+        type: "callout",
+        variant: "insight",
+        title: "Start small, start now",
         text: "Hand-label 30–50 real questions with good answers, run them on every change, and use an LLM-as-judge to score the rest at scale. It won't be perfect, but it turns 'I think this is better' into a number you can defend.",
+      },
+      {
+        type: "takeaways",
+        items: [
+          "Measure retrieval and generation quality separately.",
+          "Track faithfulness, answer relevance, and context precision.",
+          "A 30–50 question labeled set beats endless manual spot-checking.",
+          "LLM-as-judge scales evaluation once your seed set is in place.",
+        ],
       },
     ],
   },
@@ -368,19 +526,29 @@ export const blogPosts: BlogPost[] = [
     slug: "quantum-computing-what-it-means-for-software-teams",
     title: "Quantum Computing: What It Actually Means for Software Teams",
     excerpt:
-      "Past the hype, quantum computers solve a narrow class of problems extraordinarily well. Here's what's real today, what's still years out, and how to prepare without betting the company on it.",
+      "Past the hype, quantum computers solve a narrow class of problems extraordinarily well. What's real today, what's still years out, and how to prepare without betting the company on it.",
     category: "Emerging Tech",
     readingTime: "7 min read",
     date: "2026-05-22",
     content: [
       {
-        type: "p",
-        text: "Quantum computing gets discussed as if it will replace the laptop on your desk. It won't. A quantum computer is a specialized accelerator for a narrow set of problems, much like a GPU is for graphics and AI. Understanding which problems is the difference between useful preparation and wasted effort.",
+        type: "lead",
+        text: "Quantum computing gets discussed as if it will replace the laptop on your desk. It won't. A quantum computer is a specialized accelerator for a narrow set of problems — much like a GPU is for graphics and AI. Knowing which problems is the difference between useful preparation and wasted effort.",
       },
       { type: "h2", text: "Why it's different" },
       {
         type: "p",
-        text: "Classical computers store information in bits that are either 0 or 1. Quantum computers use qubits, which can hold a blend of both states at once (superposition) and be linked so the state of one depends on another (entanglement). This lets a quantum machine explore many possibilities in parallel — but only for algorithms specifically designed to exploit it. For everyday software, a quantum computer is slower and far more fragile than the machine you already have.",
+        text: "Classical computers store information in bits that are either 0 or 1. Quantum computers use qubits, which can hold a blend of both states at once (superposition) and be linked so the state of one depends on another (entanglement). This lets a quantum machine explore many possibilities in parallel — but only for algorithms specifically designed to exploit it.",
+      },
+      {
+        type: "table",
+        headers: ["", "Classical bit", "Qubit"],
+        rows: [
+          ["State", "Exactly 0 or 1", "A blend of 0 and 1 at once"],
+          ["Scaling", "Linear", "Exponential state space (for the right problems)"],
+          ["Reliability", "Rock solid", "Fragile — loses state in microseconds"],
+          ["Good at", "Everything you do today", "A narrow class of specialized problems"],
+        ],
       },
       { type: "h2", text: "Where it genuinely helps" },
       {
@@ -391,15 +559,38 @@ export const blogPosts: BlogPost[] = [
           "Cryptography — Shor's algorithm could eventually break the public-key encryption securing the internet today.",
         ],
       },
-      { type: "h2", text: "The catch: it's still early" },
       {
-        type: "p",
-        text: "Today's machines are noisy and error-prone. Qubits lose their state in microseconds, and it takes many physical qubits to build one reliable logical qubit. Real, fault-tolerant quantum computing at useful scale is still years away. Most current value comes from research, experimentation, and learning — not production workloads.",
+        type: "callout",
+        variant: "warning",
+        title: "It's still early",
+        text: "Today's machines are noisy and error-prone. Qubits lose their state in microseconds, and it takes many physical qubits to build one reliable logical qubit. Fault-tolerant quantum computing at useful scale is still years away — most current value is research and learning, not production workloads.",
       },
       { type: "h2", text: "What to do now" },
       {
-        type: "p",
-        text: "Two practical moves. First, treat quantum as a cloud service — providers already offer access, so you can prototype on real hardware and simulators without owning a machine. Second, take 'harvest now, decrypt later' seriously: attackers can store encrypted data today and decrypt it once quantum machines mature. Begin migrating sensitive systems toward post-quantum cryptography now. For most teams, that security migration is the only quantum work that's genuinely urgent.",
+        type: "steps",
+        items: [
+          {
+            title: "Experiment via the cloud",
+            text: "Providers already offer access to real hardware and simulators. Prototype and build intuition without owning a machine.",
+          },
+          {
+            title: "Start your crypto migration",
+            text: "Take 'harvest now, decrypt later' seriously — attackers can store encrypted data today and decrypt it once quantum machines mature. Begin moving sensitive systems to post-quantum cryptography.",
+          },
+        ],
+      },
+      {
+        type: "quote",
+        text: "For most teams, the only genuinely urgent quantum work is defensive: migrating sensitive data toward post-quantum cryptography before it's too late.",
+      },
+      {
+        type: "takeaways",
+        items: [
+          "Quantum is a specialized accelerator, not a replacement for classical computing.",
+          "Real strengths: molecular simulation, optimization, and breaking today's crypto.",
+          "Useful, fault-tolerant scale is still years out — temper expectations.",
+          "The urgent action today is post-quantum cryptography, not quantum workloads.",
+        ],
       },
     ],
   },
@@ -407,38 +598,61 @@ export const blogPosts: BlogPost[] = [
     slug: "embodied-ai-when-models-get-a-body",
     title: "Embodied AI: When Models Get a Body",
     excerpt:
-      "The same AI breakthroughs powering chatbots are now moving into robots, arms, and humanoids. A look at how physical AI works, why it's suddenly accelerating, and where it's headed.",
+      "The same AI breakthroughs powering chatbots are now moving into robots, arms, and humanoids. How physical AI works, why it's suddenly accelerating, and where it's headed.",
     category: "Emerging Tech",
     readingTime: "7 min read",
     date: "2026-05-22",
     content: [
       {
+        type: "lead",
+        text: "For decades, robots were precise but rigid — they repeated pre-programmed motions and broke the moment the world deviated from the script. Embodied AI changes the premise: instead of scripting every movement, you give a robot a learned model that perceives its surroundings and decides how to act.",
+      },
+      {
         type: "p",
-        text: "For decades, robots were precise but rigid — they repeated pre-programmed motions and broke the moment the world deviated from the script. Embodied AI changes the premise: instead of scripting every movement, you give a robot a learned model that perceives its surroundings and decides how to act. The intelligence that fluently handles language and images is now learning to handle the physical world.",
+        text: "The intelligence that fluently handles language and images is now learning to handle the physical world. The same foundation-model ideas behind chatbots, extended with vision and action, are what make this leap possible.",
       },
       { type: "h2", text: "From perception to action" },
       {
         type: "p",
-        text: "Modern robots run on the same foundation-model ideas as chatbots, extended to the physical world. Vision-language-action models take in what a camera sees plus a goal in plain language ('pick up the red cup') and output the motor commands to do it. Trained on huge amounts of demonstration and simulation data, these models generalize to objects and situations they were never explicitly programmed for.",
+        text: "Modern robots run on vision-language-action models: they take in what a camera sees plus a goal in plain language ('pick up the red cup') and output the motor commands to do it. Trained on huge amounts of demonstration and simulation data, these models generalize to objects and situations they were never explicitly programmed for.",
       },
       { type: "h2", text: "Why now" },
       {
+        type: "stats",
+        items: [
+          { value: "Transformers", label: "the architecture behind chatbots turned out to work for robot control too" },
+          { value: "Simulation", label: "robots practice millions of times in a virtual world before touching reality" },
+          { value: "Cheaper HW", label: "capable arms, sensors, and humanoid platforms cost a fraction of a decade ago" },
+        ],
+      },
+      {
         type: "ul",
         items: [
-          "Better models — transformers turned out to work for robot control, not just text.",
-          "Cheaper simulation — robots can practice millions of times in a virtual world before touching reality.",
-          "Falling hardware costs — capable arms, sensors, and humanoid platforms are far more affordable than a decade ago.",
+          "Better models — transformers work for robot control, not just text.",
+          "Cheaper simulation — millions of practice runs before reality.",
+          "Falling hardware costs — capable platforms are finally affordable.",
         ],
       },
       { type: "h2", text: "Where it's showing up" },
       {
         type: "p",
-        text: "The first wave is in structured commercial settings: warehouse picking and sorting, manufacturing, logistics, and inspection. Humanoid robots get the headlines, but the near-term value is in focused tasks where a learning-based system can adapt to variation that old automation couldn't handle. General-purpose home robots that fold laundry and load dishwashers reliably are coming, but they're a harder, longer problem.",
+        text: "The first wave is in structured commercial settings: warehouse picking and sorting, manufacturing, logistics, and inspection. Humanoid robots get the headlines, but the near-term value is in focused tasks where a learning-based system adapts to variation that old automation couldn't handle. General-purpose home robots are coming, but they're a harder, longer problem.",
       },
-      { type: "h2", text: "The honest limits" },
       {
-        type: "p",
-        text: "Physical AI inherits the reliability problem of all AI, with higher stakes — a hallucination in a chatbot is annoying; a wrong move from a robot arm can be dangerous. Safety, predictability, and graceful failure matter enormously. Expect rapid progress in capability alongside careful, slow rollout into anything that operates near people.",
+        type: "callout",
+        variant: "warning",
+        title: "The stakes are higher",
+        text: "Physical AI inherits the reliability problem of all AI — but a hallucination in a chatbot is annoying, while a wrong move from a robot arm can be dangerous. Safety, predictability, and graceful failure matter enormously. Expect rapid capability gains alongside careful, slow rollout near people.",
+      },
+      {
+        type: "takeaways",
+        items: [
+          "Embodied AI swaps scripted motion for learned perception and action.",
+          "Vision-language-action models generalize beyond what they were taught.",
+          "Better models, cheap simulation, and affordable hardware drove the takeoff.",
+          "Value is arriving first in structured settings — warehouses and factories.",
+          "Higher stakes mean safety gates capability; rollout will be deliberately cautious.",
+        ],
       },
     ],
   },
@@ -452,17 +666,40 @@ export const blogPosts: BlogPost[] = [
     date: "2026-05-22",
     content: [
       {
-        type: "p",
-        text: "Every AI integration used to be bespoke glue code: one connector for your database, another for your ticketing system, another for your docs. The Model Context Protocol (MCP) standardizes that plumbing so any compatible model can talk to any compatible tool through a single, well-defined interface.",
+        type: "lead",
+        text: "Every AI integration used to be bespoke glue code: one connector for your database, another for your ticketing system, another for your docs. The Model Context Protocol (MCP) standardizes that plumbing so any compatible model can talk to any compatible tool through one well-defined interface.",
+      },
+      {
+        type: "callout",
+        variant: "insight",
+        title: "Think USB-C, not another adapter",
+        text: "Before USB-C, every device had its own cable. MCP is the equivalent standard for AI: build a connector once, and any MCP-aware assistant can use it — instead of rebuilding integrations for every model and app.",
       },
       { type: "h2", text: "Why it matters" },
       {
         type: "p",
-        text: "MCP lets you expose your data and actions as servers — read a file, query a table, create a ticket — and any MCP-aware assistant can use them with permission. Instead of rebuilding integrations for each model or app, you build the connector once. It pairs naturally with RAG: retrieval becomes just another tool the model can call, alongside live actions in your systems.",
+        text: "MCP lets you expose your data and actions as servers — read a file, query a table, create a ticket — and any MCP-aware assistant can use them with permission. It pairs naturally with RAG: retrieval becomes just another tool the model can call, alongside live actions in your systems.",
+      },
+      {
+        type: "ul",
+        items: [
+          "Composability — write a connector once, reuse it across every model and app.",
+          "Governance — a clear, auditable boundary around what the model can see and do.",
+          "Live actions — not just reading data, but taking real steps in your systems.",
+        ],
       },
       {
         type: "p",
-        text: "For teams, the payoff is composability and governance: a clear boundary around what the model can see and do, with auditable calls. It's early, but MCP is quickly becoming the default way to wire AI into real products.",
+        text: "For teams, the payoff is composability and control: a clear boundary around what the model can access, with auditable calls. It's early, but MCP is quickly becoming the default way to wire AI into real products.",
+      },
+      {
+        type: "takeaways",
+        items: [
+          "MCP is a standard interface between AI models and your tools and data.",
+          "Build a connector once; any MCP-aware assistant can use it.",
+          "It complements RAG — retrieval becomes one tool among many.",
+          "The benefits are composability, governance, and live actions with an audit trail.",
+        ],
       },
     ],
   },
