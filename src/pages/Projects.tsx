@@ -11,9 +11,23 @@ type Project = {
   domain: string;
   tag: string;
   description: string;
+  comingSoon?: boolean;
 };
 
+// NOTE: This project list is under active development. Product/app names
+// (e.g. "Squarely"), demo entries, and copy are placeholders and NOT final —
+// they are subject to change and are intentionally non-permanent to avoid any
+// trademark/copyright claims until names are cleared and finalized.
 const projects: Project[] = [
+  {
+    name: "Squarely",
+    url: "",
+    domain: "squarely",
+    tag: "R&D",
+    comingSoon: true,
+    description:
+      "Our all-in-one platform combining POS, self-service kiosk, and customer-facing website into a single subscription — one system to take orders in-store, at the kiosk, and online. Website link coming soon.",
+  },
   {
     name: "Fenton Gyro",
     url: "https://www.fentongyro.com",
@@ -66,9 +80,9 @@ const projects: Project[] = [
     name: "Agent Doval",
     url: "https://agentdoval.vercel.app/",
     domain: "agentdoval.vercel.app",
-    tag: "Internal Development",
+    tag: "R&D",
     description:
-      "Internal development project — an in-progress build exploring new product directions and tooling for Neos Techs.",
+      "Internal R&D project — an in-progress build exploring new product directions and tooling for Neos Techs.",
   },
   {
     name: "Mobile Store",
@@ -103,7 +117,7 @@ const categories = [
   "Retail · E-commerce",
   "Retail · Beauty",
   "Demo",
-  "Internal Development",
+  "R&D",
 ];
 
 const industryToCategory: Record<string, string> = {
@@ -182,7 +196,7 @@ export default function Projects() {
 
           <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {filtered.map((p) => (
-              <ProjectCard key={p.url} project={p} />
+              <ProjectCard key={p.name} project={p} />
             ))}
           </div>
         </div>
@@ -194,24 +208,25 @@ export default function Projects() {
 function ProjectCard({ project: p }: { project: Project }) {
   const favicon = `https://www.google.com/s2/favicons?domain=${p.domain}&sz=64`;
 
-  return (
-    <a
-      href={p.url}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="group block"
-    >
-      <SpotlightCard className="rounded-2xl border border-border/60 bg-card/60 backdrop-blur-sm overflow-hidden transition-colors group-hover:border-border">
-        <div className="relative aspect-[4/3] overflow-hidden bg-secondary">
-          <div className="absolute inset-x-0 top-0 z-10 flex items-center gap-1.5 px-3 py-2 bg-background/80 backdrop-blur-sm border-b border-border/60">
-            <span className="h-2 w-2 rounded-full bg-muted-foreground/30" />
-            <span className="h-2 w-2 rounded-full bg-muted-foreground/30" />
-            <span className="h-2 w-2 rounded-full bg-muted-foreground/30" />
-            <span className="ml-2 truncate text-[10px] text-muted-foreground font-mono">
-              {p.domain}
-            </span>
-          </div>
+  const preview = (
+    <div className="relative aspect-[4/3] overflow-hidden bg-secondary">
+      <div className="absolute inset-x-0 top-0 z-10 flex items-center gap-1.5 px-3 py-2 bg-background/80 backdrop-blur-sm border-b border-border/60">
+        <span className="h-2 w-2 rounded-full bg-muted-foreground/30" />
+        <span className="h-2 w-2 rounded-full bg-muted-foreground/30" />
+        <span className="h-2 w-2 rounded-full bg-muted-foreground/30" />
+        <span className="ml-2 truncate text-[10px] text-muted-foreground font-mono">
+          {p.domain}
+        </span>
+      </div>
 
+      {p.comingSoon ? (
+        <div className="absolute inset-0 pt-[34px] flex items-center justify-center">
+          <span className="text-xs tracking-[0.22em] text-muted-foreground/70 uppercase">
+            Coming soon
+          </span>
+        </div>
+      ) : (
+        <>
           <div className="absolute inset-0 pt-[34px]">
             <div
               className="absolute origin-top-left"
@@ -244,9 +259,16 @@ function ProjectCard({ project: p }: { project: Project }) {
               <ArrowUpRight className="h-3.5 w-3.5" />
             </span>
           </div>
-        </div>
+        </>
+      )}
+    </div>
+  );
 
-        <div className="p-6">
+  const body = (
+    <SpotlightCard className="rounded-2xl border border-border/60 bg-card/60 backdrop-blur-sm overflow-hidden transition-colors group-hover:border-border">
+      {preview}
+
+      <div className="p-6">
           <div className="flex items-center gap-3">
             <img
               src={favicon}
@@ -271,8 +293,28 @@ function ProjectCard({ project: p }: { project: Project }) {
           <p className="text-sm text-muted-foreground mt-4 leading-relaxed">
             {p.description}
           </p>
+          {p.comingSoon && (
+            <p className="mt-3 text-[11px] leading-relaxed text-muted-foreground/70 italic">
+              Under development — name and details are placeholders, not final,
+              and are subject to change. No trademark or copyright is claimed.
+            </p>
+          )}
         </div>
       </SpotlightCard>
+  );
+
+  if (p.comingSoon) {
+    return <div className="group block">{body}</div>;
+  }
+
+  return (
+    <a
+      href={p.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group block"
+    >
+      {body}
     </a>
   );
 }
