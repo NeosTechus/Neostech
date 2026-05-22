@@ -11,6 +11,12 @@ const PRERENDER_ROUTES = [
   "/team",
   "/careers",
   "/contact",
+  "/blog",
+  "/blog/what-is-retrieval-augmented-generation",
+  "/blog/rag-in-production-architecture-and-retrieval",
+  "/blog/rag-vs-fine-tuning-vs-long-context",
+  "/blog/quantum-computing-what-it-means-for-software-teams",
+  "/blog/embodied-ai-when-models-get-a-body",
 ];
 
 // https://vitejs.dev/config/

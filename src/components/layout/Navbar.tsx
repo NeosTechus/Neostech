@@ -137,6 +137,7 @@ const languages: Language[] = [
 
 const flatLinks = [
   { key: "work", path: "/projects" },
+  { key: "blog", path: "/blog" },
   { key: "about", path: "/about" },
   { key: "careers", path: "/careers" },
 ];

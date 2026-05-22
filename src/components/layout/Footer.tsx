@@ -19,8 +19,20 @@ const footerLinks = {
   ],
   resources: [
     { name: "Selected Work", path: "/projects" },
+    { name: "Blog", path: "/blog" },
     { name: "Insights", path: "/#outlook" },
     { name: "FAQ", path: "/#faq" },
+  ],
+  blog: [
+    { name: "What Is RAG?", path: "/blog/what-is-retrieval-augmented-generation" },
+    {
+      name: "RAG in Production",
+      path: "/blog/rag-in-production-architecture-and-retrieval",
+    },
+    {
+      name: "RAG vs Fine-Tuning",
+      path: "/blog/rag-vs-fine-tuning-vs-long-context",
+    },
   ],
   legal: [
     { name: "Privacy Policy", path: "/privacy" },
@@ -123,6 +135,21 @@ export function Footer() {
             <h4 className="font-semibold text-sm mb-4">Resources</h4>
             <ul className="space-y-3">
               {footerLinks.resources.map((link) => (
+                <li key={link.name}>
+                  <Link
+                    to={link.path}
+                    className="text-sm text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1 group"
+                  >
+                    {link.name}
+                    <ArrowUpRight className="w-3 h-3 opacity-0 -translate-y-0.5 translate-x-0.5 group-hover:opacity-100 transition-all" />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+
+            <h4 className="font-semibold text-sm mt-6 mb-4">From the blog</h4>
+            <ul className="space-y-3">
+              {footerLinks.blog.map((link) => (
                 <li key={link.name}>
                   <Link
                     to={link.path}
