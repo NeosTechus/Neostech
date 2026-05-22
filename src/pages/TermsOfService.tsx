@@ -24,7 +24,7 @@ export default function TermsOfService() {
             Engagement-specific terms are defined in your individual contract.
           </p>
           <p className="mt-6 text-sm text-muted-foreground/80">
-            Last updated: April 27, 2026
+            Last updated: May 22, 2026
           </p>
         </div>
       </section>
@@ -68,7 +68,27 @@ export default function TermsOfService() {
             </p>
 
             <h2 className="text-2xl font-semibold tracking-tight mt-10">
-              5. Disclaimers & limitations
+              5. Portfolio & demo showcase
+            </h2>
+            <p className="text-muted-foreground leading-relaxed">
+              Some projects shown on this site are demonstration builds that
+              NeosTechs developed at the request of the respective owners. We
+              reserve the right to showcase any project developed by NeosTechs
+              as part of our portfolio. These demos are presented for
+              illustrative purposes and may not reflect a live, owner-operated
+              deployment. If you are an owner and would like a demo removed,
+              email{" "}
+              <a
+                href="mailto:info@neostechus.com"
+                className="text-primary hover:underline"
+              >
+                info@neostechus.com
+              </a>
+              .
+            </p>
+
+            <h2 className="text-2xl font-semibold tracking-tight mt-10">
+              6. Disclaimers & limitations
             </h2>
             <p className="text-muted-foreground leading-relaxed">
               The site is provided "as is" without warranties of any kind. To
@@ -77,7 +97,7 @@ export default function TermsOfService() {
             </p>
 
             <h2 className="text-2xl font-semibold tracking-tight mt-10">
-              6. Governing law
+              7. Governing law
             </h2>
             <p className="text-muted-foreground leading-relaxed">
               These terms are governed by the laws of the State of Missouri,
@@ -85,7 +105,7 @@ export default function TermsOfService() {
             </p>
 
             <h2 className="text-2xl font-semibold tracking-tight mt-10">
-              7. Changes
+              8. Changes
             </h2>
             <p className="text-muted-foreground leading-relaxed">
               We may update these terms periodically. Material changes will be
@@ -94,7 +114,7 @@ export default function TermsOfService() {
             </p>
 
             <h2 className="text-2xl font-semibold tracking-tight mt-10">
-              8. Contact
+              9. Contact
             </h2>
             <p className="text-muted-foreground leading-relaxed">
               Questions about these terms? Email{" "}

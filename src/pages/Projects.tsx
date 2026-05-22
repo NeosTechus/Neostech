@@ -70,6 +70,30 @@ const projects: Project[] = [
     description:
       "Internal development project — an in-progress build exploring new product directions and tooling for Neos Techs.",
   },
+  {
+    name: "Mobile Store",
+    url: "https://mobile-store-pied-nine.vercel.app",
+    domain: "mobile-store-pied-nine.vercel.app",
+    tag: "Demo",
+    description:
+      "Demo storefront for a mobile-device retailer — product catalog, responsive layout, and a fast browse-to-checkout flow, built on request to showcase a retail e-commerce experience.",
+  },
+  {
+    name: "Kevin's Place",
+    url: "https://kevin-splace.vercel.app",
+    domain: "kevin-splace.vercel.app",
+    tag: "Demo",
+    description:
+      "Demo restaurant site — hero, menu, and reviews with a clean mobile-first layout, built on request to demonstrate a brand-aligned dining experience.",
+  },
+  {
+    name: "Lake City Fish",
+    url: "https://lakefish.vercel.app",
+    domain: "lakefish.vercel.app",
+    tag: "Demo",
+    description:
+      "Demo site for a fish restaurant — menu, ordering flow, and a responsive layout tuned for fast loads on mobile, built on request as a showcase concept.",
+  },
 ];
 
 const categories = [
@@ -78,6 +102,7 @@ const categories = [
   "Restaurant POS",
   "Retail · E-commerce",
   "Retail · Beauty",
+  "Demo",
   "Internal Development",
 ];
 
